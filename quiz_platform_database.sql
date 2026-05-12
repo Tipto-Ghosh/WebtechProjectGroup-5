@@ -147,23 +147,33 @@ CREATE TABLE options (
 -- ──────────────────────────────────────────────────────────
 
 CREATE TABLE attempts (
-    id           INT UNSIGNED  AUTO_INCREMENT PRIMARY KEY,
-    quiz_id      INT UNSIGNED  NOT NULL,
-    student_id   INT UNSIGNED  NOT NULL,
-    score        INT           DEFAULT NULL,       -- NULL = in-progress
-    started_at   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    completed_at TIMESTAMP     DEFAULT NULL,       -- NULL = in-progress
+    id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    quiz_id       INT UNSIGNED NOT NULL,
+    student_id    INT UNSIGNED NOT NULL,
+
+    score         INT DEFAULT NULL,   -- NULL = in-progress
+
+    started_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    completed_at  TIMESTAMP NULL DEFAULT NULL,
 
     CONSTRAINT fk_attempt_quiz
-        FOREIGN KEY (quiz_id) REFERENCES quizzes(id)
+        FOREIGN KEY (quiz_id)
+        REFERENCES quizzes(id)
         ON DELETE CASCADE,
-    CONSTRAINT fk_attempt_student
-        FOREIGN KEY (student_id) REFERENCES users(id)
-        ON DELETE CASCADE,
-    CONSTRAINT uq_student_quiz
-        UNIQUE KEY (student_id, quiz_id)           -- one attempt per student per quiz
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+    CONSTRAINT fk_attempt_student
+        FOREIGN KEY (student_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT uq_student_quiz
+        UNIQUE KEY (student_id, quiz_id)
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 -- score = NULL AND completed_at = NULL -> attempt in progress
 -- UNIQUE (student_id, quiz_id)         -> server-side re-attempt block (Task 3 requirement)
 -- SUM(score) GROUP BY student_id       -> leaderboard aggregation (Task 4)

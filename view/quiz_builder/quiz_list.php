@@ -77,6 +77,58 @@ $errorMessage = isset($pageData['error']) ? $pageData['error'] : null;
 						<div class="error_message"><?php echo htmlspecialchars($errorMessage); ?></div>
 					<?php endif; ?>
 
+					<section>
+						<article class="stat_card">
+							<div class="stat_label">Total Quizzes</div>
+							<div class="stat_value"><?php echo (int) $stats['total_quizzes']; ?></div>
+						</article>
+						<article class="stat_card">
+							<div class="stat_label">Published Quizzes</div>
+							<div class="stat_value"><?php echo (int) $stats['published_quizzes']; ?></div>
+						</article>
+						<article class="stat_card">
+							<div class="stat_label">Draft Quizzes</div>
+							<div class="stat_value"><?php echo (int) $stats['draft_quizzes']; ?></div>
+						</article>
+						<article class="stat_card">
+							<div class="stat_label">Total Attempts</div>
+							<div class="stat_value"><?php echo (int) $stats['total_attempts']; ?></div>
+						</article>
+						<article class="stat_card">
+							<div class="stat_label">Average Score</div>
+							<div class="stat_value"><?php echo (int) $stats['average_score']; ?><span class="stat_percentage_symbol">%</span></div>
+						</article>
+					</section>
+
+					<section>
+						<h2>My Quizzes</h2>
+						<p>Manage your quizzes, view details, and monitor performance.</p>
+						
+						<div class="toolbar">
+							<label>
+								<span class="sr_only">Search quizzes</span>
+								<input class="search" type="search" placeholder="Search quizzes...">
+							</label>
+							<div class="filter_group">
+								<span class="table-meta">Filter:</span>
+								<span class="tag all">All</span>
+								<span class="tag draft">Draft</span>
+								<span class="tag published">Published</span>
+							</div>
+						</div>
+
+						<div class="table_head" role="row">
+							<div>Quiz Title</div>
+							<div>Questions</div>
+							<div>Total Marks</div>
+							<div>Time Limit</div>
+							<div>Status</div>
+							<div>Created</div>
+							<div class="table_head_actions">Actions</div>
+						</div>
+
+					</section>
+
 					<!-- Quiz list table would go here -->
 				</main>
 		</div>

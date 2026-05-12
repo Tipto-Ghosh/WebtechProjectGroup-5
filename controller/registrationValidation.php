@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // redirect back with errors and old input of user 
 function redirectWithError($errors , $oldInput){
@@ -8,6 +10,7 @@ function redirectWithError($errors , $oldInput){
     header("Location: ../view/auth/registration.php");
     exit;
 }
+
 
 $role = "";
 $full_name = "";
@@ -75,6 +78,14 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         $errors['terms'] = 'You must agree to the Terms of Service and Privacy Policy.';
     }
 
+    // check valid or not 
+    if(!empty($errors)) {
+        $_SESSION['errors'] = $errors;
+        $_SESSION['old_input'] = $oldInput;
+        header("Location: ../view/auth/registration.php");
+        exit;
+    }
+
     // hash the passowrd 
     $hashed_password = password_hash($password , PASSWORD_DEFAULT);
 
@@ -83,10 +94,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         "role"=>$role,"full_name"=>$full_name,"email"=>$email,"passoword_hash"=>$hashed_password,"created_at"=>date("Y-m-d H:i:s")
     ];
 
+    // database part 
+
     $_SESSION['valid_user_data'] = $user_data;
     unset($_SESSION['errors'], $_SESSION['old_input']);
     $_SESSION['reg_success'] = 'Account created successfully! Please log in.';
-    header('Location: ../auth/login.php');
+    header("Location: ../view/auth/login.php");
     exit;
 }
 ?>

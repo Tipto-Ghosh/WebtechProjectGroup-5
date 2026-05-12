@@ -1,6 +1,8 @@
 <?php
 include "../../controller/registrationValidation.php";
-session_start();
+if(session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 // Retrieve errors and old input from session, then clear them
 $errors = $_SESSION['errors'] ?? [];
 $old_input = $_SESSION['old_input'] ?? [];

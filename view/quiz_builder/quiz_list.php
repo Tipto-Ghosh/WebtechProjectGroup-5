@@ -1,23 +1,27 @@
 <?php
 
-declare(strict_types=1);
-
-include "/../../controller/QuizBuilderController.php";
+include "../../controller/QuizBuilderController.php";
 
 $controller = new QuizBuilderController();
 $pageData = $controller->getQuizListData();
-$quizzes = $pageData["quizzes"];
-$stats = $pageData["stats"];
-$pageTitle = $pageData["page_title"];
-$pageSubtitle = $pageData["page_subtitle"];
-$errorMessage = $pageData["error"] ?? null;
-
+$quizzes = isset($pageData['quizzes']) ? $pageData['quizzes'] : array();
+$stats = isset($pageData['stats']) ? $pageData['stats'] : array(
+	'total_quizzes' => 0,
+	'published_quizzes' => 0,
+	'draft_quizzes' => 0,
+	'total_attempts' => 0,
+	'average_score' => 0,
+);
+$pageTitle = isset($pageData['page_title']) ? $pageData['page_title'] : '';
+$pageSubtitle = isset($pageData['page_subtitle']) ? $pageData['page_subtitle'] : '';
+$errorMessage = isset($pageData['error']) ? $pageData['error'] : null;
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>QuizForge | <?php echo htmlspecialchars($pageTitle); ?></title>
+		<title>
+			Quiz Maker
+		</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -27,28 +31,28 @@ $errorMessage = $pageData["error"] ?? null;
 		<div class="app">
 			<aside class="sidebar" aria-label="Sidebar navigation">
 				<section class="sidebar-brand">
-					<div class="brand-title">QuizForge</div>
+					<div class="brand-title">QuizMaker</div>
 					<div class="brand-subtitle">Instructor Panel</div>
 				</section>
 
-				<nav class="nav-section" aria-label="Workspace">
+				<nav class="nav_section" aria-label="Workspace">
 					<div class="nav-label">Workspace</div>
 					<a class="nav-item" href="#">Dashboard</a>
 					<a class="nav-item active" href="quiz_list.php" aria-current="page">My Quizzes <span class="nav-badge"><?php echo (int) $stats['total_quizzes']; ?></span></a>
 					<a class="nav-item" href="#">Analytics</a>
 				</nav>
 
-				<nav class="nav-section" aria-label="Account">
+				<nav class="nav_section" aria-label="Account">
 					<div class="nav-label">Account</div>
 					<a class="nav-item" href="#">Profile</a>
 					<a class="nav-item" href="#">Settings</a>
 					<a class="nav-item nav-item-danger" href="#">Sign Out</a>
 				</nav>
 
-				<section class="sidebar-user" aria-label="Current user">
-					<div class="avatar">SR</div>
+				<section class="sidebar_user" aria-label="Current user">
+					<div class="avatar">PR</div>
 					<div>
-						<div class="brand-title user-name">Sarah Rahman</div>
+						<div class="user-name">Prottoy Roy</div>
 						<div class="user-role">Instructor</div>
 					</div>
 				</section>

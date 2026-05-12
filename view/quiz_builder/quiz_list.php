@@ -38,15 +38,15 @@ $errorMessage = isset($pageData['error']) ? $pageData['error'] : null;
 				<nav class="nav_section" aria-label="Workspace">
 					<div class="nav-label">Workspace</div>
 					<a class="nav-item" href="#">Dashboard</a>
-					<a class="nav-item active" href="quiz_list.php" aria-current="page">My Quizzes <span class="nav-badge"><?php echo (int) $stats['total_quizzes']; ?></span></a>
+					<a class="nav-item active" href="quiz_list.php" aria-current="page">My Quizzes <span class="nav_badge"><?php echo (int) $stats['total_quizzes']; ?></span></a>
 					<a class="nav-item" href="#">Analytics</a>
 				</nav>
 
 				<nav class="nav_section" aria-label="Account">
 					<div class="nav-label">Account</div>
-					<a class="nav-item" href="#">Profile</a>
-					<a class="nav-item" href="#">Settings</a>
-					<a class="nav-item nav-item-danger" href="#">Sign Out</a>
+					<a class="nav_item" href="#">Profile</a>
+					<a class="nav_item" href="#">Settings</a>
+					<a class="nav_item nav_item_danger" href="#">Sign Out</a>
 				</nav>
 
 				<section class="sidebar_user" aria-label="Current user">
@@ -57,6 +57,28 @@ $errorMessage = isset($pageData['error']) ? $pageData['error'] : null;
 					</div>
 				</section>
 			</aside>
+
+			<div class="main">
+				<header>
+					<div class="bread_crumb">Dashboard <span class="breadcrumb_separator"></span> <strong>My Quizzes</strong></div>
+					<div class="header_actions">
+						<button class="btn btn_secondary" type="button">Export</button>
+						<button class="btn btn_primary" type="button">Create Quiz</button>
+					</div>
+				</header>
+
+				<main class="content">
+					<section class="page_head">
+						<h1><?php echo htmlspecialchars($pageTitle); ?></h1>
+						<div class="page_subtitle"><?php echo htmlspecialchars($pageSubtitle); ?></div>
+					</section>
+
+					<?php if ($errorMessage !== null): ?>
+						<div class="error_message"><?php echo htmlspecialchars($errorMessage); ?></div>
+					<?php endif; ?>
+
+					<!-- Quiz list table would go here -->
+				</main>
 		</div>
 	</body>
 </html>

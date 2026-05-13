@@ -13,6 +13,7 @@ unset($_SESSION['errors'], $_SESSION['old_input']);
   <title>Register — QuizForge</title>
   <link rel="stylesheet" href="../style/registration.css" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <script src="../js/checkEmail.js"></script>
 </head>
 <body>
 
@@ -33,7 +34,7 @@ unset($_SESSION['errors'], $_SESSION['old_input']);
           <li><span class="feat-icon">◈</span> Create unlimited quizzes</li>
           <li><span class="feat-icon">◈</span> Real-time leaderboards</li>
           <li><span class="feat-icon">◈</span> Detailed analytics</li>
-          <li><span class="feat-icon">◈</span> AI-assisted question builder</li>
+          <li><span class="feat-icon">◈</span> Prepare yourself for the future</li>
         </ul>
         <div class="brand-deco" aria-hidden="true">
           <div class="deco-ring deco-ring--1"></div>
@@ -103,18 +104,21 @@ unset($_SESSION['errors'], $_SESSION['old_input']);
               </tr>
 
               <tr class="form-row">
-                <td class="form-label-cell">
-                  <label for="email">Email</label>
-                </td>
-                <td class="form-input-cell">
-                  <div class="input-wrap">
-                    <span class="input-icon">
-                      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2.5" y="5" width="15" height="10.5" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 7.5l7.5 5 7.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    </span>
-                    <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" value="<?= htmlspecialchars($old_input['email'] ?? '') ?>" required />
-                  </div>
-                  <span class="form-error" id="err-email"><?= htmlspecialchars($errors['email'] ?? '') ?></span>
-                </td>
+                  <td class="form-label-cell">
+                    <label for="email">Email</label>
+                  </td>
+                  <td class="form-input-cell">
+                    <div class="input-wrap">
+                      <span class="input-icon">
+                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2.5" y="5" width="15" height="10.5" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 7.5l7.5 5 7.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                      </span>
+                      <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com"
+                            value="<?= htmlspecialchars($old_input['email'] ?? '') ?>"
+                            onkeyup="checkEmail()" required />
+                    </div>
+                    <span id="emailresponse" class="availability-msg"></span>
+                    <span class="form-error" id="err-email"><?= htmlspecialchars($errors['email'] ?? '') ?></span>
+                  </td>
               </tr>
 
               <tr class="form-row">

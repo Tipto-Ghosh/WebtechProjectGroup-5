@@ -54,7 +54,7 @@ unset($_SESSION['email_error'], $_SESSION['password_error'], $_SESSION['login_al
         </div>
       </div>
     </aside>
-
+    
     <!--   Right form panel   -->
     <main class="form-panel">
       <div class="form-panel__inner">

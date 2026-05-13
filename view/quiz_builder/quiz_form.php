@@ -19,7 +19,17 @@ function getQuizStatusLabel(string $status): string
 {
     return $status === "published" ? "Published" : "Draft";
 }
+function getQuizTotalMarksLabel(array $quiz): string
+{
+	$questionCount = (int) ($quiz["question_count"] ?? 0);
+	$totalMarks = (int) ($quiz["total_marks"] ?? 0);
 
+	if ($questionCount <= 0) {
+		return "Auto-computed from questions";
+	}
+
+	return (string) $totalMarks;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -79,6 +79,25 @@ function getQuizStatusLabel(string $status): string
 							</div>
 							<span class="badge <?php echo getQuizStatusBadgeClass((string) ($quiz["status"] ?? "draft")); ?>"><?php echo htmlspecialchars(getQuizStatusLabel((string) ($quiz["status"] ?? "draft"))); ?></span>
 						</div>
+                        <form id="quiz_form" class="quiz_form" method="post" action="#">
+                            <?php if ((int) ($quiz["id"] ?? 0) > 0): ?>
+								<input type="hidden" name="quiz_id" value="<?php echo (int) $quiz["id"]; ?>">
+							<?php endif; ?>
+                            <input type="hidden" name="mode" value="<?php echo htmlspecialchars($mode); ?>">
+
+							<div class="form_section_label">Basic Information</div>
+
+							<div class="field_group field_group_full">
+								<label for="quiz_title">Quiz Title <span class="required_mark">*</span></label>
+								<input id="quiz_title" name="title" type="text" value="<?php echo htmlspecialchars((string) ($quiz["title"] ?? "")); ?>" placeholder="Enter a descriptive quiz title" required maxlength="200">
+								<div class="field_hint">Choose a clear, descriptive title for students</div>
+							</div>
+                            <div class="field_group field_group_full">
+								<label for="quiz_description">Description</label>
+								<textarea id="quiz_description" name="description" rows="4" placeholder="Add a short description for the quiz"><?php echo htmlspecialchars((string) ($quiz["description"] ?? "")); ?></textarea>
+							</div>
+                        </form>
+                           
                     </section>
                 </main>
             </div>

@@ -1,4 +1,4 @@
-<?php include "../Controller/MyResultsController.php"; ?>
+<?php require_once __DIR__ . "/../../controller/MyResultsController.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,23 +32,20 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($results as $i => $r):
-                $pct  = $r["total_marks"] > 0 ? ($r["score"] / $r["total_marks"]) * 100 : 0;
-                $pass = $pct >= 60;
-            ?>
+            <?php foreach ($results as $result): ?>
             <tr>
-                <td><?php echo $i + 1; ?></td>
-                <td><?php echo htmlspecialchars($r["title"]); ?></td>
-                <td><?php echo $r["score"]; ?> / <?php echo $r["total_marks"]; ?></td>
-                <td><?php echo $r["duration"] ?? "—"; ?></td>
-                <td><?php echo date("d M Y", strtotime($r["completed_at"])); ?></td>
+                <td><?php echo (int)$result["row_number"]; ?></td>
+                <td><?php echo htmlspecialchars($result["title"]); ?></td>
+                <td><?php echo htmlspecialchars($result["score_display"]); ?></td>
+                <td><?php echo htmlspecialchars($result["duration_display"]); ?></td>
+                <td><?php echo htmlspecialchars($result["completed_at_display"]); ?></td>
                 <td>
-                    <span class="badge <?php echo $pass ? "pass" : "fail"; ?>">
-                        <?php echo $pass ? "PASS" : "FAIL"; ?>
+                    <span class="badge <?php echo htmlspecialchars($result["status_class"]); ?>">
+                        <?php echo htmlspecialchars($result["status_label"]); ?>
                     </span>
                 </td>
                 <td>
-                    <a href="result.php?attempt_id=<?php echo $r["id"]; ?>">View</a>
+                    <a href="result.php?attempt_id=<?php echo (int)$result["id"]; ?>">View</a>
                 </td>
             </tr>
             <?php endforeach; ?>

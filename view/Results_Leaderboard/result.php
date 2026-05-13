@@ -9,8 +9,8 @@
 <body>
 
 <nav>
-    <a href="leaderboard.php">🏆 Leaderboard</a>
-    <a href="my_results.php">📋 My Results</a>
+    <a href="leaderboard.php">Leaderboard</a>
+    <a href="my_results.php">My Results</a>
 </nav>
 
 <div class="container">
@@ -24,7 +24,7 @@
             <a href="analytics.php">Back to Analytics</a>
         </p>
     <?php else: ?>
- <h2>📝 Result — <?php echo htmlspecialchars($attempt["title"]); ?></h2>
+ <h2>Result — <?php echo htmlspecialchars($attempt["title"]); ?></h2>
 
     <!-- Total Score -->
     <div class="score-box">
@@ -33,7 +33,7 @@
     </div>
     <!-- Pass / Fail Banner (pass threshold = 60%) -->
     <div class="banner <?php echo $pass ? "pass" : "fail"; ?>">
-        <?php echo $pass ? "✅ PASS — Well done!" : "❌ FAIL — Better luck next time!"; ?>
+        <?php echo $pass ? "PASS — Well done!" : "FAIL — Better luck next time!"; ?>
     </div>
 
     <!-- Question-by-question breakdown table -->
@@ -59,7 +59,7 @@
                 <!-- Highlight selected answer: green = correct, red = wrong -->
                 <td class="<?php echo $row["is_correct"] ? "answer-correct" : "answer-wrong"; ?>">
                     <?php echo htmlspecialchars($row["selected_answer"]); ?>
-                    <?php echo $row["is_correct"] ? " ✅" : " ❌"; ?>
+                    <?php echo $row["is_correct"] ? " Correct" : " Wrong "; ?>
                 </td>
 
                 <!-- Always show the correct answer -->

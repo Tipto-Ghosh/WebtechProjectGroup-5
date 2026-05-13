@@ -1,0 +1,259 @@
+@import url("quiz_builder_quiz_list.css");
+
+.main > header {
+position: sticky;
+top: 0;
+z-index: 20;
+box-shadow: 0 1px 0 rgba(28, 26, 23, 0.04);
+background: rgba(255, 255, 255, 0.564); 
+-webkit-backdrop-filter: blur(0px) saturate(100%);
+backdrop-filter: blur(14px) saturate(100%);
+transition: background 180ms ease, backdrop-filter 180ms ease, box-shadow 180ms ease;
+}
+.main > header.scrolled {
+background: rgba(255,255,255,0.88); /* more opaque when scrolled */
+-webkit-backdrop-filter: blur(6px) saturate(120%);
+backdrop-filter: blur(16px) saturate(120%);
+box-shadow: 0 6px 24px rgba(28,26,23,0.08);
+}
+.quiz_form_page {
+	padding-bottom: 2rem;
+}
+
+.info_banner {
+	display: flex;
+	align-items: flex-start;
+	gap: .9rem;
+	padding: 1rem 1.1rem;
+	margin-bottom: 1rem;
+	border: 1px solid #BFE0D0;
+	border-radius: 14px;
+	background: #EEF8F4;
+	color: #295C46;
+}
+
+.info_banner_icon {
+	width: 22px;
+	height: 22px;
+	border-radius: 999px;
+	background: #D8F0E4;
+	display: grid;
+	place-items: center;
+	font-weight: 700;
+	flex: 0 0 auto;
+}
+
+.info_banner_title {
+	font-weight: 600;
+	margin-bottom: .2rem;
+}
+
+.info_banner_text {
+	font-size: 13px;
+	color: #4D6A5B;
+}
+
+.quiz_form_card {
+	background: #FFFFFF;
+	border: 1px solid #E4E1D9;
+	border-radius: 18px;
+	box-shadow: 0 14px 34px rgba(28, 26, 23, 0.04);
+	overflow: hidden;
+}
+
+.quiz_form_card_header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	padding: 1.1rem 1.25rem;
+	border-bottom: 1px solid #E4E1D9;
+}
+
+.quiz_form_card_title {
+	font-weight: 700;
+	font-size: 18px;
+}
+
+.quiz_form_card_subtitle {
+	margin-top: .2rem;
+	font-size: 13px;
+	color: #8A8783;
+}
+
+.quiz_form {
+	padding: 1.25rem;
+}
+
+.form_section_label {
+	margin: .25rem 0 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid #E4E1D9;
+	font-size: 12px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: .08em;
+	color: #9D968B;
+}
+
+.field_group {
+	display: grid;
+	gap: .45rem;
+	margin-bottom: 1rem;
+}
+
+.field_group_full {
+	grid-column: 1 / -1;
+}
+
+.form_grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+	align-items: start;
+}
+
+.quiz_form label {
+	font-size: 14px;
+	font-weight: 600;
+	color: #3E3B36;
+}
+
+.required_mark {
+	color: #B42318;
+}
+
+.quiz_form input,
+.quiz_form textarea {
+	width: 100%;
+	border: 1px solid #D7D2C6;
+	border-radius: 10px;
+	padding: .78rem .9rem;
+	background: #FFFDF8;
+	font: inherit;
+	color: #1C1A17;
+	transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.quiz_form textarea {
+	min-height: 110px;
+	resize: vertical;
+	line-height: 1.5;
+}
+
+.quiz_form input:focus,
+.quiz_form textarea:focus {
+	outline: none;
+	border-color: #2A6049;
+	box-shadow: 0 0 0 3px rgba(42, 96, 73, .12);
+	background: #FFFFFF;
+}
+
+.quiz_form input[readonly] {
+	background: #F4F2EB;
+	color: #5C5750;
+}
+
+.field_hint {
+	font-size: 12px;
+	color: #8A8783;
+}
+
+.form_footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	padding-top: 1rem;
+	margin-top: .5rem;
+	border-top: 1px solid #E4E1D9;
+}
+
+.form_note {
+	display: inline-flex;
+	align-items: center;
+	gap: .5rem;
+	color: #8A8783;
+	font-size: 13px;
+}
+
+.form_note_icon {
+	font-size: 14px;
+	opacity: .85;
+}
+
+.form_actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: .65rem;
+	flex-wrap: wrap;
+}
+
+.form_actions .btn {
+	padding: .95rem 1.35rem;
+	min-height: 44px;
+}
+
+.page_footer_hint {
+	margin-top: 1rem;
+	font-size: 12px;
+	color: #9B958A;
+	text-align: right;
+}
+
+/* avatar and small user text used in sidebar */
+.avatar {
+	width: 34px;
+	height: 34px;
+	border-radius: 999px;
+	background: #E4E1D9;
+	color: #1C1A17;
+	display: grid;
+	place-items: center;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.user_name {
+	font-size: 14px;
+}
+
+.user_role {
+	font-size: 12px;
+}
+
+.btn {
+	text-decoration: none;
+}
+
+@media (max-width: 1120px) {
+	.form_grid {
+		grid-template-columns: 1fr;
+	}
+
+	.form_footer {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.form_actions,
+	.page_footer_hint {
+		justify-content: flex-start;
+		text-align: left;
+	}
+}
+
+@media (max-width: 860px) {
+	.quiz_form_card_header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.quiz_form {
+		padding: 1rem;
+	}
+
+	.info_banner {
+		padding: .9rem;
+	}
+}

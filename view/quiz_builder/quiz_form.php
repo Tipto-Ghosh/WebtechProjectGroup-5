@@ -151,7 +151,6 @@ function getQuizTotalMarksLabel(array $quiz): string
                     Quiz form view built with a simple MVC structure, semantic HTML, and database-backed data.
                 </footer>
             </div>
-
         </div>    
     </body>
 </html>

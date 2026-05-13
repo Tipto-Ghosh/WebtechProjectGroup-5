@@ -9,8 +9,8 @@
 <body>
 
 <nav>
-    <a href="analytics.php">📊 Analytics</a>
-    <a href="leaderboard.php">🏆 Leaderboard</a>
+    <a href="analytics.php">Analytics</a>
+    <a href="leaderboard.php">Leaderboard</a>
 </nav>
 
 <div class="container">

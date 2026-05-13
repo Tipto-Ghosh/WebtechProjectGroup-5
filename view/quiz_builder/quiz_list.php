@@ -4,17 +4,54 @@ include "../../controller/QuizBuilderController.php";
 
 $controller = new QuizBuilderController();
 $pageData = $controller->getQuizListData();
-$quizzes = isset($pageData['quizzes']) ? $pageData['quizzes'] : array();
-$stats = isset($pageData['stats']) ? $pageData['stats'] : array(
-	'total_quizzes' => 0,
-	'published_quizzes' => 0,
-	'draft_quizzes' => 0,
-	'total_attempts' => 0,
-	'average_score' => 0,
+$quizzes = isset($pageData["quizzes"]) ? $pageData["quizzes"] : array();
+$stats = isset($pageData["stats"]) ? $pageData["stats"] : array(
+	"total_quizzes" => 0,
+	"published_quizzes" => 0,
+	"draft_quizzes" => 0,
+	"total_attempts" => 0,
+	"average_score" => 0,
 );
-$pageTitle = isset($pageData['page_title']) ? $pageData['page_title'] : '';
-$pageSubtitle = isset($pageData['page_subtitle']) ? $pageData['page_subtitle'] : '';
-$errorMessage = isset($pageData['error']) ? $pageData['error'] : null;
+$pageTitle = isset($pageData["page_title"]) ? $pageData["page_title"] : "";
+$pageSubtitle = isset($pageData["page_subtitle"]) ? $pageData["page_subtitle"] : "";
+$errorMessage = isset($pageData["error"]) ? $pageData["error"] : null;
+
+function formatDateLabel(?string $dateTime): string
+{
+	if (!$dateTime) {
+		return "-";
+	}
+
+	$timestamp = strtotime($dateTime); //convert to timestamp to integer for formatting
+
+	if ($timestamp === false) {
+		return "-";
+	}
+
+	return date("M j, Y", $timestamp);
+}
+
+function getQuizMetaText(array $quiz): string
+{
+	$questionCount = (int) ($quiz["question_count"] ?? 0);
+	$timeLimit = (int) ($quiz["time_limit_minutes"] ?? 0);
+
+	if ($questionCount === 0) {
+		return "No questions added yet";
+	}
+
+	return $timeLimit . " min · " . $questionCount . " question" . ($questionCount === 1 ? "" : "s");
+}
+
+function getStatusBadgeClass(string $status): string
+{
+	return $status === "published" ? "badge-published" : "badge-draft";
+}
+
+function getActionButtonLabel(string $status): string
+{
+	return $status === "published" ? "Unpublish" : "Publish";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +75,7 @@ $errorMessage = isset($pageData['error']) ? $pageData['error'] : null;
 				<nav class="nav_section" aria-label="Workspace">
 					<div class="nav-label">Workspace</div>
 					<a class="nav-item" href="#">Dashboard</a>
-					<a class="nav-item active" href="quiz_list.php" aria-current="page">My Quizzes <span class="nav_badge"><?php echo (int) $stats['total_quizzes']; ?></span></a>
+					<a class="nav-item active" href="quiz_list.php" aria-current="page">My Quizzes <span class="nav_badge"><?php echo (int) $stats["total_quizzes"]; ?></span></a>
 					<a class="nav-item" href="#">Analytics</a>
 				</nav>
 
@@ -80,23 +117,23 @@ $errorMessage = isset($pageData['error']) ? $pageData['error'] : null;
 					<section>
 						<article class="stat_card">
 							<div class="stat_label">Total Quizzes</div>
-							<div class="stat_value"><?php echo (int) $stats['total_quizzes']; ?></div>
+							<div class="stat_value"><?php echo (int) $stats["total_quizzes"]; ?></div>
 						</article>
 						<article class="stat_card">
 							<div class="stat_label">Published Quizzes</div>
-							<div class="stat_value"><?php echo (int) $stats['published_quizzes']; ?></div>
+							<div class="stat_value"><?php echo (int) $stats["published_quizzes"]; ?></div>
 						</article>
 						<article class="stat_card">
 							<div class="stat_label">Draft Quizzes</div>
-							<div class="stat_value"><?php echo (int) $stats['draft_quizzes']; ?></div>
+							<div class="stat_value"><?php echo (int) $stats["draft_quizzes"]; ?></div>
 						</article>
 						<article class="stat_card">
 							<div class="stat_label">Total Attempts</div>
-							<div class="stat_value"><?php echo (int) $stats['total_attempts']; ?></div>
+							<div class="stat_value"><?php echo (int) $stats["total_attempts"]; ?></div>
 						</article>
 						<article class="stat_card">
 							<div class="stat_label">Average Score</div>
-							<div class="stat_value"><?php echo (int) $stats['average_score']; ?><span class="stat_percentage_symbol">%</span></div>
+							<div class="stat_value"><?php echo (int) $stats["average_score"]; ?><span class="stat_percentage_symbol">%</span></div>
 						</article>
 					</section>
 
@@ -138,23 +175,23 @@ $errorMessage = isset($pageData['error']) ? $pageData['error'] : null;
 					<?php foreach ($quizzes as $quiz): ?>
 						<article class="table_row">
 							<div>
-								<div class="quiz_title"><?php echo htmlspecialchars($quiz['title']); ?></div>
+								<div class="quiz_title"><?php echo htmlspecialchars($quiz["title"]); ?></div>
 								<div class="quiz_meta"><?php echo htmlspecialchars(getQuizMetaText($quiz)); ?></div>
 							</div>
-							<div><?php echo (int) $quiz['question_count']; ?></div>
-							<div><?php echo (int) $quiz['total_marks']; ?></div>
-							<div><?php echo (int) $quiz['time_limit_minutes']; ?> min</div>
+							<div><?php echo (int) $quiz["question_count"]; ?></div>
+							<div><?php echo (int) $quiz["total_marks"]; ?></div>
+							<div><?php echo (int) $quiz["time_limit_minutes"]; ?> min</div>
 							<div>
-								<span class="badge <?php echo getStatusBadgeClass((string) $quiz['status']); ?>">
-									<?php echo ucfirst(htmlspecialchars((string) $quiz['status'])); ?>
+								<span class="badge <?php echo getStatusBadgeClass((string) $quiz["status"]); ?>">
+									<?php echo ucfirst(htmlspecialchars((string) $quiz["status"])); ?>
 								</span>
 							</div>
-							<div><?php echo htmlspecialchars(formatDateLabel($quiz['created_at'] ?? null)); ?></div>
+							<div><?php echo htmlspecialchars(formatDateLabel($quiz["created_at"] ?? null)); ?></div>
 							<div class="actions">
 								<button class="btn_secondary" type="button">Edit</button>
 								<button class="btn_secondary" type="button">Questions</button>
 								<button class="btn_status_toggle" type="button">
-									<?php echo htmlspecialchars(getActionButtonLabel((string) $quiz['status'])); ?>
+									<?php echo htmlspecialchars(getActionButtonLabel((string) $quiz["status"])); ?>
 								</button>
 								<button class="btn btn-delete" type="button">Delete</button>
 							</div>

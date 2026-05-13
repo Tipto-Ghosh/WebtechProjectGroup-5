@@ -19,6 +19,7 @@ function getQuizStatusLabel(string $status): string
 {
     return $status === "published" ? "Published" : "Draft";
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,8 +46,11 @@ function getQuizStatusLabel(string $status): string
                 </nav>
 
                 <section class="sidebar_user" aria-label="Current user">
-                    <div class="user_name">Prottoy Roy</div>
-                    <div class="user_role">Instructor</div>
+                    <div class="avatar">PR</div>
+					<div>
+						<div class="user_name">Prottoy Roy</div>
+						<div class="user_role">Instructor</div>
+					</div>
                 </section>
             </aside>
             <div class="main">
@@ -97,29 +101,45 @@ function getQuizStatusLabel(string $status): string
 								<textarea id="quiz_description" name="description" rows="4" placeholder="Add a short description for the quiz"><?php echo htmlspecialchars((string) ($quiz["description"] ?? "")); ?></textarea>
 							</div>
                             <div class="form_section_label">Configuration</div>
-							<div class="form_grid">
-								<div class="field_group">
-									<label for="time_limit_minutes">Time Limit (minutes) <span class="required_mark">*</span></label>
-									<input id="time_limit_minutes" name="time_limit_minutes" type="number" min="1" step="1" value="<?php echo (int) ($quiz["time_limit_minutes"] ?? 60); ?>" required>
-									<div class="field_hint">Positive integer only</div>
-								</div>
+                                <div class="form_grid">
+                                    <div class="field_group">
+                                        <label for="time_limit_minutes">Time Limit (minutes) <span class="required_mark">*</span></label>
+                                        <input id="time_limit_minutes" name="time_limit_minutes" type="number" min="1" step="1" value="<?php echo (int) ($quiz["time_limit_minutes"] ?? 60); ?>" required>
+                                        <div class="field_hint">Positive integer only</div>
+                                    </div>
 
-								<div class="field_group">
-									<label for="total_marks">Total Marks</label>
-									<input id="total_marks" type="text" value="<?php echo htmlspecialchars(getQuizTotalMarksLabel($quiz)); ?>" readonly>
-									<div class="field_hint">Calculated automatically from questions</div>
-								</div>
+                                    <div class="field_group">
+                                        <label for="total_marks">Total Marks</label>
+                                        <input id="total_marks" type="text" value="<?php echo htmlspecialchars(getQuizTotalMarksLabel($quiz)); ?>" readonly>
+                                        <div class="field_hint">Calculated automatically from questions</div>
+                                    </div>
 
-								<div class="field_group">
-									<label for="quiz_status">Status</label>
-									<input id="quiz_status" type="text" value="<?php echo htmlspecialchars(getQuizStatusLabel((string) ($quiz["status"] ?? "draft"))); ?>" readonly>
-									<div class="field_hint">Publish after adding questions</div>
-								</div>
-							</div>
+                                    <div class="field_group">
+                                        <label for="quiz_status">Status</label>
+                                        <input id="quiz_status" type="text" value="<?php echo htmlspecialchars(getQuizStatusLabel((string) ($quiz["status"] ?? "draft"))); ?>" readonly>
+                                        <div class="field_hint">Publish after adding questions</div>
+                                    </div>
+
+                                    <div class="form_footer">
+                                    <div class="form_note">
+                                        <span class="form_note_icon">⌛</span>
+                                        <span>Saving creates a draft - publish only when questions are ready</span>
+                                    </div>
+                                    <div class="form_actions">
+                                        <a class="btn btn_secondary" href="quiz_list.php">Discard</a>
+                                        <button class="btn btn_primary" type="submit"><?php echo htmlspecialchars($primaryActionLabel); ?></button>
+                                    </div>
+                                </div>
+						    </div>
                         </form>
-                           
+                        
                     </section>
+                    <div class="page_footer_hint">Total Marks - read-only, auto-computed by recomputeMarks() · Status - read-only, changed via Publish toggle only</div>
                 </main>
+
+                <footer>
+                    Quiz form view built with a simple MVC structure, semantic HTML, and database-backed data.
+                </footer>
             </div>
 
         </div>    

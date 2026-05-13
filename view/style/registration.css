@@ -483,3 +483,12 @@ a:hover { text-decoration: underline; }
   .form-panel__inner { gap: 20px; }
   .form-header__title { font-size: 24px; }
 }
+
+.availability-msg {
+  display: block;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+.availability-msg.available { color: #2e7d32; }
+.availability-msg.taken { color: #c62828; }
+.availability-msg.error { color: #e65100; }

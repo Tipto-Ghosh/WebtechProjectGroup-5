@@ -1,0 +1,89 @@
+@import url("quiz_builder_quiz_list.css");
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	background: #e3e0d6;
+	color: #1C1A17;
+	line-height: 1.5;
+}
+
+.app {
+	display: flex;
+	min-height: 100vh;
+}
+
+.sidebar {
+	width: 240px;
+	background: #FFFFFF;
+	border-right: 1px solid #E4E1D9;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.sidebar-brand,.sidebar_user,.nav_section {
+	padding: 1rem;
+}
+
+.sidebar-brand {
+	border-bottom: 1px solid #E4E1D9;
+}
+
+.brand-title {
+	font-weight: 700;
+}
+
+.brand-subtitle,.user_role,.nav-label {
+	color: #8a8783;
+}
+
+.nav_section {
+	display: grid;
+	gap: .5rem;
+}
+
+.nav-item {
+	display: flex;
+	align-items: center;
+	gap: .65rem;
+	padding: .55rem .7rem;
+	border-radius: 8px;
+	color: #4D4B47;
+	font-size: 14px;
+	text-decoration: none;
+}
+
+.nav-item.active {
+	background: #E9F3EE;
+	color: #2A6049;
+	font-weight: 600;
+}
+
+.nav_badge {
+	display: inline-flex;
+	min-width: 1.5rem;
+	justify-content: center;
+	padding: 0 .4rem;
+	margin-left: .35rem;
+	border-radius: 999px;
+	background: #E4E1D9;
+	font-size: .75rem;
+}
+
+.sidebar_user {
+	margin-top: auto;
+	border-top: 1px solid #E4E1D9;
+}
+
+.user_name {
+	font-size: 14px;
+}
+
+.user_role {
+	font-size: 12px;
+}

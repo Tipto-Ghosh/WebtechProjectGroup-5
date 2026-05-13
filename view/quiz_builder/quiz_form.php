@@ -96,6 +96,26 @@ function getQuizStatusLabel(string $status): string
 								<label for="quiz_description">Description</label>
 								<textarea id="quiz_description" name="description" rows="4" placeholder="Add a short description for the quiz"><?php echo htmlspecialchars((string) ($quiz["description"] ?? "")); ?></textarea>
 							</div>
+                            <div class="form_section_label">Configuration</div>
+							<div class="form_grid">
+								<div class="field_group">
+									<label for="time_limit_minutes">Time Limit (minutes) <span class="required_mark">*</span></label>
+									<input id="time_limit_minutes" name="time_limit_minutes" type="number" min="1" step="1" value="<?php echo (int) ($quiz["time_limit_minutes"] ?? 60); ?>" required>
+									<div class="field_hint">Positive integer only</div>
+								</div>
+
+								<div class="field_group">
+									<label for="total_marks">Total Marks</label>
+									<input id="total_marks" type="text" value="<?php echo htmlspecialchars(getQuizTotalMarksLabel($quiz)); ?>" readonly>
+									<div class="field_hint">Calculated automatically from questions</div>
+								</div>
+
+								<div class="field_group">
+									<label for="quiz_status">Status</label>
+									<input id="quiz_status" type="text" value="<?php echo htmlspecialchars(getQuizStatusLabel((string) ($quiz["status"] ?? "draft"))); ?>" readonly>
+									<div class="field_hint">Publish after adding questions</div>
+								</div>
+							</div>
                         </form>
                            
                     </section>

@@ -1,12 +1,13 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-include "../Model/db.php";
+require_once __DIR__ . "/../model/leaderboardModel.php";
 
-// Leaderboard is public — no auth required
+$user_role = $_SESSION["user_role"] ?? "";
+$leaders = getLeaderboard();
 
-$database   = new db();
-$connection = $database->connection();
-
-$leaders = $database->getLeaderboard($connection);
-?>
+foreach ($leaders as $index => $leader) {
+    $leaders[$index]["rank"] = $index + 1;
+}

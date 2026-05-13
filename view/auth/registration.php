@@ -1,5 +1,4 @@
 <?php
-include "../../controller/registrationValidation.php";
 if(session_status() === PHP_SESSION_NONE) {
     session_start();
 }

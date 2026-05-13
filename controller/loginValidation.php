@@ -9,6 +9,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["email"] ?? "");
     $password = $_POST["password"] ?? "";
 
+    $_SESSION['old_email'] = $email;
+    $_SESSION['old_password'] = $password;
+
     $errors = [];
 
     if(empty($email)){
@@ -23,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (!empty($errors)) {
-        $_SESSION['email_error'] = $errors['email']    ?? null;
+        $_SESSION['email_error'] = $errors['email'] ?? null;
         $_SESSION['password_error'] = $errors['password'] ?? null;
         header('Location: ../view/auth/login.php');
         exit;
@@ -48,11 +51,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['user_name'] = $user['name'];
     $_SESSION['user_role'] = $user['role'];
 
+    unset($_SESSION['old_email'],$_SESSION['old_password'], $_SESSION['email_error'], $_SESSION['password_error'], $_SESSION['login_alert']);
+
     // Redirect based on role
     $destinations = [
-        "student"    => "../view/student/dashboard.php",
-        "instructor" => "../view/instructor/dashboard.php",
-        "admin"      => "../view/admin/dashboard.php",
+        "student"=> "../view/student/dashboard.php",
+        "instructor"=> "../view/instructor/dashboard.php",
+        "admin"=> "../view/admin/dashboard.php",
     ];
 
     $target = $destinations[$user['role']] ?? "../view/student/dashboard.php";

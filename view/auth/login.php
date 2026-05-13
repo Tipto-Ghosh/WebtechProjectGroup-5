@@ -1,12 +1,15 @@
 <?php
-session_start();
+if(session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// ── Retrieve (and then clear) session messages ──
-$emailErr      = $_SESSION['email_error']    ?? null;
-$passwordErr   = $_SESSION['password_error'] ?? null;
-$loginAlert    = $_SESSION['login_alert']    ?? null;
+$emailErr = $_SESSION['email_error'] ?? null;
+$passwordErr = $_SESSION['password_error'] ?? null;
+$loginAlert = $_SESSION['login_alert'] ?? null;
+$oldEmail = $_SESSION['old_email'] ?? '';
+$oldPassword = $_SESSION['old_password'] ?? '';
 
-unset($_SESSION['email_error'], $_SESSION['password_error'], $_SESSION['login_alert']);
+unset($_SESSION['email_error'], $_SESSION['password_error'], $_SESSION['login_alert'], $_SESSION['old_email'],$_SESSION['old_password']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,7 +22,7 @@ unset($_SESSION['email_error'], $_SESSION['password_error'], $_SESSION['login_al
 
   <div class="page-wrapper">
 
-    <!-- ── Left brand panel ── -->
+    <!-- Left brand panel -->
     <aside class="brand-panel">
       <div class="brand-panel__inner">
         <div class="brand-logo">
@@ -52,7 +55,7 @@ unset($_SESSION['email_error'], $_SESSION['password_error'], $_SESSION['login_al
       </div>
     </aside>
 
-    <!-- ── Right form panel ── -->
+    <!--   Right form panel   -->
     <main class="form-panel">
       <div class="form-panel__inner">
         <div class="mobile-logo">
@@ -65,7 +68,7 @@ unset($_SESSION['email_error'], $_SESSION['password_error'], $_SESSION['login_al
           <p class="form-header__sub">Don't have an account? <a href="registration.php" class="form-link">Create one</a></p>
         </header>
 
-        <!-- ── Alert banners (shown only when appropriate) ── -->
+        <!--   Alert banners   -->
         <?php if ($loginAlert === 'suspended'): ?>
         <div class="alert alert--suspended" role="alert" aria-live="assertive">
           <span class="alert__icon" aria-hidden="true">🚫</span>
@@ -84,7 +87,7 @@ unset($_SESSION['email_error'], $_SESSION['password_error'], $_SESSION['login_al
         </div>
         <?php endif; ?>
 
-        <!-- ── Login form ── -->
+        <!--   Login form   -->
         <form action="../../controller/loginValidation.php" method="POST" class="login-form" novalidate id="loginForm">
           <table class="form-table">
             <tbody>
@@ -102,14 +105,10 @@ unset($_SESSION['email_error'], $_SESSION['password_error'], $_SESSION['login_al
                         <path d="M2.5 7.5l7.5 5 7.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                       </svg>
                     </span>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      class="form-input<?= $emailErr ? ' input--error' : '' ?>"
+                    <input 
+                      type="email" id="email" name="email" class="form-input<?= $emailErr ? ' input--error' : '' ?>"
                       placeholder="you@example.com"
-                      autocomplete="email"
-                      value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
+                      value="<?= htmlspecialchars($oldEmail) ?>" 
                       required
                     />
                   </div>
@@ -134,13 +133,8 @@ unset($_SESSION['email_error'], $_SESSION['password_error'], $_SESSION['login_al
                       </svg>
                     </span>
                     <input
-                      type="password"
-                      id="password"
-                      name="password"
-                      class="form-input<?= $passwordErr ? ' input--error' : '' ?>"
-                      placeholder="Your password"
-                      autocomplete="current-password"
-                      required
+                      type="password"id="password"name="password" class="form-input<?= $passwordErr ? ' input--error' : '' ?>"
+                      placeholder="Your password" autocomplete="current-password" required value="<?= htmlspecialchars($oldPassword) ?>"
                     />
                     <button type="button" class="toggle-pwd" id="togglePwd" aria-label="Show password" tabindex="-1">
                       <svg class="eye-icon eye-open" viewBox="0 0 20 20" fill="none" aria-hidden="true">

@@ -128,9 +128,43 @@ $errorMessage = isset($pageData['error']) ? $pageData['error'] : null;
 						</div>
 
 					</section>
-
 					<!-- Quiz list table would go here -->
-				</main>
+					<?php if (empty($quizzes)): ?>
+						<div class="empty_state">
+							<h2 class="empty_title">No quizzes found</h2>
+							<p>Start by creating your first quiz from the button above.</p>
+						</div>
+					<?php else: ?>
+					<?php foreach ($quizzes as $quiz): ?>
+						<article class="table_row">
+							<div>
+								<div class="quiz_title"><?php echo htmlspecialchars($quiz['title']); ?></div>
+								<div class="quiz_meta"><?php echo htmlspecialchars(getQuizMetaText($quiz)); ?></div>
+							</div>
+							<div><?php echo (int) $quiz['question_count']; ?></div>
+							<div><?php echo (int) $quiz['total_marks']; ?></div>
+							<div><?php echo (int) $quiz['time_limit_minutes']; ?> min</div>
+							<div>
+								<span class="badge <?php echo getStatusBadgeClass((string) $quiz['status']); ?>">
+									<?php echo ucfirst(htmlspecialchars((string) $quiz['status'])); ?>
+								</span>
+							</div>
+							<div><?php echo htmlspecialchars(formatDateLabel($quiz['created_at'] ?? null)); ?></div>
+							<div class="actions">
+								<button class="btn_secondary" type="button">Edit</button>
+								<button class="btn_secondary" type="button">Questions</button>
+								<button class="btn_status_toggle" type="button">
+									<?php echo htmlspecialchars(getActionButtonLabel((string) $quiz['status'])); ?>
+								</button>
+								<button class="btn btn-delete" type="button">Delete</button>
+							</div>
+						</article>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</main>
+			<footer>
+				Quiz list view built with a simple MVC structure, semantic HTML, and database-backed data.
+			</footer>
 		</div>
 	</body>
 </html>

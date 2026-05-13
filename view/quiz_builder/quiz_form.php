@@ -9,6 +9,16 @@ $pageSubtitle = isset($pageData["page_subtitle"]) ? $pageData["page_subtitle"] :
 $mode = isset($pageData["mode"]) ? $pageData["mode"] : "create";
 $primaryActionLabel = isset($pageData["primary_action_label"]) ? $pageData["primary_action_label"] : "Save & Add Questions";
 $breadcrumbs = isset($pageData["breadcrumbs"]) && is_array($pageData["breadcrumbs"]) ? $pageData["breadcrumbs"] : array("My Quizzes", $pageTitle);
+
+function getQuizStatusBadgeClass(string $status): string
+{
+    return $status === "published" ? "badge-published" : "badge-draft";
+}
+
+function getQuizStatusLabel(string $status): string
+{
+    return $status === "published" ? "Published" : "Draft";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,6 +49,40 @@ $breadcrumbs = isset($pageData["breadcrumbs"]) && is_array($pageData["breadcrumb
                     <div class="user_role">Instructor</div>
                 </section>
             </aside>
+            <div class="main">
+                <header>
+					<div class="bread_crumb">
+						<?php echo htmlspecialchars($breadcrumbs[0] ?? "My Quizzes"); ?> <span class="breadcrumb_separator">&gt;</span> <strong><?php echo htmlspecialchars($breadcrumbs[1] ?? $pageTitle); ?></strong>
+					</div>
+					<div class="header_actions">
+						<a class="btn btn_secondary" href="quiz_list.php">Cancel</a>
+						<button class="btn btn_primary" type="submit" form="quiz_form"><?php echo htmlspecialchars($primaryActionLabel); ?></button>
+					</div>
+				</header>
+                <main class="content quiz_form_page">
+                    <section class="page_head">
+						<h1><?php echo htmlspecialchars($pageTitle); ?></h1>
+						<div class="page_subtitle"><?php echo htmlspecialchars($pageSubtitle); ?></div>
+					</section>
+                    <section class="info_banner" aria-label="Quiz builder note">
+						<div class="info_banner_icon">i</div>
+						<div>
+							<div class="info_banner_title">After saving, you'll be redirected to the Question Builder to add MCQ questions.</div>
+							<div class="info_banner_text">The quiz stays in draft until you add at least one question and publish it later.</div>
+						</div>
+					</section>
+                    <section class="quiz_form_card">
+                        <div class="quiz_form_card_header">
+							<div>
+								<div class="quiz_form_card_title">Quiz Details</div>
+								<div class="quiz_form_card_subtitle">Basic information and quiz configuration</div>
+							</div>
+							<span class="badge <?php echo getQuizStatusBadgeClass((string) ($quiz["status"] ?? "draft")); ?>"><?php echo htmlspecialchars(getQuizStatusLabel((string) ($quiz["status"] ?? "draft"))); ?></span>
+						</div>
+                    </section>
+                </main>
+            </div>
+
         </div>    
     </body>
 </html>

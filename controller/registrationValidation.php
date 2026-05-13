@@ -2,7 +2,7 @@
 if(session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
+include "../model/registrationModel.php";
 // redirect back with errors and old input of user 
 function redirectWithError($errors , $oldInput){
     $_SESSION['errors'] = $errors;
@@ -91,10 +91,15 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     // make an array for database
     $user_data = [
-        "role"=>$role,"full_name"=>$full_name,"email"=>$email,"passoword_hash"=>$hashed_password,"created_at"=>date("Y-m-d H:i:s")
+        "role"=>$role,"full_name"=>$full_name,"email"=>$email,"password_hash"=>$hashed_password,"created_at"=>date("Y-m-d H:i:s")
     ];
 
     // database part 
+    $registered_user = registrationUser($user_data);
+    if ($registered_user === false) {
+       $errors['database'] = "Registration failed. Email may already exist.";
+       redirectWithError($errors, $oldInput);
+    }
 
     $_SESSION['valid_user_data'] = $user_data;
     unset($_SESSION['errors'], $_SESSION['old_input']);

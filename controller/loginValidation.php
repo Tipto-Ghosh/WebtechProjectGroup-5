@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Redirect based on role
     $destinations = [
         "student"=> "../view/student/dashboard.php",
-        "instructor"=> "../view/instructor/dashboard.php",
+        "instructor"=> "../view/quiz_builder/dashboard.php",
         "admin"=> "../view/admin/dashboard.php",
     ];
 

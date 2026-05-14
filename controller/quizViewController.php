@@ -32,7 +32,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $attemptId = create_attempt($userId, $quizId);
-        $_SESSION["attemptID"] = $attemptId;
         $url = "../view/student/take_quiz.php?attempt=" . $attemptId;
 
         header("Location: " . $url);

@@ -118,9 +118,20 @@ td.answer-wrong {
     font-weight: bold;
 }
 
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-header h3 {
+    margin: 0;
+}
+
+.close-button,
 .back-button {
     display: inline-block;
-    margin-top: 20px;
     padding: 10px 20px;
     background: #007bff;
     color: #fff;
@@ -129,6 +140,7 @@ td.answer-wrong {
     transition: background 0.2s ease;
 }
 
+.close-button:hover,
 .back-button:hover {
     background: #0056b3;
 }

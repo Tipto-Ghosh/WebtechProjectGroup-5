@@ -35,7 +35,10 @@
         <?php echo htmlspecialchars($attempt["status_message"]); ?>
     </div>
 
-    <h3>Question Breakdown</h3>
+    <div class="section-header">
+        <h3>Question Breakdown</h3>
+        <a class="close-button" href="<?php echo $close_button['href']; ?>"><?php echo $close_button['text']; ?></a>
+    </div>
 
     <table>
         <thead>

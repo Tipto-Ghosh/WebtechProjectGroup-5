@@ -372,3 +372,42 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 });
+
+function deleteQuiz(button) {
+	var quizId = button.getAttribute("data-quiz-id");
+
+	if (!quizId) {
+		alert("Quiz ID not found");
+		return;
+	}
+
+	if (!window.confirm("Are you sure you want to delete this quiz? This action cannot be undone.")) {
+		return;
+	}
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function () {
+		if (this.readyState === 4) {
+			var response = {};
+			try {
+				response = JSON.parse(this.responseText || "{}");
+			} catch (error) {
+				response = { success: false, message: this.responseText || "Invalid response" };
+			}
+
+			if (this.status === 200 && response.success) {
+				alert("Quiz deleted successfully");
+				window.location.reload();
+			} else {
+				alert("Error: " + (response.message || "Failed to delete quiz"));
+			}
+		}
+	};
+
+	var formData = new FormData();
+	formData.append("action", "delete_quiz");
+	formData.append("quiz_id", quizId);
+
+	xhttp.open("POST", "../../controller/QuizBuilderController.php", true);
+	xhttp.send(formData);
+}

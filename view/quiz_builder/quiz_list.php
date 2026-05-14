@@ -75,7 +75,7 @@ function getActionButtonLabel(string $status): string
 				<nav class="nav_section" aria-label="Workspace">
 					<div class="nav-label">Workspace</div>
 					<a class="nav-item" href="#">Dashboard</a>
-					<a class="nav-item active" href="quiz_list.php" aria-current="page">My Quizzes <span class="nav_badge"><?php echo (int) $stats["total_quizzes"]; ?></span></a>
+					<a class="nav-item active" href="dashboard.php" aria-current="page">My Quizzes <span class="nav_badge"><?php echo (int) $stats["total_quizzes"]; ?></span></a>
 					<a class="nav-item" href="#">Analytics</a>
 				</nav>
 

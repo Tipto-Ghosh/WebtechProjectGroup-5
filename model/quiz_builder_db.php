@@ -1,5 +1,7 @@
 <?php
-
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once __DIR__ . "/../config/dbConnection.php";
 
 function getQuizBuilderConnection()
@@ -76,6 +78,7 @@ function createQuiz($connection, $instructorId, $title, $description, $timeLimit
 	if ($result) {
 		return (int) $connection->insert_id;
 	}
+	unset($_SESSION["current_quiz_id"]);
 
 	return 0;
 }
@@ -88,13 +91,20 @@ function updateQuiz($connection, $quizId, $instructorId, $title, $description, $
 	$timeLimitMinutes = max(1, (int) $timeLimitMinutes);
 
 	$sql = "UPDATE quizzes SET title = '" . $title . "', description = '" . $description . "', time_limit_minutes = '" . $timeLimitMinutes . "' WHERE id = '" . $quizId . "' AND instructor_id = '" . (int) $instructorId . "'";
+	unset($_SESSION["current_quiz_id"]);
 	return $connection->query($sql);
 }
 
 function deleteQuiz($connection, $quizId, $instructorId)
 {
 	$sql = "DELETE FROM quizzes WHERE id = '" . (int) $quizId . "' AND instructor_id = '" . (int) $instructorId . "'";
-	return $connection->query($sql);
+	$result = $connection->query($sql);
+
+	if (!$result) {
+		return false;
+	}
+
+	return $connection->affected_rows > 0;
 }
 
 require_once __DIR__ . "/question_builder_db.php";

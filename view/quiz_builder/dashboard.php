@@ -40,12 +40,12 @@ function getStatusBadgeClass($status){
         <nav class="nav_section" aria-label="Workspace">
             <div class="nav-label">Workspace</div>
             <a class="nav-item active" href="dashboard.php" aria-current="page">Dashboard</a>
-            <a class="nav-item" href="#">Analytics</a>
+            <a class="nav-item" href="../Results_Leaderboard/analytics.php">Analytics</a>
         </nav>
 
         <nav class="nav_section" aria-label="Account">
-            <div class="nav-label">Account</div>
-            <a class="nav_item" href="#">Profile</a>
+            <!--<div class="nav-label">Account</div>-->
+            <!--<a class="nav_item" href="#">Profile</a>-->
             <a class="nav_item nav_item_danger" href="../auth/login.php">Log Out</a>
         </nav>
 

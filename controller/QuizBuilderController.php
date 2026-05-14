@@ -467,7 +467,7 @@ class QuizBuilderController
         $result = deleteQuiz($connection, $quizId, $this->currentInstructorId());
 
         if (!$result) {
-            return array("success" => false, "message" => "Failed to delete quiz");
+            return array("success" => false, "message" => "Quiz not found or you do not have permission to delete it");
         }
 
         return array("success" => true, "message" => "Quiz deleted", "quiz_id" => $quizId);
@@ -475,6 +475,10 @@ class QuizBuilderController
 
     public function handleApiRequest(): array
     {
+        if (!isset($_SESSION["user_id"]) || (string) ($_SESSION["user_role"] ?? "") !== "instructor") {
+            return array("success" => false, "message" => "Unauthorized request");
+        }
+
         $data = $this->requestData();// get the combined request data from GET, POST, and raw input
         $action = strtolower(trim((string) ($data["action"] ?? ""))); // check the action data which is coming from the form the previous file.
 

@@ -98,7 +98,13 @@ function updateQuiz($connection, $quizId, $instructorId, $title, $description, $
 function deleteQuiz($connection, $quizId, $instructorId)
 {
 	$sql = "DELETE FROM quizzes WHERE id = '" . (int) $quizId . "' AND instructor_id = '" . (int) $instructorId . "'";
-	return $connection->query($sql);
+	$result = $connection->query($sql);
+
+	if (!$result) {
+		return false;
+	}
+
+	return $connection->affected_rows > 0;
 }
 
 require_once __DIR__ . "/question_builder_db.php";

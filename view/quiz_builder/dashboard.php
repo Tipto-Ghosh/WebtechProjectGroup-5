@@ -65,7 +65,7 @@ function getStatusBadgeClass($status){
                 Dashboard <span class="breadcrumb_separator">></span> <strong>My Quizzes</strong>
             </div>
             <div class="header_actions">
-                <a class="btn btn_primary" href="quiz_form.php">Create Quiz</a>
+                <a class="btn btn_primary" href="quiz_form.php?quiz_id=0">Create Quiz</a>
             </div>
         </header>
 
@@ -149,7 +149,8 @@ function getStatusBadgeClass($status){
                             </div>
                             <div><?= htmlspecialchars(formatDateLabel($quiz['created_at'] ?? null)) ?></div>
                             <div class="actions">
-                                <a href="quiz_form.php?id=<?= (int)$quiz['id'] ?>" class="btn_secondary">Edit</a>
+                                <a href="quiz_form.php?quiz_id=<?= (int)$quiz['id'] ?>" class="btn_secondary">Edit</a>
+                                <button class="btn btn-delete" type="button" data-quiz-id="<?= (int)$quiz['id'] ?>" onclick="deleteQuiz(this)">Delete</button>
                             </div>
                         </article>
                     <?php endforeach; ?>
@@ -158,5 +159,6 @@ function getStatusBadgeClass($status){
         </main>
     </div>
 </div>
+<script src="../../controller/js/quiz_builder.js"></script>
 </body>
 </html>

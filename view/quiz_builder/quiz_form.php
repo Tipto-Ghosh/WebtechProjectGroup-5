@@ -22,6 +22,9 @@ $mode = isset($pageData["mode"]) ? $pageData["mode"] : "create";
 $primaryActionLabel = isset($pageData["primary_action_label"]) ? $pageData["primary_action_label"] : "Save & Add Questions";
 $breadcrumbs = isset($pageData["breadcrumbs"]) && is_array($pageData["breadcrumbs"]) ? $pageData["breadcrumbs"] : array("My Quizzes", $pageTitle);
 
+$instructor_name = isset($pageData["instructor_name"]) ? (string) $pageData["instructor_name"] : "Instructor";
+$instructor_role = isset($pageData["instructor_role"]) ? (string) $pageData["instructor_role"] : "Instructor";
+
 function getQuizStatusBadgeClass(string $status): string
 {
 	return $status === "published" ? "badge-published" : "badge-draft";
@@ -42,23 +45,6 @@ function getQuizTotalMarksLabel(array $quiz): string
 	}
 
 	return (string) $totalMarks;
-}
-
-function getCurrentInstructorName(): string
-{
-	return trim((string) ($_SESSION["user_name"] ?? "Prottoy Roy"));
-}
-
-function getCurrentInstructorInitials(string $name): string
-{
-	$parts = preg_split('/\s+/', trim($name)) ?: array();
-	$initials = "";
-
-	foreach (array_slice($parts, 0, 2) as $part) {
-		$initials .= strtoupper(substr($part, 0, 1));
-	}
-
-	return $initials !== "" ? $initials : "PR";
 }
 ?>
 <!DOCTYPE html>
@@ -81,16 +67,15 @@ function getCurrentInstructorInitials(string $name): string
 				<nav class="nav_section" aria-label="Workspace">
 					<div class="nav-label">Workspace</div>
 					<a class="nav-item" href="#">Dashboard</a>
-					<a class="nav-item active" href="quiz_list.php">My Quizzes <span class="nav_badge">7</span></a>
+						<a class="nav-item active" href="dashboard.php">My Quizzes <span class="nav_badge">7</span></a>
 					<a class="nav-item" href="#">Analytics</a>
 				</nav>
 
 				<section class="sidebar_user" aria-label="Current user">
-						<?php $currentInstructorName = getCurrentInstructorName(); ?>
-						<div class="avatar"><?php echo htmlspecialchars(getCurrentInstructorInitials($currentInstructorName)); ?></div>
+					<div class="avatar"><?php echo htmlspecialchars(strtoupper(substr($instructor_name, 0, 1))); ?></div>
 					<div>
-						<div class="user_name"><?php echo htmlspecialchars($currentInstructorName); ?></div>
-						<div class="user_role">Instructor</div>
+						<div class="user_name"><?php echo htmlspecialchars($instructor_name); ?></div>
+						<div class="user_role"><?php echo htmlspecialchars($instructor_role); ?></div>
 					</div>
 				</section>
 			</aside>
@@ -100,7 +85,7 @@ function getCurrentInstructorInitials(string $name): string
 						<?php echo htmlspecialchars($breadcrumbs[0] ?? "My Quizzes"); ?> <span class="breadcrumb_separator">&gt;</span> <strong><?php echo htmlspecialchars($breadcrumbs[1] ?? $pageTitle); ?></strong>
 					</div>
 					<div class="header_actions">
-						<a class="btn btn_secondary" href="quiz_list.php">Cancel</a>
+						<a class="btn btn_secondary" href="dashboard.php">Cancel</a>
 						<button class="btn btn_primary" type="submit" form="quiz_form"><?php echo htmlspecialchars($primaryActionLabel); ?></button>
 					</div>
 				</header>
@@ -181,7 +166,7 @@ function getCurrentInstructorInitials(string $name): string
 										<span>Saving creates a draft - publish only when questions are ready</span>
 									</div>
 									<div class="form_actions">
-										<a class="btn btn_secondary" href="quiz_list.php">Discard</a>
+										<a class="btn btn_secondary" href="dashboard.php">Discard</a>
 										<button class="btn btn_primary" type="submit"><?php echo htmlspecialchars($primaryActionLabel); ?></button>
 									</div>
 								</div>

@@ -11,6 +11,9 @@ $breadcrumbs = isset($pageData["breadcrumbs"]) && is_array($pageData["breadcrumb
 $apiEndpoint = isset($pageData["api_endpoint"]) ? $pageData["api_endpoint"] : "../../controller/QuizBuilderController.php";
 $publishButtonLabel = isset($pageData["publish_button_label"]) ? $pageData["publish_button_label"] : "Publish Quiz";
 
+$instructor_name = isset($pageData["instructor_name"]) ? (string) $pageData["instructor_name"] : "Instructor";
+$instructor_role = isset($pageData["instructor_role"]) ? (string) $pageData["instructor_role"] : "Instructor";
+
 function getQuizMetaText(array $quiz): string
 {
     $time = (int) ($quiz["time_limit_minutes"] ?? 0);
@@ -28,23 +31,6 @@ function getQuizStatusLabel(string $status): string
     return $status === "published" ? "Published" : "Draft";
 }
 
-function getCurrentInstructorName(): string
-{
-    if (!empty($_SESSION["valid_user_data"]["full_name"])) {
-        return trim((string) $_SESSION["valid_user_data"]["full_name"]);
-    }
-    return trim((string) ($_SESSION["user_name"] ?? "Prottoy Roy"));
-}
-
-function getCurrentInstructorInitials(string $name): string
-{
-    $parts = preg_split('/\s+/', trim($name)) ?: array();
-    $initials = "";
-    foreach (array_slice($parts, 0, 2) as $part) {
-        $initials .= strtoupper(substr($part, 0, 1));
-    }
-    return $initials !== "" ? $initials : "PR";
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,16 +52,15 @@ function getCurrentInstructorInitials(string $name): string
                 <nav class="nav_section" aria-label="Workspace">
                     <div class="nav-label">Workspace</div>
                     <a class="nav-item" href="#">Dashboard</a>
-                    <a class="nav-item active" href="quiz_list.php">My Quizzes <span class="nav_badge">7</span></a>
+                    <a class="nav-item active" href="dashboard.php">My Quizzes <span class="nav_badge">7</span></a>
                     <a class="nav-item" href="#">Analytics</a>
                 </nav>
 
                 <section class="sidebar_user" aria-label="Current user">
-                    <?php $currentInstructorName = getCurrentInstructorName(); ?>
-                    <div class="avatar"><?php echo htmlspecialchars(getCurrentInstructorInitials($currentInstructorName)); ?></div>
+                    <div class="avatar"><?php echo htmlspecialchars(strtoupper(substr($instructor_name, 0, 1))); ?></div>
                     <div>
-                        <div class="user_name"><?php echo htmlspecialchars($currentInstructorName); ?></div>
-                        <div class="user_role">Instructor</div>
+                        <div class="user_name"><?php echo htmlspecialchars($instructor_name); ?></div>
+                        <div class="user_role"><?php echo htmlspecialchars($instructor_role); ?></div>
                     </div>
                 </section>
             </aside>
@@ -85,7 +70,7 @@ function getCurrentInstructorInitials(string $name): string
                         <?php echo htmlspecialchars($breadcrumbs[0] ?? "My Quizzes"); ?> <span class="breadcrumb_separator">&gt;</span> <strong><?php echo htmlspecialchars($breadcrumbs[1] ?? "Question Builder"); ?></strong>
                     </div>
                     <div class="header_actions">
-                        <a class="btn btn_secondary" href="quiz_list.php">Back</a>
+                        <a class="btn btn_secondary" href="dashboard.php">Back</a>
                         <button class="btn btn_primary" id="quiz_toggle_button" type="button" data-quiz-id="<?php echo (int) ($quiz["id"] ?? 0); ?>"><?php echo htmlspecialchars($publishButtonLabel); ?></button>
                     </div>
                 </header>

@@ -7,8 +7,8 @@ require_once __DIR__ . "/../model/resultModel.php";
 
 // $user_id = filter_var($_SESSION["user_id"] ?? null, FILTER_VALIDATE_INT);
 // $user_role = $_SESSION["user_role"] ?? "";
-$user_id = 4;
-$user_role = "instructor" ;
+$user_id = 3;
+$user_role = "student" ;
 
 if ($user_id === false || $user_id <= 0 || !in_array($user_role, ["student", "instructor"], true)) {
     header("Location: ../auth/login.php");

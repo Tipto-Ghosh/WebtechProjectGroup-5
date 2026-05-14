@@ -63,6 +63,14 @@
         </tbody>
     </table>
 
+    <p style="text-align: center; margin-top: 20px;">
+        <?php if ($user_role === "instructor"): ?>
+            <a class="back-button" href="analytics.php">Back to Analytics</a>
+        <?php else: ?>
+            <a class="back-button" href="my_results.php">Back to My Results</a>
+        <?php endif; ?>
+    </p>
+
     <?php endif; ?>
 
 </div>

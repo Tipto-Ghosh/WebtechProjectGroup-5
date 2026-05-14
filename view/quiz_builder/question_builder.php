@@ -140,9 +140,65 @@ function getQuizMetaText(array $quiz): string
                                     </div>
                                 </div>
 
-                                 <button class="btn btn_primary btn_add_question" type="submit">+ Add Question to Quiz</button>
+                                <button class="btn btn_primary btn_add_question" type="submit">+ Add Question to Quiz</button>
                             </form>
 
+                        </section>
+
+                        <section class="questions_list_section">
+                            <div class="section_header">
+                                <h2>Questions</h2>
+                                <div class="section_meta">
+                                    <span class="question_count"><?php echo (int) ($quiz["question_count"] ?? 0); ?> questions</span>
+                                    <span class="total_marks"><?php echo (int) ($quiz["total_marks"] ?? 0); ?> pts</span>
+                                </div>
+                            </div>
+
+                            <?php if (empty($questions)): ?>
+                                <div class="empty_state">
+                                    <h3 class="empty_title">No questions added yet</h3>
+                                    <p>Start by adding your first MCQ question using the form on the left.</p>
+                                </div>
+                            <?php else: ?>
+                                <div class="questions_list">
+                                    <?php foreach ($questions as $index => $question): ?>
+                                        <article class="question_card" data-question-id="<?php echo (int) $question["id"]; ?>">
+                                            <div class="question_card_header">
+                                                <div class="question_number"><?php echo $index + 1; ?></div>
+                                                <div class="question_info">
+                                                    <div class="question_text"><?php echo htmlspecialchars($question["question_text"] ?? ""); ?></div>
+                                                    <div class="question_correct">Correct answer: <strong><?php echo htmlspecialchars($question["correct_option"] ?? ""); ?></strong></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="question_card_options">
+                                                <div class="options_label">Options:</div>
+                                                <div class="options_preview">
+                                                    <?php if (isset($question["options"]) && is_array($question["options"])): ?>
+                                                        <?php foreach ($question["options"] as $opt_key => $opt_text): ?>
+                                                            <span class="option_badge <?php echo $opt_key === ($question["correct_option"] ?? "") ? "option_correct" : ""; ?>">
+                                                                <?php echo htmlspecialchars($opt_key); ?>: <?php echo htmlspecialchars($opt_text); ?>
+                                                            </span>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="question_card_footer">
+                                                <div class="card_marks"><?php echo (int) ($question["marks"] ?? 0); ?> pts</div>
+                                                <div class="card_actions">
+                                                    <button class="btn_icon btn_edit" type="button" title="Edit question" aria-label="Edit question">
+                                                        ✎ Edit
+                                                    </button>
+                                                    <button class="btn_icon btn_delete" type="button" title="Delete question" aria-label="Delete question">
+                                                        🗑 Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
                         </section>
                     </div>
                 </main>

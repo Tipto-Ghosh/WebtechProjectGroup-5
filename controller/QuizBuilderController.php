@@ -108,24 +108,19 @@ class QuizBuilderController
         $quiz = $this->quizFromDatabase($quizId);
 
         if (empty($quiz)) {
+            $title = $mode === "create" ? "" : (string) ($_GET["title"] ?? "");
+            $description = $mode === "create" ? "" : (string) ($_GET["description"] ?? "");
+
             $quiz = $this->defaultQuiz(array(
                 "id" => $quizId,
-                "title" => $_GET["title"] ?? "",
-                "description" => $_GET["description"] ?? "",
+                "title" => $title,
+                "description" => $description,
                 "time_limit_minutes" => isset($_GET["time_limit_minutes"]) ? (int) $_GET["time_limit_minutes"] : 60,
                 "status" => $_GET["status"] ?? "draft",
             ));
         } else {
             $mode = "edit";
             $_SESSION["current_quiz_id"] = (int) $quiz["id"];
-        }
-
-        if (($quiz["title"] ?? "") === "") {
-            $quiz["title"] = "Web Technologies Final Exam";
-        }
-
-        if (($quiz["description"] ?? "") === "") {
-            $quiz["description"] = "Covers HTML5, CSS3, JavaScript fundamentals, PHP basics, and database concepts covered in the semester.";
         }
 
         return array(

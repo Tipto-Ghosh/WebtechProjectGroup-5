@@ -10,12 +10,13 @@ function get_quiz_info($attemptId) {
     $title = $connection->query("SELECT title FROM quiz WHERE id = '".$quizId."'");
     $instructorId = $connection->query("SELECT instructor_id FROM quiz WHERE id = '".$quizId."'");
     $instructorName = $connection->query("SELECT name FROM users WHERE id =".$instructorId."'");
+    $marks = $connection->query("SELECT total_marks FROM quizzes WHERE id =".$quizId."'");
 
-    $result = ["quizId"=>$quizId,"title"=>$title, "instructor"=>$instructorName];
+    $result = ["quizId"=>$quizId,"title"=>$title, "instructor"=>$instructorName, "totalMarks"=>$marks];
     return $result;
 }
 
-function get_quiz($quizId) {
+function get_quiz_questions($quizId) {
     $connection = get_database_connection();
     $sql ="SELECT q.id AS question_id, q.question_text, q.marks,
                    o.id AS option_id, o.option_text, o.is_correct

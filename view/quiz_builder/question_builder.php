@@ -42,6 +42,20 @@ $breadcrumbs = isset($pageData["breadcrumbs"]) && is_array($pageData["breadcrumb
                     </div>
                 </section>
             </aside>
+            <div class="main">
+                <header>
+                    <div class="bread_crumb">
+                        <?php echo htmlspecialchars($breadcrumbs[0] ?? "My Quizzes"); ?> <span class="breadcrumb_separator">&gt;</span> <strong><?php echo htmlspecialchars($breadcrumbs[1] ?? "Question Builder"); ?></strong>
+                    </div>
+                    <div class="header_actions">
+                        <a class="btn btn_secondary" href="quiz_list.php">Back</a>
+                        <button class="btn btn_primary" type="button"> Publish Quiz</button>
+                    </div>
+                </header>
+                <main class="content question_builder_page">
+
+                </main>
+            </div>        
         </div>
     </body>
 </html>

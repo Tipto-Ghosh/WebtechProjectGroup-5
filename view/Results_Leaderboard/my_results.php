@@ -16,7 +16,7 @@
 <div class="container">
     <h2>My Results</h2>
 
-    <?php if (empty($results)): ?>
+    <?php if (!$show_data): ?>
         <p>No attempts yet.</p>
     <?php else: ?>
     <table>
@@ -32,20 +32,20 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($results as $result): ?>
+            <?php foreach ($table_rows as $row): ?>
             <tr>
-                <td><?php echo (int)$result["row_number"]; ?></td>
-                <td><?php echo htmlspecialchars($result["title"]); ?></td>
-                <td><?php echo htmlspecialchars($result["score_display"]); ?></td>
-                <td><?php echo htmlspecialchars($result["duration_display"]); ?></td>
-                <td><?php echo htmlspecialchars($result["completed_at_display"]); ?></td>
+                <td><?php echo $row['row_number']; ?></td>
+                <td><?php echo $row['title']; ?></td>
+                <td><?php echo $row['score_display']; ?></td>
+                <td><?php echo $row['duration_display']; ?></td>
+                <td><?php echo $row['completed_at_display']; ?></td>
                 <td>
-                    <span class="badge <?php echo htmlspecialchars($result["status_class"]); ?>">
-                        <?php echo htmlspecialchars($result["status_label"]); ?>
+                    <span class="badge <?php echo $row['status_class']; ?>">
+                        <?php echo $row['status_label']; ?>
                     </span>
                 </td>
                 <td>
-                    <a href="result.php?attempt_id=<?php echo (int)$result["id"]; ?>">View</a>
+                    <a href="result.php?attempt_id=<?php echo $row['id']; ?>">View</a>
                 </td>
             </tr>
             <?php endforeach; ?>

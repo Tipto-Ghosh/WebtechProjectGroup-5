@@ -10,12 +10,10 @@
 
 <nav>
     <a href="leaderboard.php">Leaderboard</a>
-    <?php if ($user_role === "student"): ?>
+    <?php if ($nav_links['show_results']): ?>
         <a href="my_results.php">My Results</a>
-    <?php elseif ($user_role === "instructor"): ?>
-        <a href="analytics.php">Analytics</a>
-    <?php else: ?>
-        <a href="my_results.php">My Results</a>
+    <?php endif; ?>
+    <?php if ($nav_links['show_analytics']): ?>
         <a href="analytics.php">Analytics</a>
     <?php endif; ?>
 </nav>
@@ -37,15 +35,15 @@
             </tr>
         </thead>
         <tbody id="leaderboard-body">
-            <?php if (empty($leaders)): ?>
+            <?php if (!$show_data): ?>
                 <tr><td colspan="4" style="text-align:center;">No data yet.</td></tr>
             <?php else: ?>
-                <?php foreach ($leaders as $leader): ?>
+                <?php foreach ($table_rows as $row): ?>
                 <tr>
-                    <td><?php echo (int)$leader["rank"]; ?></td>
-                    <td><?php echo htmlspecialchars($leader["name"]); ?></td>
-                    <td><?php echo htmlspecialchars($leader["total_score"]); ?></td>
-                    <td><?php echo htmlspecialchars($leader["total_attempts"]); ?></td>
+                    <td><?php echo $row['rank']; ?></td>
+                    <td><?php echo $row['name']; ?></td>
+                    <td><?php echo $row['total_score']; ?></td>
+                    <td><?php echo $row['total_attempts']; ?></td>
                 </tr>
                 <?php endforeach; ?>
             <?php endif; ?>

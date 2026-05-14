@@ -21,12 +21,11 @@
         <p><?php echo htmlspecialchars($analytics_error); ?></p>
     <?php endif; ?>
 
-    <!-- Quiz selector — submits to same page via GET -->
     <form method="GET" action="">
         <div class="form-row">
-            <select name="quiz_id">
+            <select name  =    "quiz_id">
                 <option value="">-- Select a Quiz --</option>
-                <?php foreach ($quizzes as $quiz): ?>
+                <?php foreach ($quizzes   as $quiz):  ?>
                 <option value="<?php echo (int)$quiz["id"]; ?>"
                     <?php echo (int)$selected_quiz === (int)$quiz["id"] ? "selected" : ""; ?>>
                     <?php echo htmlspecialchars($quiz["option_label"]); ?>
@@ -41,7 +40,7 @@
         <p>No quizzes found for this instructor.</p>
     <?php endif; ?>
 
-    <?php if ($selected_quiz && !empty($attempts)): ?>
+    <?php if ($selected_quiz &&   !empty($attempts)): ?>
     <table>
         <thead>
             <tr>

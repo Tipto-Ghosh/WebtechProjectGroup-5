@@ -100,7 +100,7 @@ function getActionButtonLabel(string $status): string
 					<div class="bread_crumb">Dashboard <span class="breadcrumb_separator">></span> <strong>My Quizzes</strong></div>
 					<div class="header_actions">
 						<button class="btn btn_secondary" type="button">Export</button>
-						<button class="btn btn_primary" type="button">Create Quiz</button>
+							<a class="btn btn_primary" href="quiz_form.php">Create Quiz</a>
 					</div>
 				</header>
 

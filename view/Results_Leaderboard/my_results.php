@@ -10,7 +10,7 @@
 
 <nav>
     <a href="leaderboard.php">Leaderboard</a>
-    <a href="my_results.php">Dashboard</a>
+    <a href="../student/dashboard.php">Dashboard</a>
 </nav>
 
 <div class="container">

@@ -9,10 +9,10 @@
 <body>
 
 <nav>
-    <a href="leaderboard.php">Leaderboard</a>
+    
     <?php if ($user_role === "student"): ?>
         <a href="my_results.php">My Results</a>
-        <a href="dashboard.php">Dashboard</a>
+        <a href="../student/dashboard.php">Dashboard</a>
     <?php elseif ($user_role === "instructor"): ?>
         <a href="analytics.php">Analytics</a>
     <?php else: ?>

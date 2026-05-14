@@ -16,7 +16,7 @@
 <div class="container">
     <h2>Instructor Analytics</h2>
 
-    <?php if (!empty($analytics_error)): ?>
+    <?php if ($show_error): ?>
         <p><?php echo htmlspecialchars($analytics_error); ?></p>
     <?php endif; ?>
 
@@ -25,10 +25,9 @@
         <div class="form-row">
             <select name="quiz_id">
                 <option value="">-- Select a Quiz --</option>
-                <?php foreach ($quizzes as $quiz): ?>
-                <option value="<?php echo (int)$quiz["id"]; ?>"
-                    <?php echo (int)$selected_quiz === (int)$quiz["id"] ? "selected" : ""; ?>>
-                    <?php echo htmlspecialchars($quiz["option_label"]); ?>
+                <?php foreach ($quiz_options as $option): ?>
+                <option value="<?php echo $option['value']; ?>" <?php echo $option['selected'] ? 'selected' : ''; ?>>
+                    <?php echo $option['label']; ?>
                 </option>
                 <?php endforeach; ?>
             </select>
@@ -36,11 +35,11 @@
         </div>
     </form>
 
-    <?php if (empty($quizzes)): ?>
+    <?php if ($show_no_quizzes): ?>
         <p>No quizzes found for this instructor.</p>
     <?php endif; ?>
 
-    <?php if ($selected_quiz && !empty($attempts)): ?>
+    <?php if ($show_attempts_table): ?>
     <table>
         <thead>
             <tr>
@@ -54,39 +53,41 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($attempts as $attempt): ?>
+            <?php foreach ($table_rows as $row): ?>
             <tr>
-                <td><?php echo (int)$attempt["row_number"]; ?></td>
-                <td><?php echo htmlspecialchars($attempt["student_name"]); ?></td>
-                <td><?php echo htmlspecialchars($attempt["score_display"]); ?></td>
-                <td><?php echo htmlspecialchars($attempt["duration_display"]); ?></td>
-                <td><?php echo htmlspecialchars($attempt["completed_at_display"]); ?></td>
+                <td><?php echo $row['row_number']; ?></td>
+                <td><?php echo $row['student_name']; ?></td>
+                <td><?php echo $row['score_display']; ?></td>
+                <td><?php echo $row['duration_display']; ?></td>
+                <td><?php echo $row['completed_at_display']; ?></td>
                 <td>
-                    <span class="badge <?php echo htmlspecialchars($attempt["status_class"]); ?>">
-                        <?php echo htmlspecialchars($attempt["status_label"]); ?>
+                    <span class="badge <?php echo $row['status_class']; ?>">
+                        <?php echo $row['status_label']; ?>
                     </span>
                 </td>
                 <td>
-                    <a href="result.php?attempt_id=<?php echo (int)$attempt["attempt_id"]; ?>">View</a>
+                    <a href="result.php?attempt_id=<?php echo $row['attempt_id']; ?>">View</a>
                 </td>
             </tr>
             <?php endforeach; ?>
         </tbody>
         <tfoot>
+            <?php if ($show_summary): ?>
             <tr>
                 <td colspan="2">Class Summary</td>
                 <td>
-                    Avg: <?php echo htmlspecialchars($analytics_summary["average"]); ?> |
-                    High: <?php echo htmlspecialchars($analytics_summary["highest"]); ?> |
-                    Low: <?php echo htmlspecialchars($analytics_summary["lowest"]); ?>
+                    Avg: <?php echo $summary_data['average']; ?> |
+                    High: <?php echo $summary_data['highest']; ?> |
+                    Low: <?php echo $summary_data['lowest']; ?>
                 </td>
-                <td colspan="2">Pass Rate: <?php echo htmlspecialchars($analytics_summary["pass_rate"]); ?>%</td>
+                <td colspan="2">Pass Rate: <?php echo $summary_data['pass_rate']; ?>%</td>
                 <td colspan="2"></td>
             </tr>
+            <?php endif; ?>
         </tfoot>
     </table>
 
-    <?php elseif ($selected_quiz): ?>
+    <?php elseif ($show_no_attempts): ?>
         <p>No completed attempts found for this quiz yet. Choose a quiz with an attempts count above 0.</p>
     <?php endif; ?>
 </div>

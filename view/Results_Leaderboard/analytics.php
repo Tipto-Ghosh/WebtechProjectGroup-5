@@ -16,7 +16,7 @@
 <div class="container">
     <h2>Instructor Analytics</h2>
 
-    <?php if ($show_error): ?>
+    <?php if (!empty($analytics_error)): ?>
         <p><?php echo htmlspecialchars($analytics_error); ?></p>
     <?php endif; ?>
 
@@ -25,9 +25,10 @@
         <div class="form-row">
             <select name="quiz_id">
                 <option value="">-- Select a Quiz --</option>
-                <?php foreach ($quiz_options as $option): ?>
-                <option value="<?php echo $option['value']; ?>" <?php echo $option['selected'] ? 'selected' : ''; ?>>
-                    <?php echo $option['label']; ?>
+                <?php foreach ($quizzes as $quiz): ?>
+                <option value="<?php echo (int)$quiz["id"]; ?>"
+                    <?php echo (int)$selected_quiz === (int)$quiz["id"] ? "selected" : ""; ?>>
+                    <?php echo htmlspecialchars($quiz["option_label"]); ?>
                 </option>
                 <?php endforeach; ?>
             </select>
@@ -35,15 +36,15 @@
         </div>
     </form>
 
-    <?php if ($show_no_quizzes): ?>
+    <?php if (empty($quizzes)): ?>
         <p>No quizzes found for this instructor.</p>
     <?php endif; ?>
 
-    <?php if ($show_attempts_table): ?>
+    <?php if ($selected_quiz && !empty($attempts)): ?>
     <table>
         <thead>
             <tr>
-                <th>Serial</th>
+                <th>#</th>
                 <th>Student</th>
                 <th>Score</th>
                 <th>Duration</th>
@@ -53,41 +54,39 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($table_rows as $row): ?>
+            <?php foreach ($attempts as $attempt): ?>
             <tr>
-                <td><?php echo $row['row_number']; ?></td>
-                <td><?php echo $row['student_name']; ?></td>
-                <td><?php echo $row['score_display']; ?></td>
-                <td><?php echo $row['duration_display']; ?></td>
-                <td><?php echo $row['completed_at_display']; ?></td>
+                <td><?php echo (int)$attempt["row_number"]; ?></td>
+                <td><?php echo htmlspecialchars($attempt["student_name"]); ?></td>
+                <td><?php echo htmlspecialchars($attempt["score_display"]); ?></td>
+                <td><?php echo htmlspecialchars($attempt["duration_display"]); ?></td>
+                <td><?php echo htmlspecialchars($attempt["completed_at_display"]); ?></td>
                 <td>
-                    <span class="badge <?php echo $row['status_class']; ?>">
-                        <?php echo $row['status_label']; ?>
+                    <span class="badge <?php echo htmlspecialchars($attempt["status_class"]); ?>">
+                        <?php echo htmlspecialchars($attempt["status_label"]); ?>
                     </span>
                 </td>
                 <td>
-                    <a href="result.php?attempt_id=<?php echo $row['attempt_id']; ?>">View</a>
+                    <a href="result.php?attempt_id=<?php echo (int)$attempt["attempt_id"]; ?>">View</a>
                 </td>
             </tr>
             <?php endforeach; ?>
         </tbody>
         <tfoot>
-            <?php if ($show_summary): ?>
             <tr>
                 <td colspan="2">Class Summary</td>
                 <td>
-                    Avg: <?php echo $summary_data['average']; ?> |
-                    High: <?php echo $summary_data['highest']; ?> |
-                    Low: <?php echo $summary_data['lowest']; ?>
+                    Avg: <?php echo htmlspecialchars($analytics_summary["average"]); ?> |
+                    High: <?php echo htmlspecialchars($analytics_summary["highest"]); ?> |
+                    Low: <?php echo htmlspecialchars($analytics_summary["lowest"]); ?>
                 </td>
-                <td colspan="2">Pass Rate: <?php echo $summary_data['pass_rate']; ?>%</td>
+                <td colspan="2">Pass Rate: <?php echo htmlspecialchars($analytics_summary["pass_rate"]); ?>%</td>
                 <td colspan="2"></td>
             </tr>
-            <?php endif; ?>
         </tfoot>
     </table>
 
-    <?php elseif ($show_no_attempts): ?>
+    <?php elseif ($selected_quiz): ?>
         <p>No completed attempts found for this quiz yet. Choose a quiz with an attempts count above 0.</p>
     <?php endif; ?>
 </div>

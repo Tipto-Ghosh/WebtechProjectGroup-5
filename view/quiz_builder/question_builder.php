@@ -107,14 +107,27 @@ function getQuizStatusLabel(string $status): string
                                     </div>
 
                                     <div class="field_group">
-                                        <label for="correct_answer">Correct Answer <span class="required_mark">*</span></label>
-                                        <select id="correct_answer" name="correct_answer" required>
-                                            <option value="">Select correct option</option>
-                                            <option value="A">Option A</option>
-                                            <option value="B">Option B</option>
-                                            <option value="C">Option C</option>
-                                            <option value="D">Option D</option>
-                                        </select>
+                                        <label>Correct Answer <span class="required_mark">*</span></label>
+                                        <div class="correct_options">
+                                            <div class="correct_options">
+                                                <label class="correct_option_item">
+                                                    <input id="correct_opt_a" type="radio" name="correct_option" value="A" required>
+                                                    <span>Option A</span>
+                                                </label>
+                                                <label class="correct_option_item">
+                                                    <input id="correct_opt_b" type="radio" name="correct_option" value="B">
+                                                    <span>Option B</span>
+                                                </label>
+                                                <label class="correct_option_item">
+                                                    <input id="correct_opt_c" type="radio" name="correct_option" value="C">
+                                                    <span>Option C</span>
+                                                </label>
+                                                <label class="correct_option_item">
+                                                    <input id="correct_opt_d" type="radio" name="correct_option" value="D">
+                                                    <span>Option D</span>
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -200,10 +213,10 @@ function getQuizStatusLabel(string $status): string
                                             <div class="question_card_footer">
                                                 <div class="card_marks"><?php echo (int) ($question["marks"] ?? 0); ?> pts</div>
                                                 <div class="card_actions">
-                                                    <button class="btn_icon btn_edit" type="button" title="Edit question" aria-label="Edit question">
+                                                    <button class="btn_icon btn_edit" type="button" data-action="edit" title="Edit question" aria-label="Edit question">
                                                         ✎ Edit
                                                     </button>
-                                                    <button class="btn_icon btn_delete" type="button" title="Delete question" aria-label="Delete question">
+                                                    <button class="btn_icon btn_delete" type="button" data-action="delete" title="Delete question" aria-label="Delete question">
                                                         🗑 Delete
                                                     </button>
                                                 </div>
@@ -212,7 +225,7 @@ function getQuizStatusLabel(string $status): string
                                     <?php endforeach; ?>
                                 </div>
                             <?php endif; ?>
-                                    <script src="../../controller/js/quiz_builder.js"></script>
+                                    <script src="../../controller/js/question_builder.js"></script>
                         </section>
                     </div>
                 </main>

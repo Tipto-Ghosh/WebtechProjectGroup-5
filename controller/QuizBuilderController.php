@@ -104,7 +104,7 @@ class QuizBuilderController
     public function getQuizFormData(): array
     {
         $mode = isset($_GET["mode"]) && $_GET["mode"] === "edit" ? "edit" : "create";
-        $quizId = $this->resolveQuizId();
+        $quizId = $mode === "create" ? 0 : $this->resolveQuizId();
         $quiz = $this->quizFromDatabase($quizId);
 
         if (empty($quiz)) {

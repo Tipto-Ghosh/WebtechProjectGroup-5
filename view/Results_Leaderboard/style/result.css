@@ -132,3 +132,8 @@ td.answer-wrong {
 .back-button:hover {
     background: #0056b3;
 }
+
+.back-button-container {
+    text-align: center;
+    margin-top: 20px;
+}

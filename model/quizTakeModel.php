@@ -1,10 +1,17 @@
 <?php
+
 include "../config/dbConnection.php";
 
-function get_quiz_id($attemptId) {
+class quizTakeDb{
+    
+function get_quiz_info($attemptId) {
     $connection = get_database_connection();
-    $sql = "SELECT quiz_id FROM attempts WHERE id = '".$attemptId."'";
-    $result = $connection->query($sql);
+    $quizId = $connection->query("SELECT quiz_id FROM attempts WHERE id = '".$attemptId."'");
+    $title = $connection->query("SELECT title FROM quiz WHERE id = '".$quizId."'");
+    $instructorId = $connection->query("SELECT instructor_id FROM quiz WHERE id = '".$quizId."'");
+    $instructorName = $connection->query("SELECT name FROM users WHERE id =".$instructorId."'");
+
+    $result = ["quizId"=>$quizId,"title"=>$title, "instructor"=>$instructorName];
     return $result;
 }
 
@@ -18,15 +25,6 @@ function get_quiz($quizId) {
             ORDER BY q.order_index";
     $quiz = $connection->query($sql);
     $result = $quiz->fetch_all(MYSQLI_ASSOC);
-    return $result;
-}
-
-function get_Instructor($quizId) {
-    $connection = get_database_connection();
-    $sql = "SELECT instructor_id FROM quizzes WHERE id =".$quizId."'";
-    $instructorId = $connection->query($sql);
-    $sql = "SELECT name FROM users WHERE id =".$instructorId."'";
-    $result = $connection->query($sql);
     return $result;
 }
 
@@ -65,5 +63,5 @@ function getCorrectAnswerID($quesID) {
     $connection = get_database_connection();
     $sql = "SELECT id FROM options WHERE question_id = '".$quesID."' AND is_correct = 1";
 }
-
+}
 ?>

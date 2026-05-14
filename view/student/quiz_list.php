@@ -18,11 +18,11 @@ if(session_status() === PHP_SESSION_NONE) {
         <p id="noQuizzes" name="noQuizzes"></p>
     </div>
 
-    <div>
-      <button id="back" name="back">Back</button>
-    </div>
+    <form method="POST" action="">
+        <input type="hidden" name="goDashboard" value="1">
+        <button id="back" name="back" type="submit">Back</button>
+    </form>
   </form>
   <script src="../../controller/js/quizListView.js" defer></script>
 </body>
 </html>
-

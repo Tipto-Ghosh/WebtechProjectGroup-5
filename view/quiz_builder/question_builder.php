@@ -74,6 +74,59 @@ function getQuizMetaText(array $quiz): string
                             <div class="quiz_info_marks"><?php echo (int) ($quiz["total_marks"] ?? 0); ?> total marks</div>
                         </div>
                     </section>
+                    <div class="builder_grid">
+                        <section class="question_form_section">
+                            <div class="section_header">
+                                <h2>Add New Question</h2>
+                                <span class="question_type_label">MCQ 4 options</span>
+                            </div>
+
+                            <form id="question_form" class="question_form" method="post" action="#">
+                                <div class="field_group field_group_full">
+                                    <label for="question_text">Question Text <span class="required_mark">*</span></label>
+                                    <textarea id="question_text" name="question_text" rows="3" placeholder="Enter the question text" required></textarea>
+                                </div>
+
+                                <div class="form_row">
+                                    <div class="field_group">
+                                        <label for="marks">Marks <span class="required_mark">*</span></label>
+                                        <input id="marks" name="marks" type="number" min="1" step="1" value="1" required>
+                                    </div>
+
+                                    <div class="field_group">
+                                        <label for="correct_answer">Correct Answer <span class="required_mark">*</span></label>
+                                        <select id="correct_answer" name="correct_answer" required>
+                                            <option value="">Select correct option</option>
+                                            <option value="A">Option A</option>
+                                            <option value="B">Option B</option>
+                                            <option value="C">Option C</option>
+                                            <option value="D">Option D</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form_section_label">Options (Exactly 4 Required)</div>
+
+                                <div class="options_grid">
+                                    <div class="option_input_group">
+                                        <div class="option_label">
+                                            <input type="radio" name="option_select" value="A" id="opt_a">
+                                            <label for="opt_a">A</label>
+                                        </div>
+                                        <input class="option_input" type="text" name="option_a" placeholder="Enter option A" required>
+                                    </div>
+
+                                    <div class="option_input_group">
+                                        <div class="option_label">
+                                            <input type="radio" name="option_select" value="B" id="opt_b">
+                                            <label for="opt_b">B</label>
+                                        </div>
+                                        <input class="option_input" type="text" name="option_b" placeholder="Enter option B" required>
+                                    </div>
+                            </form>
+
+                        </section>
+                    </div>
                 </main>
             </div>        
         </div>

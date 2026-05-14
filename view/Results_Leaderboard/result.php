@@ -40,7 +40,7 @@
     <table>
         <thead>
             <tr>
-                <th>#</th>
+                <th>Serial</th>
                 <th>Question</th>
                 <th>Your Answer</th>
                 <th>Correct Answer</th>

@@ -27,6 +27,24 @@ function getQuizStatusLabel(string $status): string
 {
     return $status === "published" ? "Published" : "Draft";
 }
+
+function getCurrentInstructorName(): string
+{
+    if (!empty($_SESSION["valid_user_data"]["full_name"])) {
+        return trim((string) $_SESSION["valid_user_data"]["full_name"]);
+    }
+    return trim((string) ($_SESSION["user_name"] ?? "Prottoy Roy"));
+}
+
+function getCurrentInstructorInitials(string $name): string
+{
+    $parts = preg_split('/\s+/', trim($name)) ?: array();
+    $initials = "";
+    foreach (array_slice($parts, 0, 2) as $part) {
+        $initials .= strtoupper(substr($part, 0, 1));
+    }
+    return $initials !== "" ? $initials : "PR";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,9 +71,10 @@ function getQuizStatusLabel(string $status): string
                 </nav>
 
                 <section class="sidebar_user" aria-label="Current user">
-                    <div class="avatar">PR</div>
+                    <?php $currentInstructorName = getCurrentInstructorName(); ?>
+                    <div class="avatar"><?php echo htmlspecialchars(getCurrentInstructorInitials($currentInstructorName)); ?></div>
                     <div>
-                        <div class="user_name">Prottoy Roy</div>
+                        <div class="user_name"><?php echo htmlspecialchars($currentInstructorName); ?></div>
                         <div class="user_role">Instructor</div>
                     </div>
                 </section>

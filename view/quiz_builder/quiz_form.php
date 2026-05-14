@@ -43,6 +43,23 @@ function getQuizTotalMarksLabel(array $quiz): string
 
 	return (string) $totalMarks;
 }
+
+function getCurrentInstructorName(): string
+{
+	return trim((string) ($_SESSION["user_name"] ?? "Prottoy Roy"));
+}
+
+function getCurrentInstructorInitials(string $name): string
+{
+	$parts = preg_split('/\s+/', trim($name)) ?: array();
+	$initials = "";
+
+	foreach (array_slice($parts, 0, 2) as $part) {
+		$initials .= strtoupper(substr($part, 0, 1));
+	}
+
+	return $initials !== "" ? $initials : "PR";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,9 +86,10 @@ function getQuizTotalMarksLabel(array $quiz): string
 				</nav>
 
 				<section class="sidebar_user" aria-label="Current user">
-					<div class="avatar">PR</div>
+						<?php $currentInstructorName = getCurrentInstructorName(); ?>
+						<div class="avatar"><?php echo htmlspecialchars(getCurrentInstructorInitials($currentInstructorName)); ?></div>
 					<div>
-						<div class="user_name">Prottoy Roy</div>
+						<div class="user_name"><?php echo htmlspecialchars($currentInstructorName); ?></div>
 						<div class="user_role">Instructor</div>
 					</div>
 				</section>
@@ -121,17 +139,21 @@ function getQuizTotalMarksLabel(array $quiz): string
 							<?php endif; ?>
 							<input type="hidden" name="mode" value="<?php echo htmlspecialchars($mode); ?>">
 							<input type="hidden" name="action" value="<?php echo $mode === "edit" ? "update_quiz" : "create_quiz"; ?>">
+							<?php
+							$titlePlaceholder = $mode === "create" ? "Add a descriptive quiz title" : "Enter a descriptive quiz title";
+							$descriptionPlaceholder = $mode === "create" ? "Add a short description for the quiz" : "Add a short description for the quiz";
+							?>
 
 							<div class="form_section_label">Basic Information</div>
 
 							<div class="field_group field_group_full">
 								<label for="quiz_title">Quiz Title <span class="required_mark">*</span></label>
-								<input id="quiz_title" name="title" type="text" value="<?php echo htmlspecialchars((string) ($quiz["title"] ?? "")); ?>" placeholder="Enter a descriptive quiz title" required maxlength="200">
+								<input id="quiz_title" name="title" type="text" value="<?php echo htmlspecialchars((string) ($quiz["title"] ?? "")); ?>" placeholder="<?php echo htmlspecialchars($titlePlaceholder); ?>" required maxlength="200">
 								<div class="field_hint">Choose a clear, descriptive title for students</div>
 							</div>
 							<div class="field_group field_group_full">
 								<label for="quiz_description">Description</label>
-								<textarea id="quiz_description" name="description" rows="4" placeholder="Add a short description for the quiz"><?php echo htmlspecialchars((string) ($quiz["description"] ?? "")); ?></textarea>
+								<textarea id="quiz_description" name="description" rows="4" placeholder="<?php echo htmlspecialchars($descriptionPlaceholder); ?>"><?php echo htmlspecialchars((string) ($quiz["description"] ?? "")); ?></textarea>
 							</div>
 							<div class="form_section_label">Configuration</div>
 								<div class="form_grid">

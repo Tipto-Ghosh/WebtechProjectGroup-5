@@ -35,7 +35,7 @@
         
         <div class="buttons">
             <button id="back" name="back" onclick="viewQuizlist()">Back</button>
-            <input type="submit" name="submit" id="submit"></button>
+            <input type="submit" name="submit" id="submit">
         </div>
 
     </form>

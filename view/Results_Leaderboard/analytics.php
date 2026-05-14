@@ -44,7 +44,7 @@
     <table>
         <thead>
             <tr>
-                <th>#</th>
+                <th>Serial</th>
                 <th>Student</th>
                 <th>Score</th>
                 <th>Duration</th>

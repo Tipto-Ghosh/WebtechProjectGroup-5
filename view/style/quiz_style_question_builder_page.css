@@ -303,3 +303,154 @@
 	color: #2A6049;
 	white-space: nowrap;
 }
+.card_actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: .4rem;
+	flex-wrap: wrap;
+}
+
+.option_badge {
+	display: inline-block;
+	background: #F0EDE5;
+	border: 1px solid #E4E1D9;
+	border-radius: 6px;
+	padding: .4rem .65rem;
+	font-size: 12px;
+	font-weight: 600;
+	color: #5C5750;
+}
+
+.option_badge.option_correct {
+	background: #E9F3EE;
+	border-color: #CDE2D8;
+	color: #2A6049;
+}
+
+.btn_icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .3rem;
+	height: 32px;
+	padding: 0 .8rem;
+	border-radius: 6px;
+	border: 1px solid transparent;
+	font: inherit;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.btn_edit {
+	background: #E9F3EE;
+	color: #2A6049;
+	border-color: #CDE2D8;
+}
+
+.btn_edit:hover {
+	background: #D8EAE0;
+	border-color: #B8D5C8;
+}
+
+.btn_delete {
+	background: #FEE9E7;
+	color: #B42318;
+	border-color: #F6C4BE;
+}
+
+.btn_delete:hover {
+	background: #FDD6CF;
+	border-color: #F0A89E;
+}
+
+.empty_state {
+	text-align: center;
+	padding: 2rem 1rem;
+	color: #8A8783;
+}
+
+.empty_title {
+	margin: 0 0 .35rem;
+	color: #1C1A17;
+	font-size: 16px;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 1280px) {
+	.builder_grid {
+		grid-template-columns: 1fr;
+	}
+
+	.question_card_options .options_preview {
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	}
+}
+
+@media (max-width: 900px) {
+	.section_header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.question_card_header {
+		grid-template-columns: 40px 1fr;
+		gap: .75rem;
+	}
+
+	.question_number {
+		width: 40px;
+		height: 40px;
+		font-size: 16px;
+	}
+
+	.question_card_options .options_preview {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 768px) {
+	.quiz_info_header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.form_row {
+		grid-template-columns: 1fr;
+	}
+
+	.question_form_section,
+	.questions_list_section {
+		padding: 1rem;
+	}
+
+	.question_card {
+		padding: .75rem;
+	}
+
+	.question_card_header {
+		grid-template-columns: 36px 1fr;
+		gap: .6rem;
+	}
+
+	.question_number {
+		width: 36px;
+		height: 36px;
+		font-size: 14px;
+	}
+
+	.question_card .question_text {
+		font-size: 14px;
+	}
+
+	.card_actions {
+		flex-direction: column;
+		align-items: flex-end;
+	}
+
+	.btn_icon {
+		width: 100%;
+		justify-content: flex-start;
+	}
+}

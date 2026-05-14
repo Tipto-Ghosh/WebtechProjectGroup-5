@@ -2,15 +2,13 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
 include __DIR__ . "/../model/quizListModel.php";
 
 header('Content-Type: application/json');
 
-$datafile = "../studentData.json";
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    //$userId = $_SESSION['user_id'] ?? null;
+//$userId = $_SESSION['user_id'] ?? null;
     $userId =1;
     if ($userId === null) {
         echo json_encode(["error" => "User not logged in"]);

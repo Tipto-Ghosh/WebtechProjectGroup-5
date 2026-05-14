@@ -20,6 +20,7 @@
         <p><?php echo htmlspecialchars($analytics_error); ?></p>
     <?php endif; ?>
 
+    <!-- Quiz selector — submits to same page via GET -->
     <form method="GET" action="">
         <div class="form-row">
             <select name="quiz_id">

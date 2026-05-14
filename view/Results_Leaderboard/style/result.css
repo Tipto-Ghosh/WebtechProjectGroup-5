@@ -129,6 +129,10 @@ td.answer-wrong {
     margin: 0;
 }
 
+.close-form {
+    margin: 0;
+}
+
 .close-button,
 .back-button {
     display: inline-block;
@@ -136,8 +140,11 @@ td.answer-wrong {
     background: #007bff;
     color: #fff;
     text-decoration: none;
+    border: none;
+    cursor: pointer;
     border-radius: 5px;
     transition: background 0.2s ease;
+    font: inherit;
 }
 
 .close-button:hover,

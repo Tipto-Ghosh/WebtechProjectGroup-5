@@ -2,6 +2,18 @@
 include "../../controller/QuizBuilderController.php";
 
 $controller = new QuizBuilderController();
+$formError = "";
+
+$submission = $controller->processQuizFormSubmission();
+if (!empty($submission["redirect"])) {
+	header("Location: " . $submission["redirect"]);
+	exit;
+}
+
+if (($submission["message"] ?? "") !== "") {
+	$formError = (string) $submission["message"];
+}
+
 $pageData = $controller->getQuizFormData();
 $quiz = isset($pageData["quiz"]) && is_array($pageData["quiz"]) ? $pageData["quiz"] : array();
 $pageTitle = isset($pageData["page_title"]) ? $pageData["page_title"] : "Create New Quiz";
@@ -86,6 +98,15 @@ function getQuizTotalMarksLabel(array $quiz): string
 							<div class="info_banner_text">The quiz stays in draft until you add at least one question and publish it later.</div>
 						</div>
 					</section>
+					<?php if ($formError !== ""): ?>
+						<section class="info_banner" aria-label="Quiz save error">
+							<div class="info_banner_icon">!</div>
+							<div>
+								<div class="info_banner_title">Could not save quiz</div>
+								<div class="info_banner_text"><?php echo htmlspecialchars($formError); ?></div>
+							</div>
+						</section>
+					<?php endif; ?>
 					<section class="quiz_form_card">
 						<div class="quiz_form_card_header">
 							<div>
@@ -99,6 +120,7 @@ function getQuizTotalMarksLabel(array $quiz): string
 								<input type="hidden" name="quiz_id" value="<?php echo (int) $quiz["id"]; ?>">
 							<?php endif; ?>
 							<input type="hidden" name="mode" value="<?php echo htmlspecialchars($mode); ?>">
+							<input type="hidden" name="action" value="<?php echo $mode === "edit" ? "update_quiz" : "create_quiz"; ?>">
 
 							<div class="form_section_label">Basic Information</div>
 

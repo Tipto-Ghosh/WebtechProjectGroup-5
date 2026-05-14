@@ -8,6 +8,8 @@ $questions = isset($pageData["questions"]) && is_array($pageData["questions"]) ?
 $pageTitle = isset($pageData["page_title"]) ? $pageData["page_title"] : "Question Builder";
 $pageSubtitle = isset($pageData["page_subtitle"]) ? $pageData["page_subtitle"] : "Add, edit, and manage MCQ questions for your quiz";
 $breadcrumbs = isset($pageData["breadcrumbs"]) && is_array($pageData["breadcrumbs"]) ? $pageData["breadcrumbs"] : array("My Quizzes", "Question Builder");
+$apiEndpoint = isset($pageData["api_endpoint"]) ? $pageData["api_endpoint"] : "../../controller/QuizBuilderController.php";
+$publishButtonLabel = isset($pageData["publish_button_label"]) ? $pageData["publish_button_label"] : "Publish Quiz";
 
 function getQuizMetaText(array $quiz): string
 {
@@ -27,7 +29,7 @@ function getQuizStatusLabel(string $status): string
 }
 ?>
 <!DOCTYPE html>
-<html lang="eng">
+<html lang="en">
     <head>
         <title>QuizMaker</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,10 +67,10 @@ function getQuizStatusLabel(string $status): string
                     </div>
                     <div class="header_actions">
                         <a class="btn btn_secondary" href="quiz_list.php">Back</a>
-                        <button class="btn btn_primary" type="button"> Publish Quiz</button>
+                        <button class="btn btn_primary" id="quiz_toggle_button" type="button" data-quiz-id="<?php echo (int) ($quiz["id"] ?? 0); ?>"><?php echo htmlspecialchars($publishButtonLabel); ?></button>
                     </div>
                 </header>
-                <main class="content question_builder_page">
+                <main class="content question_builder_page" data-endpoint="<?php echo htmlspecialchars($apiEndpoint); ?>" data-quiz-id="<?php echo (int) ($quiz["id"] ?? 0); ?>" data-quiz-status="<?php echo htmlspecialchars((string) ($quiz["status"] ?? "draft")); ?>">
                     <section class="page_head">
                         <h1><?php echo htmlspecialchars($pageTitle); ?></h1>
                         <div class="page_subtitle"><?php echo htmlspecialchars($pageSubtitle); ?></div>
@@ -77,10 +79,10 @@ function getQuizStatusLabel(string $status): string
                     <section class="quiz_info_card">
                         <div class="quiz_info_header">
                             <div>
-                                <div class="quiz_info_title"><?php echo htmlspecialchars($quiz["title"] ?? ""); ?></div>
-                                <div class="quiz_info_meta"><?php echo htmlspecialchars(getQuizMetaText($quiz)); ?></div>
+                                <div class="quiz_info_title"><?php echo htmlspecialchars($quiz["title"] ?? ""); ?> <span id="quiz_status_badge" class="badge <?php echo getQuizStatusBadgeClass((string) ($quiz["status"] ?? "draft")); ?>"><?php echo htmlspecialchars(getQuizStatusLabel((string) ($quiz["status"] ?? "draft"))); ?></span></div>
+                                <div id="quiz_meta_text" class="quiz_info_meta"><?php echo htmlspecialchars(getQuizMetaText($quiz)); ?></div>
                             </div>
-                            <div class="quiz_info_marks"><?php echo (int) ($quiz["total_marks"] ?? 0); ?> total marks</div>
+                            <div id="quiz_total_marks" class="quiz_info_marks"><?php echo (int) ($quiz["total_marks"] ?? 0); ?> total marks</div>
                         </div>
                     </section>
                     <div class="builder_grid">
@@ -90,7 +92,9 @@ function getQuizStatusLabel(string $status): string
                                 <span class="question_type_label">MCQ 4 options</span>
                             </div>
 
-                            <form id="question_form" class="question_form" method="post" action="#">
+                            <form id="question_form" class="question_form" method="post" action="<?php echo htmlspecialchars($apiEndpoint); ?>">
+                                <input type="hidden" name="action" value="create_question">
+                                <input type="hidden" name="quiz_id" value="<?php echo (int) ($quiz["id"] ?? 0); ?>">
                                 <div class="field_group field_group_full">
                                     <label for="question_text">Question Text <span class="required_mark">*</span></label>
                                     <textarea id="question_text" name="question_text" rows="3" placeholder="Enter the question text" required></textarea>
@@ -158,7 +162,7 @@ function getQuizStatusLabel(string $status): string
                             <div class="section_header">
                                 <h2>Questions</h2>
                                 <div class="section_meta">
-                                    <span class="question_count"><?php echo (int) ($quiz["question_count"] ?? 0); ?> questions</span>
+                                    <span id="question_count_value" class="question_count"><?php echo (int) ($quiz["question_count"] ?? 0); ?> questions</span>
                                     <span class="total_marks"><?php echo (int) ($quiz["total_marks"] ?? 0); ?> pts</span>
                                 </div>
                             </div>
@@ -169,9 +173,9 @@ function getQuizStatusLabel(string $status): string
                                     <p>Start by adding your first MCQ question using the form on the left.</p>
                                 </div>
                             <?php else: ?>
-                                <div class="questions_list">
+                                <div class="questions_list" id="questions_list">
                                     <?php foreach ($questions as $index => $question): ?>
-                                        <article class="question_card" data-question-id="<?php echo (int) $question["id"]; ?>">
+                                        <article class="question_card" data-question-id="<?php echo (int) $question["id"]; ?>" data-question-index="<?php echo $index + 1; ?>" data-question-text="<?php echo htmlspecialchars($question["question_text"] ?? "", ENT_QUOTES); ?>" data-question-marks="<?php echo (int) ($question["marks"] ?? 0); ?>" data-correct-option="<?php echo htmlspecialchars($question["correct_option"] ?? "", ENT_QUOTES); ?>" data-option-a="<?php echo htmlspecialchars($question["options"]["A"] ?? "", ENT_QUOTES); ?>" data-option-b="<?php echo htmlspecialchars($question["options"]["B"] ?? "", ENT_QUOTES); ?>" data-option-c="<?php echo htmlspecialchars($question["options"]["C"] ?? "", ENT_QUOTES); ?>" data-option-d="<?php echo htmlspecialchars($question["options"]["D"] ?? "", ENT_QUOTES); ?>">
                                             <div class="question_card_header">
                                                 <div class="question_number"><?php echo $index + 1; ?></div>
                                                 <div class="question_info">
@@ -208,6 +212,7 @@ function getQuizStatusLabel(string $status): string
                                     <?php endforeach; ?>
                                 </div>
                             <?php endif; ?>
+                                    <script src="../../controller/js/quiz_builder.js"></script>
                         </section>
                     </div>
                 </main>

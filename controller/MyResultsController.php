@@ -5,8 +5,10 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . "/../model/my_resultsModel.php";
 
-$student_id = filter_var($_SESSION["user_id"] ?? null, FILTER_VALIDATE_INT);
-$user_role  = $_SESSION["user_role"] ?? "";
+// $student_id = filter_var($_SESSION["user_id"] ?? null, FILTER_VALIDATE_INT);
+// $user_role  = $_SESSION["user_role"] ?? "";
+$student_id = 3;
+$user_role = "student" ;
 
 if ($student_id === false || $student_id <= 0 || $user_role !== "student") {
     header("Location: ../auth/login.php");

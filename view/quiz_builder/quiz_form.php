@@ -22,6 +22,9 @@ $mode = isset($pageData["mode"]) ? $pageData["mode"] : "create";
 $primaryActionLabel = isset($pageData["primary_action_label"]) ? $pageData["primary_action_label"] : "Save & Add Questions";
 $breadcrumbs = isset($pageData["breadcrumbs"]) && is_array($pageData["breadcrumbs"]) ? $pageData["breadcrumbs"] : array("My Quizzes", $pageTitle);
 
+$instructor_name = isset($pageData["instructor_name"]) ? (string) $pageData["instructor_name"] : "Instructor";
+$instructor_role = isset($pageData["instructor_role"]) ? (string) $pageData["instructor_role"] : "Instructor";
+
 function getQuizStatusBadgeClass(string $status): string
 {
 	return $status === "published" ? "badge-published" : "badge-draft";
@@ -63,16 +66,16 @@ function getQuizTotalMarksLabel(array $quiz): string
 
 				<nav class="nav_section" aria-label="Workspace">
 					<div class="nav-label">Workspace</div>
-					<a class="nav-item" href="#">Dashboard</a>
-					<a class="nav-item active" href="quiz_list.php">My Quizzes <span class="nav_badge">7</span></a>
-					<a class="nav-item" href="#">Analytics</a>
+					<a class="nav-item" href="dashboard.php">Dashboard</a>
+					<a class="nav-item active" href="#">My Quizzes <span class="nav_badge">7</span></a>
+					<a class="nav-item" href="../Results_Leaderboard/analytics.php">Analytics</a>
 				</nav>
 
 				<section class="sidebar_user" aria-label="Current user">
-					<div class="avatar">PR</div>
+					<div class="avatar"><?php echo htmlspecialchars(strtoupper(substr($instructor_name, 0, 1))); ?></div>
 					<div>
-						<div class="user_name">Prottoy Roy</div>
-						<div class="user_role">Instructor</div>
+						<div class="user_name"><?php echo htmlspecialchars($instructor_name); ?></div>
+						<div class="user_role"><?php echo htmlspecialchars($instructor_role); ?></div>
 					</div>
 				</section>
 			</aside>
@@ -82,7 +85,7 @@ function getQuizTotalMarksLabel(array $quiz): string
 						<?php echo htmlspecialchars($breadcrumbs[0] ?? "My Quizzes"); ?> <span class="breadcrumb_separator">&gt;</span> <strong><?php echo htmlspecialchars($breadcrumbs[1] ?? $pageTitle); ?></strong>
 					</div>
 					<div class="header_actions">
-						<a class="btn btn_secondary" href="quiz_list.php">Cancel</a>
+						<a class="btn btn_secondary" href="dashboard.php">Cancel</a>
 						<button class="btn btn_primary" type="submit" form="quiz_form"><?php echo htmlspecialchars($primaryActionLabel); ?></button>
 					</div>
 				</header>
@@ -121,17 +124,21 @@ function getQuizTotalMarksLabel(array $quiz): string
 							<?php endif; ?>
 							<input type="hidden" name="mode" value="<?php echo htmlspecialchars($mode); ?>">
 							<input type="hidden" name="action" value="<?php echo $mode === "edit" ? "update_quiz" : "create_quiz"; ?>">
+							<?php
+							$titlePlaceholder = $mode === "create" ? "Add a descriptive quiz title" : "Enter a descriptive quiz title";
+							$descriptionPlaceholder = $mode === "create" ? "Add a short description for the quiz" : "Add a short description for the quiz";
+							?>
 
 							<div class="form_section_label">Basic Information</div>
 
 							<div class="field_group field_group_full">
 								<label for="quiz_title">Quiz Title <span class="required_mark">*</span></label>
-								<input id="quiz_title" name="title" type="text" value="<?php echo htmlspecialchars((string) ($quiz["title"] ?? "")); ?>" placeholder="Enter a descriptive quiz title" required maxlength="200">
+								<input id="quiz_title" name="title" type="text" value="<?php echo htmlspecialchars((string) ($quiz["title"] ?? "")); ?>" placeholder="<?php echo htmlspecialchars($titlePlaceholder); ?>" required maxlength="200">
 								<div class="field_hint">Choose a clear, descriptive title for students</div>
 							</div>
 							<div class="field_group field_group_full">
 								<label for="quiz_description">Description</label>
-								<textarea id="quiz_description" name="description" rows="4" placeholder="Add a short description for the quiz"><?php echo htmlspecialchars((string) ($quiz["description"] ?? "")); ?></textarea>
+								<textarea id="quiz_description" name="description" rows="4" placeholder="<?php echo htmlspecialchars($descriptionPlaceholder); ?>"><?php echo htmlspecialchars((string) ($quiz["description"] ?? "")); ?></textarea>
 							</div>
 							<div class="form_section_label">Configuration</div>
 								<div class="form_grid">
@@ -159,7 +166,7 @@ function getQuizTotalMarksLabel(array $quiz): string
 										<span>Saving creates a draft - publish only when questions are ready</span>
 									</div>
 									<div class="form_actions">
-										<a class="btn btn_secondary" href="quiz_list.php">Discard</a>
+										<a class="btn btn_secondary" href="dashboard.php">Discard</a>
 										<button class="btn btn_primary" type="submit"><?php echo htmlspecialchars($primaryActionLabel); ?></button>
 									</div>
 								</div>

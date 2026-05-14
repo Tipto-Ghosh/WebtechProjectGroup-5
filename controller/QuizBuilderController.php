@@ -8,6 +8,22 @@ include_once __DIR__ . "/../model/quiz_builder_db.php";
 
 class QuizBuilderController
 {
+    private function ensureInstructorAccess(): void
+    {
+        if (!isset($_SESSION["user_id"]) || (string) ($_SESSION["user_role"] ?? "") !== "instructor") {
+            header("Location: ../auth/login.php");
+            exit;
+        }
+    }
+
+    private function instructorIdentity(): array
+    {
+        return array(
+            "instructor_name" => (string) ($_SESSION["user_name"] ?? "Instructor"),
+            "instructor_role" => "Instructor",
+        );
+    }
+
     private function currentInstructorId(): int
     {
         return quizBuilderCurrentInstructorId();
@@ -86,6 +102,7 @@ class QuizBuilderController
         if (!empty($response["success"])) {
             $savedQuizId = (int) ($response["quiz"]["id"] ?? 0);
             if ($savedQuizId > 0) {
+                unset($_SESSION["current_quiz_id"]); // clear session so next form load starts fresh
                 return array(
                     "success" => true,
                     "message" => (string) ($response["message"] ?? "Quiz saved"),
@@ -103,29 +120,30 @@ class QuizBuilderController
 
     public function getQuizFormData(): array
     {
-        $mode = isset($_GET["mode"]) && $_GET["mode"] === "edit" ? "edit" : "create";
-        $quizId = $mode === "create" ? 0 : $this->resolveQuizId();
+        $this->ensureInstructorAccess();
+        $instructor = $this->instructorIdentity();
+
+        $quizId = $this->resolveQuizId();
+        $mode = $quizId > 0 ? "edit" : "create";
         $quiz = $this->quizFromDatabase($quizId);
 
         if (empty($quiz)) {
+            if ($mode === "create") {
+                unset($_SESSION["current_quiz_id"]); // clear session for fresh create
+            }
+            $title = $mode === "create" ? "" : (string) ($_GET["title"] ?? "");
+            $description = $mode === "create" ? "" : (string) ($_GET["description"] ?? "");
+
             $quiz = $this->defaultQuiz(array(
                 "id" => $quizId,
-                "title" => $_GET["title"] ?? "",
-                "description" => $_GET["description"] ?? "",
+                "title" => $title,
+                "description" => $description,
                 "time_limit_minutes" => isset($_GET["time_limit_minutes"]) ? (int) $_GET["time_limit_minutes"] : 60,
                 "status" => $_GET["status"] ?? "draft",
             ));
         } else {
             $mode = "edit";
             $_SESSION["current_quiz_id"] = (int) $quiz["id"];
-        }
-
-        if (($quiz["title"] ?? "") === "") {
-            $quiz["title"] = "Web Technologies Final Exam";
-        }
-
-        if (($quiz["description"] ?? "") === "") {
-            $quiz["description"] = "Covers HTML5, CSS3, JavaScript fundamentals, PHP basics, and database concepts covered in the semester.";
         }
 
         return array(
@@ -135,6 +153,8 @@ class QuizBuilderController
             "quiz" => $quiz,
             "breadcrumbs" => array("My Quizzes", $mode === "edit" ? "Edit Quiz" : "Create New Quiz"),
             "primary_action_label" => $mode === "edit" ? "Save Changes" : "Save & Add Questions",
+            "instructor_name" => $instructor["instructor_name"],
+            "instructor_role" => $instructor["instructor_role"],
         );
     }
 
@@ -171,6 +191,9 @@ class QuizBuilderController
 
     public function getQuestionBuilderData(): array
     {
+        $this->ensureInstructorAccess();
+        $instructor = $this->instructorIdentity();
+
         $connection = getQuizBuilderConnection();
         $quizId = $this->resolveQuizId();
         $quiz = array();
@@ -209,6 +232,8 @@ class QuizBuilderController
             "api_endpoint" => "../../controller/QuizBuilderController.php",
             "publish_button_label" => (($quiz["status"] ?? "draft") === "published") ? "Unpublish Quiz" : "Publish Quiz",
             "can_publish" => (int) ($quiz["question_count"] ?? 0) > 0,
+            "instructor_name" => $instructor["instructor_name"],
+            "instructor_role" => $instructor["instructor_role"],
         );
     }
 
@@ -430,8 +455,30 @@ class QuizBuilderController
         return array("success" => true, "message" => $response["message"] ?? "Quiz status updated", "quiz" => $response["quiz"] ?? array());
     }
 
+    private function actionDeleteQuiz(array $data): array
+    {
+        $quizId = (int) ($data["quiz_id"] ?? 0);
+
+        if ($quizId <= 0) {
+            return array("success" => false, "message" => "Quiz id is required");
+        }
+
+        $connection = getQuizBuilderConnection();
+        $result = deleteQuiz($connection, $quizId, $this->currentInstructorId());
+
+        if (!$result) {
+            return array("success" => false, "message" => "Quiz not found or you do not have permission to delete it");
+        }
+
+        return array("success" => true, "message" => "Quiz deleted", "quiz_id" => $quizId);
+    }
+
     public function handleApiRequest(): array
     {
+        if (!isset($_SESSION["user_id"]) || (string) ($_SESSION["user_role"] ?? "") !== "instructor") {
+            return array("success" => false, "message" => "Unauthorized request");
+        }
+
         $data = $this->requestData();// get the combined request data from GET, POST, and raw input
         $action = strtolower(trim((string) ($data["action"] ?? ""))); // check the action data which is coming from the form the previous file.
 
@@ -461,6 +508,10 @@ class QuizBuilderController
 
         if ($action === "toggle_quiz") {
             return $this->actionToggleQuiz($data);
+        }
+
+        if ($action === "delete_quiz") {
+            return $this->actionDeleteQuiz($data);
         }
 
         return array("success" => false, "message" => "Unsupported action");

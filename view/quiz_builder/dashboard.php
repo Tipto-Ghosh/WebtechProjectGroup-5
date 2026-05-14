@@ -40,12 +40,12 @@ function getStatusBadgeClass($status){
         <nav class="nav_section" aria-label="Workspace">
             <div class="nav-label">Workspace</div>
             <a class="nav-item active" href="dashboard.php" aria-current="page">Dashboard</a>
-            <a class="nav-item" href="#">Analytics</a>
+            <a class="nav-item" href="../Results_Leaderboard/analytics.php">Analytics</a>
         </nav>
 
         <nav class="nav_section" aria-label="Account">
-            <div class="nav-label">Account</div>
-            <a class="nav_item" href="#">Profile</a>
+            <!--<div class="nav-label">Account</div>-->
+            <!--<a class="nav_item" href="#">Profile</a>-->
             <a class="nav_item nav_item_danger" href="../auth/login.php">Log Out</a>
         </nav>
 
@@ -65,7 +65,7 @@ function getStatusBadgeClass($status){
                 Dashboard <span class="breadcrumb_separator">></span> <strong>My Quizzes</strong>
             </div>
             <div class="header_actions">
-                <a class="btn btn_primary" href="quiz_form.php">Create Quiz</a>
+                <a class="btn btn_primary" href="quiz_form.php?quiz_id=0">Create Quiz</a>
             </div>
         </header>
 
@@ -149,7 +149,8 @@ function getStatusBadgeClass($status){
                             </div>
                             <div><?= htmlspecialchars(formatDateLabel($quiz['created_at'] ?? null)) ?></div>
                             <div class="actions">
-                                <a href="quiz_form.php?id=<?= (int)$quiz['id'] ?>" class="btn_secondary">Edit</a>
+                                <a href="quiz_form.php?quiz_id=<?= (int)$quiz['id'] ?>" class="btn_secondary">Edit</a>
+                                <button class="btn btn-delete" type="button" data-quiz-id="<?= (int)$quiz['id'] ?>" onclick="deleteQuiz(this)">Delete</button>
                             </div>
                         </article>
                     <?php endforeach; ?>
@@ -158,5 +159,6 @@ function getStatusBadgeClass($status){
         </main>
     </div>
 </div>
+<script src="../../controller/js/quiz_builder.js"></script>
 </body>
 </html>

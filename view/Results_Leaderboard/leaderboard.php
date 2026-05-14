@@ -31,10 +31,7 @@
     <table>
         <thead>
             <tr>
-                <th>Rank</th>
-                <th>Student</th>
-                <th>Total Score</th>
-                <th>Quizzes Taken</th>
+                <th>Rank</th><th>Student</th><th>Total Score</th><th>Quizzes Taken</th>
             </tr>
         </thead>
         <tbody id="leaderboard-body">

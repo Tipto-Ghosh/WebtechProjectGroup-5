@@ -72,8 +72,87 @@ if ($quiz_id !== false && $quiz_id > 0) {
                 "pass_rate" => round(($passed_count / count($attempts)) * 100, 1),
             ];
         }
-    } else {
-        $selected_quiz = "";
-        $analytics_error = "Selected quiz was not found for your account.";
     }
 }
+
+// Functions for view rendering
+function getQuizOptions($quizzes, $selected_quiz) {
+    $options = [];
+    foreach ($quizzes as $quiz) {
+        $options[] = [
+            'value' => (int)$quiz["id"],
+            'label' => htmlspecialchars($quiz["option_label"]),
+            'selected' => (int)$selected_quiz === (int)$quiz["id"]
+        ];
+    }
+    return $options;
+}
+
+function getTableData($attempts) {
+    $table_data = [];
+    foreach ($attempts as $attempt) {
+        $table_data[] = [
+            'row_number' => (int)$attempt["row_number"],
+            'student_name' => htmlspecialchars($attempt["student_name"]),
+            'score_display' => htmlspecialchars($attempt["score_display"]),
+            'duration_display' => htmlspecialchars($attempt["duration_display"]),
+            'completed_at_display' => htmlspecialchars($attempt["completed_at_display"]),
+            'status_label' => htmlspecialchars($attempt["status_label"]),
+            'status_class' => htmlspecialchars($attempt["status_class"]),
+            'attempt_id' => (int)$attempt["attempt_id"]
+        ];
+    }
+    return $table_data;
+}
+
+function getSummaryData($analytics_summary) {
+    if (!$analytics_summary) return null;
+
+    return [
+        'average' => htmlspecialchars($analytics_summary["average"]),
+        'highest' => htmlspecialchars($analytics_summary["highest"]),
+        'lowest' => htmlspecialchars($analytics_summary["lowest"]),
+        'pass_rate' => htmlspecialchars($analytics_summary["pass_rate"])
+    ];
+}
+
+function shouldShowQuizSelector($quizzes) {
+    return !empty($quizzes);
+}
+
+function shouldShowNoQuizzesMessage($quizzes) {
+    return empty($quizzes);
+}
+
+function shouldShowAttemptsTable($selected_quiz, $attempts) {
+    return $selected_quiz && !empty($attempts);
+}
+
+function shouldShowNoAttemptsMessage($selected_quiz, $attempts) {
+    return $selected_quiz && empty($attempts);
+}
+
+function shouldShowSummaryRow($analytics_summary) {
+    return !empty($analytics_summary);
+}
+
+function shouldShowErrorMessage($analytics_error) {
+    return !empty($analytics_error);
+}
+
+function prepareViewData($quizzes, $selected_quiz, $attempts, $analytics_summary, $analytics_error) {
+    return [
+        'show_error' => shouldShowErrorMessage($analytics_error),
+        'quiz_options' => getQuizOptions($quizzes, $selected_quiz),
+        'show_no_quizzes' => shouldShowNoQuizzesMessage($quizzes),
+        'show_attempts_table' => shouldShowAttemptsTable($selected_quiz, $attempts),
+        'table_rows' => shouldShowAttemptsTable($selected_quiz, $attempts) ? getTableData($attempts) : [],
+        'show_summary' => shouldShowSummaryRow($analytics_summary),
+        'summary_data' => shouldShowSummaryRow($analytics_summary) ? getSummaryData($analytics_summary) : null,
+        'show_no_attempts' => shouldShowNoAttemptsMessage($selected_quiz, $attempts)
+    ];
+}
+
+// Prepare view variables
+$view_data = prepareViewData($quizzes, $selected_quiz, $attempts, $analytics_summary, $analytics_error);
+extract($view_data);

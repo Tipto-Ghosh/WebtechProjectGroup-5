@@ -9,7 +9,7 @@
 <body>
 
 <nav>
-    <a href="analytics.php">Analytics</a>
+   
     <a href="leaderboard.php">Leaderboard</a>
     <a href="../student/dashboard.php">Dashboard</a>
 </nav>

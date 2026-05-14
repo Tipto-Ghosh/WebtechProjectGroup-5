@@ -15,9 +15,7 @@
         <a href="../student/dashboard.php">Dashboard</a>
     <?php elseif ($user_role === "instructor"): ?>
         <a href="analytics.php">Analytics</a>
-    <?php else: ?>
-        <a href="my_results.php">My Results</a>
-        <a href="analytics.php">Analytics</a>
+        <a href="../quiz_builder/dashboard.php">Dashboard</a>
     <?php endif; ?>
 </nav>
 

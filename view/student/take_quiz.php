@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
   <title>Take Quiz</title>
 </head>
 <body>
@@ -24,9 +23,13 @@
             <p>Time Remaining: <span id="timer"></span></p>
         </div>
 
-        <input type="hidden" name="attempt_id">
+        <input type="hidden" id="attempt_id" value="<?php echo $_GET['attempt']; ?>">
 
-        <div class="question"></div>
+        <div class="question">
+            <p id=question></p>
+            <p id=marks></p>
+            <input type="radio">
+        </div>
 
         <div id="times-up-banner" style="display:none;">Time's up!</div>
         
@@ -36,5 +39,6 @@
         </div>
 
     </form>
+    <script src="../../controller/js/quizTakeView.js" defer></script>
 </body>
 </html>

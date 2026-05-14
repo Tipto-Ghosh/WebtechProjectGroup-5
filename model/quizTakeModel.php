@@ -2,19 +2,37 @@
 
 include "../config/dbConnection.php";
 
-class quizTakeDb{
+class quizTakeModel{
     
 function get_quiz_info($attemptId) {
     $connection = get_database_connection();
-    $quizId = $connection->query("SELECT quiz_id FROM attempts WHERE id = '".$attemptId."'");
-    $title = $connection->query("SELECT title FROM quiz WHERE id = '".$quizId."'");
-    $instructorId = $connection->query("SELECT instructor_id FROM quiz WHERE id = '".$quizId."'");
-    $instructorName = $connection->query("SELECT name FROM users WHERE id = '".$instructorId."'");
-    $marks = $connection->query("SELECT total_marks FROM quizzes WHERE id = '".$quizId."'");
 
-    $result = ["quizId"=>$quizId,"title"=>$title, "instructor"=>$instructorName, "totalMarks"=>$marks];
-    return $result;
+    // Get quiz_id from attempts
+    $quizIdRes = $connection->query("SELECT quiz_id FROM attempts WHERE id = '".$attemptId."'");
+    $quizIdRow = $quizIdRes->fetch_assoc();
+    $quizId = $quizIdRow['quiz_id'];
+
+    // Get quiz info from quizzes table
+    $titleRes = $connection->query("SELECT title, instructor_id, total_marks FROM quizzes WHERE id = '".$quizId."'");
+    $titleRow = $titleRes->fetch_assoc();
+    $title = $titleRow['title'];
+    $instructorId = $titleRow['instructor_id'];
+    $marks = $titleRow['total_marks'];
+
+    // Get instructor name
+    $instrRes = $connection->query("SELECT name FROM users WHERE id = '".$instructorId."'");
+    $instrRow = $instrRes->fetch_assoc();
+    $instructorName = $instrRow['name'];
+
+    return [
+        "quizId"     => $quizId,
+        "title"      => $title,
+        "instructor" => $instructorName,
+        "totalMarks" => $marks
+    ];
 }
+
+
 
 function get_question_with_options($questionId) {
     $conn = get_database_connection();
@@ -25,7 +43,11 @@ function get_question_with_options($questionId) {
             JOIN options o ON q.id = o.question_id
             WHERE q.id = ?
             ORDER BY o.id";
-    $result = $conn->query($sql);
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $questionId);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     $question = null;
 
@@ -45,8 +67,10 @@ function get_question_with_options($questionId) {
             "is_correct"  => $row['is_correct']
         ];
     }
+
     return $question;
 }
+
 
 function get_all_questions($quizId) {
     $conn = get_database_connection();
@@ -67,34 +91,6 @@ function get_all_questions($quizId) {
     return $questions;
 }
 
-
-
-/*function get_quiz_questions($quizId) {
-    $connection = get_database_connection();
-    $sql ="SELECT q.id AS question_id, q.question_text, q.marks,
-                   o.id AS option_id, o.option_text, o.is_correct
-            FROM questions q
-            JOIN options o ON q.id = o.question_id
-            WHERE q.quiz_id = ?
-            ORDER BY q.order_index";
-    $quiz = $connection->query($sql);
-    $result = $quiz->fetch_all(MYSQLI_ASSOC);
-    return $result;
-}
-
-function get_questions_with_options($quizId) {
-    $connection = get_database_connection();
-    $sql = "SELECT q.id AS question_id, q.question_text, q.marks,
-                   o.id AS option_id, o.option_text, o.is_correct
-            FROM questions q
-            JOIN options o ON q.id = o.question_id
-            WHERE q.quiz_id = '".$quizId."'
-            ORDER BY q.order_index";
-    $quiz = $connection->query($sql);
-    $result = $quiz->fetch_all(MYSQLI_ASSOC);
-    return $result;
-}
-*/
 function update_attempts($attemptId, $score, $start, $end) {
     $connection = get_database_connection();
     $sql = "UPDATE attempts

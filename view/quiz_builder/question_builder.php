@@ -123,6 +123,24 @@ function getQuizMetaText(array $quiz): string
                                         </div>
                                         <input class="option_input" type="text" name="option_b" placeholder="Enter option B" required>
                                     </div>
+                                    <div class="option_input_group">
+                                        <div class="option_label">
+                                            <input type="radio" name="option_select" value="C" id="opt_c">
+                                            <label for="opt_c">C</label>
+                                        </div>
+                                        <input class="option_input" type="text" name="option_c" placeholder="Enter option C" required>
+                                    </div>
+
+                                    <div class="option_input_group">
+                                        <div class="option_label">
+                                            <input type="radio" name="option_select" value="D" id="opt_d">
+                                            <label for="opt_d">D</label>
+                                        </div>
+                                        <input class="option_input" type="text" name="option_d" placeholder="Enter option D" required>
+                                    </div>
+                                </div>
+
+                                 <button class="btn btn_primary btn_add_question" type="submit">+ Add Question to Quiz</button>
                             </form>
 
                         </section>

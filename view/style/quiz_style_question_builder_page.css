@@ -202,3 +202,23 @@
 	padding: .95rem 1.35rem !important;
 	min-height: 44px;
 }
+.questions_table_head,.questions_table_row {
+	display: none;
+}
+
+.questions_list {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.question_card {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: .75rem;
+	padding: 1rem;
+	background: #FFFDF8;
+	border: 1px solid #E4E1D9;
+	border-radius: 10px;
+	transition: box-shadow 160ms ease, border-color 160ms ease;
+}

@@ -9,6 +9,13 @@ $pageTitle = isset($pageData["page_title"]) ? $pageData["page_title"] : "Questio
 $pageSubtitle = isset($pageData["page_subtitle"]) ? $pageData["page_subtitle"] : "Add, edit, and manage MCQ questions for your quiz";
 $breadcrumbs = isset($pageData["breadcrumbs"]) && is_array($pageData["breadcrumbs"]) ? $pageData["breadcrumbs"] : array("My Quizzes", "Question Builder");
 
+function getQuizMetaText(array $quiz): string
+{
+    $time = (int) ($quiz["time_limit_minutes"] ?? 0);
+    $count = (int) ($quiz["question_count"] ?? 0);
+    $status = $quiz["status"] ?? "draft";
+    return $time . " min · " . ucfirst($status) . " · " . $count . " question" . ($count === 1 ? "" : "s");
+}
 ?>
 <!DOCTYPE html>
 <html lang="eng">
@@ -53,7 +60,20 @@ $breadcrumbs = isset($pageData["breadcrumbs"]) && is_array($pageData["breadcrumb
                     </div>
                 </header>
                 <main class="content question_builder_page">
+                    <section class="page_head">
+                        <h1><?php echo htmlspecialchars($pageTitle); ?></h1>
+                        <div class="page_subtitle"><?php echo htmlspecialchars($pageSubtitle); ?></div>
+                    </section>
 
+                    <section class="quiz_info_card">
+                        <div class="quiz_info_header">
+                            <div>
+                                <div class="quiz_info_title"><?php echo htmlspecialchars($quiz["title"] ?? ""); ?></div>
+                                <div class="quiz_info_meta"><?php echo htmlspecialchars(getQuizMetaText($quiz)); ?></div>
+                            </div>
+                            <div class="quiz_info_marks"><?php echo (int) ($quiz["total_marks"] ?? 0); ?> total marks</div>
+                        </div>
+                    </section>
                 </main>
             </div>        
         </div>

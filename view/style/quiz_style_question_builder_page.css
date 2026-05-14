@@ -1,1 +1,47 @@
 @import url("quiz_style_quiz_form_page.css");
+
+.question_builder_page {
+	padding-bottom: 2rem;
+}
+
+.quiz_info_card {
+	background: #FFFFFF;
+	border: 1px solid #E4E1D9;
+	border-radius: 18px;
+	box-shadow: 0 14px 34px rgba(28, 26, 23, 0.04);
+	overflow: hidden;
+	margin-bottom: 1.5rem;
+}
+
+.quiz_info_header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	padding: 1rem 1.25rem;
+}
+
+.quiz_info_title {
+	font-weight: 700;
+	font-size: 18px;
+	color: #1C1A17;
+}
+
+.quiz_info_meta {
+	margin-top: .2rem;
+	font-size: 13px;
+	color: #8A8783;
+}
+
+.quiz_info_marks {
+	font-size: 14px;
+	font-weight: 600;
+	color: #2A6049;
+}
+
+.builder_grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1.5rem;
+	align-items: start;
+}

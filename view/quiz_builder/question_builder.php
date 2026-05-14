@@ -16,6 +16,15 @@ function getQuizMetaText(array $quiz): string
     $status = $quiz["status"] ?? "draft";
     return $time . " min · " . ucfirst($status) . " · " . $count . " question" . ($count === 1 ? "" : "s");
 }
+function getQuizStatusBadgeClass(string $status): string
+{
+    return $status === "published" ? "badge-published" : "badge-draft";
+}
+
+function getQuizStatusLabel(string $status): string
+{
+    return $status === "published" ? "Published" : "Draft";
+}
 ?>
 <!DOCTYPE html>
 <html lang="eng">

@@ -117,3 +117,23 @@ td.answer-wrong {
     color: #721c24;
     font-weight: bold;
 }
+
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+}
+
+.back-button:hover {
+    background: #0056b3;
+}
+
+.back-button-container {
+    text-align: center;
+    margin-top: 20px;
+}

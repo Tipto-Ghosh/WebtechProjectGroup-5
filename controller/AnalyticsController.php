@@ -6,9 +6,10 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . "/../model/analyticsModel.php";
 
 // $instructor_id = filter_var($_SESSION["user_id"] ?? null, FILTER_VALIDATE_INT);
-$instructor_id = 4;
-//$user_role = $_SESSION["user_role"] ?? "";
-$user_role = "instructor" ;
+// $user_role = $_SESSION["user_role"] ?? "";
+$instructor_id = 4; // Temporary hardcoded instructor ID for testing
+$user_role = "instructor"; // Temporary hardcoded user role for testing
+
 if ($instructor_id === false || $instructor_id <= 0 || $user_role !== "instructor") {
     header("Location: ../auth/login.php");
     exit;

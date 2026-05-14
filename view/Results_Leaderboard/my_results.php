@@ -22,7 +22,7 @@
     <table>
         <thead>
             <tr>
-                <th>Serial</th>
+                <th>#</th>
                 <th>Quiz Title</th>
                 <th>Score</th>
                 <th>Duration</th>

@@ -202,6 +202,10 @@ function getQuizMetaText(array $quiz): string
                         </section>
                     </div>
                 </main>
+
+                <footer>
+                    Question builder view built with a simple MVC structure, semantic HTML, and database-backed data.
+                </footer>
             </div>        
         </div>
     </body>

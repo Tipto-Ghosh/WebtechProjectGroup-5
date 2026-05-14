@@ -10,7 +10,7 @@
 
 <nav>
     <a href="leaderboard.php">Leaderboard</a>
-    <a href="my_results.php">My Results</a>
+    <a href="my_results.php">Dashboard</a>
 </nav>
 
 <div class="container">
@@ -22,7 +22,7 @@
     <table>
         <thead>
             <tr>
-                <th>#</th>
+                <th>Serial</th>
                 <th>Quiz Title</th>
                 <th>Score</th>
                 <th>Duration</th>

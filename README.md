@@ -7,3 +7,6 @@ password: password
 Instructor:
 user email: alice@instructor.com
 password: password
+
+Student:
+  user email: eve@student.com

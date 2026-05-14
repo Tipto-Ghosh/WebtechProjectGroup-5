@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/../config/dbConnection.php";
 
-function getInstructorQuizzes(int $instructor_id): array
+function getInstructorQuizzes(int $instructor_id)
 {
     $connection = get_database_connection();
 
@@ -15,7 +15,7 @@ function getInstructorQuizzes(int $instructor_id): array
     return $quizzes;
 }
 
-function getQuizAttemptsForInstructor(int $quiz_id, int $instructor_id): array
+function getQuizAttemptsForInstructor(int $quiz_id, int $instructor_id)
 {
     $connection= get_database_connection();
 

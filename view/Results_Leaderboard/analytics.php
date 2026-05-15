@@ -11,7 +11,7 @@
 <nav>
    
     <a href="leaderboard.php">Leaderboard</a>
-    <a href="../student/dashboard.php">Dashboard</a>
+    <a href="../quiz_builder/dashboard.php">Dashboard</a>
 </nav>
 
 <div class="container">

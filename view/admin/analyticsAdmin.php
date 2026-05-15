@@ -45,14 +45,10 @@ function analyticsAdminNumber($value)
                 <span class="sidebar__nav-icon">&#9679;</span>
                 <span>User Management</span>
             </a>
-            <a href="#" class="sidebar__nav-item">
+            <!-- <a href="#" class="sidebar__nav-item">
                 <span class="sidebar__nav-icon">&#9670;</span>
                 <span>Quizzes</span>
-            </a>
-            <a href="analyticsAdmin.php" class="sidebar__nav-item sidebar__nav-item--active">
-                <span class="sidebar__nav-icon">&#9651;</span>
-                <span>Analytics</span>
-            </a>
+            </a> -->
         </nav>
 
         <div class="sidebar__profile">

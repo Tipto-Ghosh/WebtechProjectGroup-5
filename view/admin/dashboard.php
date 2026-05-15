@@ -34,7 +34,7 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
                 <span>Attempts</span>
             </a>
             <p class="sidebar__nav-label">System</p>
-            <a href="#" class="sidebar__nav-item" data-page="analytics">
+            <a href="../admin/analyticsAdmin.php" class="sidebar__nav-item" data-page="analytics">
                 <span class="sidebar__nav-icon">&#9651;</span>
                 <span>Analytics</span>
             </a>

@@ -35,7 +35,7 @@ function fetchLeaderboard() {
         }
     };
 
-    xhttp.open("GET", "../Controller/LeaderboardAjax.php", true);
+    xhttp.open("GET", "../controller/LeaderboardAjax.php", true);
     xhttp.send();
 }
 

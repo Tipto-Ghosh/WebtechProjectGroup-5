@@ -37,9 +37,6 @@
 
     <div class="section-header">
         <h3>Question Breakdown</h3>
-        <form class="close-form" action="<?php echo htmlspecialchars($close_button['href']); ?>" method="get">
-            <button class="close-button" type="submit"><?php echo htmlspecialchars($close_button['text']); ?></button>
-        </form>
     </div>
 
     <table>

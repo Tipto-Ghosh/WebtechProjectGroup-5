@@ -72,18 +72,3 @@ if ($attempt_id > 0) {
 if (empty($attempt) && $result_error === "") {
     $result_error = "Attempt not found. Please open a saved attempt from My Results or Analytics.";
 }
-
-function getCloseButtonData($user_role) {
-    $button = [
-        'href' => 'my_results.php',
-        'text' => 'Close'
-    ];
-
-    if ($user_role === "instructor") {
-        $button['href'] = 'analytics.php';
-    }
-
-    return $button;
-}
-
-$close_button = getCloseButtonData($user_role);

@@ -51,7 +51,7 @@ function getQuizStatusLabel(string $status): string
 
                 <nav class="nav_section" aria-label="Workspace">
                     <div class="nav-label">Workspace</div>
-                    <a class="nav-item" href="#">Dashboard</a>
+                    <a class="nav-item" href="dashboard.php">Dashboard</a>
                     <a class="nav-item active" href="dashboard.php">My Quizzes <span class="nav_badge">7</span></a>
                     <a class="nav-item" href="../Results_Leaderboard/analytics.php">Analytics</a>
                 </nav>

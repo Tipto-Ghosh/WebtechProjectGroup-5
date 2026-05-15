@@ -58,3 +58,4 @@ function getAnswerBreakdown(int $attempt_id)
 
     return $breakdown;
 }
+?>

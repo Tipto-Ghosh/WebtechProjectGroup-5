@@ -12,12 +12,7 @@ function getAnalyticsAdminOverview()
         "average_percent" => 0,
     ];
 
-    $queries = [
-        "total_instructors" => "SELECT COUNT(*) AS value FROM users WHERE role = 'instructor'",
-        "total_quizzes" => "SELECT COUNT(*) AS value FROM quizzes",
-        "total_attempts" => "SELECT COUNT(*) AS value FROM attempts WHERE completed_at IS NOT NULL AND score IS NOT NULL",
-        "average_percent" => "SELECT AVG((a.score / NULLIF(q.total_marks, 0)) * 100) AS value FROM attempts a JOIN quizzes q ON q.id = a.quiz_id WHERE a.completed_at IS NOT NULL AND a.score IS NOT NULL",
-    ];
+    $queries = [ "total_instructors" => "SELECT COUNT(*) AS value FROM users WHERE role = 'instructor'", "total_quizzes" => "SELECT COUNT(*) AS value FROM quizzes", "total_attempts" => "SELECT COUNT(*) AS value FROM attempts WHERE completed_at IS NOT NULL AND score IS NOT NULL", "average_percent" => "SELECT AVG((a.score / NULLIF(q.total_marks, 0)) * 100) AS value FROM attempts a JOIN quizzes q ON q.id = a.quiz_id WHERE a.completed_at IS NOT NULL AND a.score IS NOT NULL", ];
 
     foreach ($queries as $key => $sql) {
         $result = $connection->query($sql);
@@ -33,12 +28,7 @@ function getAnalyticsAdminInstructors()
 {
     $connection = get_database_connection();
 
-    $sql = "SELECT u.id, u.name, u.email, COUNT(DISTINCT q.id) AS quiz_count
-            FROM users u
-            LEFT JOIN quizzes q ON q.instructor_id = u.id
-            WHERE u.role = 'instructor'
-            GROUP BY u.id, u.name, u.email
-            ORDER BY u.name ASC";
+    $sql = "SELECT u.id, u.name, u.email, COUNT(DISTINCT q.id) AS quiz_count FROM users u LEFT JOIN quizzes q ON q.instructor_id = u.id WHERE u.role = 'instructor' GROUP BY u.id, u.name, u.email ORDER BY u.name ASC";
 
     $result = $connection->query($sql);
     $instructors = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
@@ -51,19 +41,7 @@ function getAnalyticsAdminQuizzes($instructor_id = null, $search = null)
 {
     $connection = get_database_connection();
 
-    $sql = "SELECT q.id, q.title, q.description, q.total_marks, q.status, q.created_at,
-                   u.id AS instructor_id, u.name AS instructor_name, u.email AS instructor_email,
-                   COUNT(DISTINCT qu.id) AS question_count,
-                   COUNT(DISTINCT a.id) AS attempt_count,
-                   ROUND(AVG((a.score / NULLIF(q.total_marks, 0)) * 100), 1) AS average_percent,
-                   COUNT(DISTINCT CASE WHEN q.total_marks > 0 AND (a.score / q.total_marks) * 100 >= 60 THEN a.id END) AS pass_count
-            FROM quizzes q
-            JOIN users u ON u.id = q.instructor_id
-            LEFT JOIN questions qu ON qu.quiz_id = q.id
-            LEFT JOIN attempts a ON a.quiz_id = q.id
-                AND a.completed_at IS NOT NULL
-                AND a.score IS NOT NULL
-            WHERE 1 = 1";
+    $sql = "SELECT q.id, q.title, q.description, q.total_marks, q.status, q.created_at, u.id AS instructor_id, u.name AS instructor_name, u.email AS instructor_email, COUNT(DISTINCT qu.id) AS question_count, COUNT(DISTINCT a.id) AS attempt_count, ROUND(AVG((a.score / NULLIF(q.total_marks, 0)) * 100), 1) AS average_percent, COUNT(DISTINCT CASE WHEN q.total_marks > 0 AND (a.score / q.total_marks) * 100 >= 60 THEN a.id END) AS pass_count FROM quizzes q JOIN users u ON u.id = q.instructor_id LEFT JOIN questions qu ON qu.quiz_id = q.id LEFT JOIN attempts a ON a.quiz_id = q.id AND a.completed_at IS NOT NULL AND a.score IS NOT NULL WHERE 1 = 1";
 
     $params = [];
     $types = "";
@@ -83,8 +61,7 @@ function getAnalyticsAdminQuizzes($instructor_id = null, $search = null)
         $types .= "sss";
     }
 
-    $sql .= " GROUP BY q.id, q.title, q.description, q.total_marks, q.status, q.created_at, u.id, u.name, u.email
-              ORDER BY u.name ASC, q.created_at DESC";
+    $sql .= " GROUP BY q.id, q.title, q.description, q.total_marks, q.status, q.created_at, u.id, u.name, u.email ORDER BY u.name ASC, q.created_at DESC";
 
     $statement = $connection->prepare($sql);
     if (!$statement) {
@@ -109,21 +86,7 @@ function getAnalyticsAdminQuizById(int $quiz_id)
 {
     $connection = get_database_connection();
 
-    $sql = "SELECT q.id, q.title, q.description, q.total_marks, q.status, q.created_at,
-                   u.id AS instructor_id, u.name AS instructor_name, u.email AS instructor_email,
-                   COUNT(DISTINCT qu.id) AS question_count,
-                   COUNT(DISTINCT a.id) AS attempt_count,
-                   ROUND(AVG((a.score / NULLIF(q.total_marks, 0)) * 100), 1) AS average_percent,
-                   COUNT(DISTINCT CASE WHEN q.total_marks > 0 AND (a.score / q.total_marks) * 100 >= 60 THEN a.id END) AS pass_count
-            FROM quizzes q
-            JOIN users u ON u.id = q.instructor_id
-            LEFT JOIN questions qu ON qu.quiz_id = q.id
-            LEFT JOIN attempts a ON a.quiz_id = q.id
-                AND a.completed_at IS NOT NULL
-                AND a.score IS NOT NULL
-            WHERE q.id = ?
-            GROUP BY q.id, q.title, q.description, q.total_marks, q.status, q.created_at, u.id, u.name, u.email
-            LIMIT 1";
+    $sql = "SELECT q.id, q.title, q.description, q.total_marks, q.status, q.created_at, u.id AS instructor_id, u.name AS instructor_name, u.email AS instructor_email, COUNT(DISTINCT qu.id) AS question_count, COUNT(DISTINCT a.id) AS attempt_count, ROUND(AVG((a.score / NULLIF(q.total_marks, 0)) * 100), 1) AS average_percent, COUNT(DISTINCT CASE WHEN q.total_marks > 0 AND (a.score / q.total_marks) * 100 >= 60 THEN a.id END) AS pass_count FROM quizzes q JOIN users u ON u.id = q.instructor_id LEFT JOIN questions qu ON qu.quiz_id = q.id LEFT JOIN attempts a ON a.quiz_id = q.id AND a.completed_at IS NOT NULL AND a.score IS NOT NULL WHERE q.id = ? GROUP BY q.id, q.title, q.description, q.total_marks, q.status, q.created_at, u.id, u.name, u.email LIMIT 1";
 
     $statement = $connection->prepare($sql);
     if (!$statement) {
@@ -146,17 +109,7 @@ function getAnalyticsAdminAttemptsByQuiz(int $quiz_id)
 {
     $connection = get_database_connection();
 
-    $sql = "SELECT a.id AS attempt_id, a.student_id, u.name AS student_name, u.email AS student_email,
-                   a.score, q.total_marks,
-                   TIMESTAMPDIFF(MINUTE, a.started_at, a.completed_at) AS duration,
-                   a.started_at, a.completed_at
-            FROM attempts a
-            JOIN users u ON u.id = a.student_id
-            JOIN quizzes q ON q.id = a.quiz_id
-            WHERE a.quiz_id = ?
-              AND a.completed_at IS NOT NULL
-              AND a.score IS NOT NULL
-            ORDER BY a.completed_at DESC";
+    $sql = "SELECT a.id AS attempt_id, a.student_id, u.name AS student_name, u.email AS student_email, a.score, q.total_marks, TIMESTAMPDIFF(MINUTE, a.started_at, a.completed_at) AS duration, a.started_at, a.completed_at FROM attempts a JOIN users u ON u.id = a.student_id JOIN quizzes q ON q.id = a.quiz_id WHERE a.quiz_id = ? AND a.completed_at IS NOT NULL AND a.score IS NOT NULL ORDER BY a.completed_at DESC";
 
     $statement = $connection->prepare($sql);
     if (!$statement) {
@@ -174,3 +127,4 @@ function getAnalyticsAdminAttemptsByQuiz(int $quiz_id)
     $connection->close();
     return $attempts;
 }
+?>

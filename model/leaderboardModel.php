@@ -18,3 +18,4 @@ function getLeaderboard()
 
     return $leaders;
 }
+?>

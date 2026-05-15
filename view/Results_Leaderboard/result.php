@@ -10,7 +10,11 @@
 
 <nav>
     <a href="leaderboard.php">Leaderboard</a>
-    <a href="my_results.php">My Results</a>
+    <?php if (($user_role ?? '') === 'instructor'): ?>
+        <a href="analytics.php">Analytics</a>
+    <?php else: ?>
+        <a href="my_results.php">My Results</a>
+    <?php endif; ?>
 </nav>
 
 <div class="container">

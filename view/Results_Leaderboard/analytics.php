@@ -1,4 +1,6 @@
-<?php require_once __DIR__ . "/../../controller/AnalyticsController.php"; ?>
+<?php 
+require_once __DIR__ . "/../../controller/AnalyticsController.php"; 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

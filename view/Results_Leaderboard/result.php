@@ -1,8 +1,10 @@
-<?php require_once __DIR__ . "/../../controller/ResultController.php"; ?>
+<?php 
+require_once __DIR__ . "/../../controller/ResultController.php"; 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    
     <title>Quiz Result</title>
     <link rel="stylesheet" href="style/result.css">
 </head>
@@ -32,7 +34,7 @@
 
     <div class="score-box">
         Score: <?php echo htmlspecialchars($attempt["score_display"]); ?>
-        &nbsp;(<?php echo htmlspecialchars($attempt["percent_display"]); ?>)
+               (<?php echo htmlspecialchars($attempt["percent_display"]); ?>)
     </div>
 
     <div class="banner <?php echo htmlspecialchars($attempt["status_class"]); ?>">

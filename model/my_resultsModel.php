@@ -19,3 +19,4 @@ function getStudentResults(int $student_id)
 
     return $results;
 }
+?>

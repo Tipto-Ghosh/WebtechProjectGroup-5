@@ -201,7 +201,26 @@ unset($_SESSION['errors'], $_SESSION['old_input']);
       </div>
     </main>
 
-  </div><!-- /page-wrapper -->
+  </div>
+
+  <script>
+    (function() {
+      const toggleBtn = document.getElementById('togglePwd');
+      const pwdInput  = document.getElementById('password');
+      if (!toggleBtn || !pwdInput) return;
+
+      const eyeOpen   = toggleBtn.querySelector('.eye-open');
+      const eyeClosed = toggleBtn.querySelector('.eye-closed');
+
+      toggleBtn.addEventListener('click', () => {
+        const show = pwdInput.type === 'password';
+        pwdInput.type = show ? 'text' : 'password';
+        eyeOpen.classList.toggle('hidden', show);
+        eyeClosed.classList.toggle('hidden', !show);
+        toggleBtn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      });
+    })();
+  </script>
 
 </body>
 </html>

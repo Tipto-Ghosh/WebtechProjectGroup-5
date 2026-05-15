@@ -10,3 +10,4 @@ password: password
 
 Student:
   user email: eve@student.com
+  password: password

@@ -34,7 +34,7 @@ function formatDate($datetime) {
             <a href="dashboard.php" class="sidebar__nav-item">Dashboard</a>
             <a href="adminManageUser.php" class="sidebar__nav-item sidebar__nav-item--active">User Management</a>
             <a href="#" class="sidebar__nav-item">Quizzes</a>
-            <a href="../Results_Leaderboard/analytics.php" class="sidebar__nav-item">Analytics</a>
+            <a href="../admin/analyticsAdmin.php" class="sidebar__nav-item">Analytics</a>
         </nav>
         <div class="sidebar__profile">
             <div class="sidebar__avatar"><?= htmlspecialchars(substr($admin_name, 0, 1)) ?></div>

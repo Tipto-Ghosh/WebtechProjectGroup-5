@@ -204,6 +204,16 @@ unset($_SESSION['errors'], $_SESSION['old_input']);
   </div>
 
   <script>
+    // Sync role radio buttons to the hidden input
+    document.querySelectorAll('input[name="role"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            document.getElementById('hidden-role').value = this.value;
+        });
+    });
+    // Set initial value on page load
+    var checked = document.querySelector('input[name="role"]:checked');
+    if (checked) document.getElementById('hidden-role').value = checked.value;
+    
     (function() {
       const toggleBtn = document.getElementById('togglePwd');
       const pwdInput  = document.getElementById('password');

@@ -100,7 +100,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
        $errors['database'] = "Registration failed. Email may already exist.";
        redirectWithError($errors, $oldInput);
     }
-
+    $_SESSION['role'] = $role;
     $_SESSION['valid_user_data'] = $user_data;
     unset($_SESSION['errors'], $_SESSION['old_input']);
     $_SESSION['reg_success'] = 'Account created successfully! Please log in.';

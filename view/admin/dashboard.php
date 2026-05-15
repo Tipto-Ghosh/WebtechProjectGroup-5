@@ -34,7 +34,7 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
                 <span>Attempts</span>
             </a>
             <p class="sidebar__nav-label">System</p>
-            <a href="#" class="sidebar__nav-item" data-page="analytics">
+            <a href="../Results_Leaderboard/analytics.php" class="sidebar__nav-item" data-page="analytics">
                 <span class="sidebar__nav-icon">&#9651;</span>
                 <span>Analytics</span>
             </a>
@@ -175,7 +175,7 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
                         <span class="status-list__val" id="count-drafts"><?php  number_format($draft_quizzes) ?></span>
                     </li>
                 </ul>
-                <a href="adminUsers.php" class="status-card__cta" id="btn-goto-users">Manage Users &nbsp;&#10148;</a>
+                <a href="adminManageUser.php" class="status-card__cta" id="btn-goto-users">Manage Users &nbsp;&#10148;</a>
             </article>
 
             <!-- Recent Registrations -->
@@ -194,7 +194,7 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
                         <?php  $recent_users_rows ?>
                     </tbody>
                 </table>
-                <a href="adminUsers.php" class="recent-card__more" id="btn-all-users">View all users &#10148;</a>
+                <a href="adminManageUser.php" class="recent-card__more" id="btn-all-users">View all users &#10148;</a>
             </article>
         </section>
     </main>

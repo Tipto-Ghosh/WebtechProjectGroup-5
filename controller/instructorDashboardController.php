@@ -14,3 +14,4 @@ $pageSubtitle = "Manage your quizzes and view their performance.";
 
 $instructor_name = $_SESSION['user_name'] ?? 'Instructor';
 $instructor_role = 'Instructor';  
+?>

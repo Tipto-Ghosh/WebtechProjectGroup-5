@@ -121,7 +121,7 @@ class QuizBuilderController
     public function getQuizFormData(): array
     {
         $this->ensureInstructorAccess();
-        $instructor = $this->instructorIdentity();
+        $instructor = $this->instructorIdentity(); //id and name of the instructor from session
 
         $quizId = $this->resolveQuizId();
         $mode = $quizId > 0 ? "edit" : "create";
@@ -279,7 +279,7 @@ class QuizBuilderController
         $quiz = getQuizById($connection, $quizId, $this->currentInstructorId());
         $_SESSION["current_quiz_id"] = $quizId;
 
-        return array("success" => true, "message" => "Quiz created", "quiz" => $quiz);
+        return array("success" => true, "message" => "Quiz created", "quiz" => $quiz); //set the quiz id for current quiz.
     }
 
     private function actionUpdateQuiz(array $data): array

@@ -71,7 +71,7 @@ function getQuestionsByQuiz($connection, $quizId)
 			}
 
 			if ($row["option_id"] !== null) {
-				$optionIndex = count($questions[$questionId]["options"]);
+				$optionIndex = count($questions[$questionId]["options"]); //get current index for the current question
 				$optionKey = array("A", "B", "C", "D")[$optionIndex] ?? chr(65 + $optionIndex);
 				$questions[$questionId]["options"][$optionKey] = $row["option_text"];
 

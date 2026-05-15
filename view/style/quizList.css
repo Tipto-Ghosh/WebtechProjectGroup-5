@@ -1,0 +1,134 @@
+
+h2 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 12px;
+    font-family: 'Bebas Neue', sans-serif; 
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    position: relative;
+}
+
+h2::after {
+    content: "";
+    display: block;
+    width: 70px;
+    height: 3px;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+#subh {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 28px;
+    font-family: 'Bebas Neue', sans-serif;
+    line-height: 1.5;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.9;
+}
+
+#quiz-list {
+    display: flex;
+    flex-direction: column;       
+    align-items: center;         
+    gap: 24px;                    
+    margin-top: 20px;
+}
+
+.quiz-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    width: 90%;                  
+    max-width: 1000px;           
+    padding: 20px 28px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    font-family: 'Bebas Neue', sans-serif;
+    position: relative;
+    overflow: hidden;
+
+    display: flex;               
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.quiz-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 6px;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+}
+
+.quiz-card:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+}
+
+.quiz-card .quiz-info {
+    flex: 1;
+}
+
+.quiz-card h3 {
+    margin-top: 0;
+    font-size: 20px;            
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.quiz-card p {
+    margin: 4px 0;
+    font-size: 14px;            
+    font-weight: 500;
+    color: #111;
+}
+
+.quiz-card button {
+    flex-shrink: 0;
+    padding: 10px 20px;
+    font-size: 14px;            
+    font-weight: 600;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: #fff;
+    border: 2px solid #2980b9;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.quiz-card button:hover {
+    background: linear-gradient(135deg, #2980b9, #1f6391);
+    transform: scale(1.05);
+}
+
+#back {
+    display: block;
+    margin: 40px auto 0;
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #2ecc71, #3498db);
+    color: #060356;
+    border: 2px solid #2980b9;  
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+#back:hover {
+    background: linear-gradient(135deg, #27ae60, #1f6391); 
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(52, 152, 219, 0.6);
+}
+

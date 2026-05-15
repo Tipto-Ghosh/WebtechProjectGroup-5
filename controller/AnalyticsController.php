@@ -8,7 +8,7 @@ require_once __DIR__ . "/../model/analyticsModel.php";
 $instructor_id = filter_var($_SESSION["user_id"] ?? null, FILTER_VALIDATE_INT);
 $user_role = $_SESSION["user_role"] ?? "";
 
-if ($instructor_id === false || $instructor_id <= 0 || $user_role !== "instructor") {
+if ($instructor_id === false) {
     header("Location: ../auth/login.php");
     exit;
 }
@@ -16,7 +16,12 @@ if ($instructor_id === false || $instructor_id <= 0 || $user_role !== "instructo
 $quizzes = getInstructorQuizzes($instructor_id);
 $attempts = [];
 $selected_quiz = "";
-$analytics_summary = null;
+$analytics_summary = [
+    "average" => 0.0,
+    "highest" => 0.0,
+    "lowest" => 0.0,
+    "pass_rate" => 0,
+];
 $analytics_error = "";
 
 foreach ($quizzes as $index => $quiz) {
@@ -69,6 +74,14 @@ if ($quiz_id !== false && $quiz_id > 0) {
                 "highest" => max($scores),
                 "lowest" => min($scores),
                 "pass_rate" => round(($passed_count / count($attempts)) * 100, 1),
+            ];
+        }
+        else {
+            $analytics_summary = [
+                "average" => 0.0,
+                "highest" => 0.0,
+                "lowest" => 0.0,
+                "pass_rate" => 0,
             ];
         }
     } else {

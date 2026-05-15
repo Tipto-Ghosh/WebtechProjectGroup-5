@@ -34,19 +34,19 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
                 <span>Attempts</span>
             </a>
             <p class="sidebar__nav-label">System</p>
-            <a href="../Results_Leaderboard/analytics.php" class="sidebar__nav-item" data-page="analytics">
+            <a href="#" class="sidebar__nav-item" data-page="analytics">
                 <span class="sidebar__nav-icon">&#9651;</span>
                 <span>Analytics</span>
             </a>
         </nav>
 
         <div class="sidebar__profile">
-            <div class="sidebar__avatar" id="sidebar-avatar"><?php  htmlspecialchars(substr($admin_name, 0, 1)) ?></div>
+            <div class="sidebar__avatar" id="sidebar-avatar"><?= htmlspecialchars(substr($admin_name, 0, 1)) ?></div>
             <div class="sidebar__profile-info">
-                <p class="sidebar__profile-name" id="admin-name"><?php  htmlspecialchars($admin_name) ?></p>
-                <p class="sidebar__profile-role">Super Admin</p>
+                <p class="sidebar__profile-name" id="admin-name"><?= htmlspecialchars($admin_name) ?></p>
+                <p class="sidebar__profile-role">Admin</p>
             </div>
-            <a href="../auth/logout.php" class="sidebar__logout" title="Logout">&#10148;</a>
+            <a href="../auth/login.php" class="sidebar__logout" title="Logout">&#10148;</a>
         </div>
     </aside>
 
@@ -77,7 +77,7 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
                     <span class="widget__icon">&#127891;</span>
                     <span class="widget__trend" id="trend-students">—</span>
                 </div>
-                <p class="widget__value" id="count-students"><?php  number_format($total_students) ?></p>
+                <p class="widget__value" id="count-students"><?= number_format($total_students) ?></p>
                 <p class="widget__label">Students</p>
             </article>
 
@@ -87,7 +87,7 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
                     <span class="widget__icon">&#9998;</span>
                     <span class="widget__trend" id="trend-instructors">—</span>
                 </div>
-                <p class="widget__value" id="count-instructors"><?php  number_format($total_instructors) ?></p>
+                <p class="widget__value" id="count-instructors"><?= number_format($total_instructors) ?></p>
                 <p class="widget__label">Instructors</p>
             </article>
 
@@ -97,7 +97,7 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
                     <span class="widget__icon">&#9632;</span>
                     <span class="widget__trend widget__trend--live" id="trend-quizzes">● LIVE</span>
                 </div>
-                <p class="widget__value" id="count-quizzes"><?php  number_format($live_quizzes) ?></p>
+                <p class="widget__value" id="count-quizzes"><?= number_format($live_quizzes) ?></p>
                 <p class="widget__label">Live Quizzes</p>
             </article>
 
@@ -107,9 +107,8 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
                     <span class="widget__icon">&#9650;</span>
                     <span class="widget__trend" id="trend-attempts">—</span>
                 </div>
-                <p class="widget__value" id="count-attempts"><?php  number_format($total_attempts) ?></p>
+                <p class="widget__value" id="count-attempts"><?= number_format($total_attempts) ?></p>
                 <p class="widget__label">Total Attempts</p>
-        
             </article>
         </section>
 
@@ -118,28 +117,28 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
             <!-- Platform Performance -->
             <article class="perf-card" id="card-performance">
                 <h2 class="perf-card__title">Platform Performance</h2>
-                <div class="gauge" id="gauge-score" style="--pct: <?php  htmlspecialchars($avg_score_percent) ?>;">
+                <div class="gauge" id="gauge-score" style="--pct: <?= htmlspecialchars($avg_score_percent) ?>;">
                     <svg class="gauge__svg" viewBox="0 0 120 120" aria-hidden="true">
                         <circle class="gauge__track" cx="60" cy="60" r="50"/>
                         <circle class="gauge__fill"  cx="60" cy="60" r="50" id="gauge-circle"/>
                     </svg>
                     <div class="gauge__label">
-                        <span class="gauge__value" id="avg-score"><?php  htmlspecialchars($avg_score_percent) ?></span>
+                        <span class="gauge__value" id="avg-score"><?= htmlspecialchars($avg_score_percent) ?></span>
                         <span class="gauge__unit">%</span>
                     </div>
                 </div>
                 <p class="perf-card__desc">Average score across all completed attempts</p>
                 <div class="perf-card__breakdown">
                     <div class="breakdown-cell">
-                        <span class="breakdown-cell__val" id="score-high"><?php  htmlspecialchars($score_high) ?></span>
+                        <span class="breakdown-cell__val" id="score-high"><?= htmlspecialchars($score_high) ?></span>
                         <span class="breakdown-cell__key">Highest</span>
                     </div>
                     <div class="breakdown-cell">
-                        <span class="breakdown-cell__val" id="score-low"><?php  htmlspecialchars($score_low) ?></span>
+                        <span class="breakdown-cell__val" id="score-low"><?= htmlspecialchars($score_low) ?></span>
                         <span class="breakdown-cell__key">Lowest</span>
                     </div>
                     <div class="breakdown-cell">
-                        <span class="breakdown-cell__val" id="score-median"><?php  htmlspecialchars($score_median) ?></span>
+                        <span class="breakdown-cell__val" id="score-median"><?= htmlspecialchars($score_median) ?></span>
                         <span class="breakdown-cell__key">Median</span>
                     </div>
                 </div>
@@ -152,27 +151,27 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
                     <li class="status-list__item status-list__item--ok">
                         <span class="status-list__dot"></span>
                         <span class="status-list__key">Active Accounts</span>
-                        <span class="status-list__val" id="count-active"><?php  number_format($active_accounts) ?></span>
+                        <span class="status-list__val" id="count-active"><?= number_format($active_accounts) ?></span>
                     </li>
                     <li class="status-list__item status-list__item--warn">
                         <span class="status-list__dot"></span>
                         <span class="status-list__key">Suspended</span>
-                        <span class="status-list__val" id="count-suspended"><?php  number_format($suspended_accounts) ?></span>
+                        <span class="status-list__val" id="count-suspended"><?= number_format($suspended_accounts) ?></span>
                     </li>
                     <li class="status-list__item status-list__item--info">
                         <span class="status-list__dot"></span>
                         <span class="status-list__key">Admins</span>
-                        <span class="status-list__val" id="count-admins"><?php  number_format($total_admins) ?></span>
+                        <span class="status-list__val" id="count-admins"><?= number_format($total_admins) ?></span>
                     </li>
                     <li class="status-list__item status-list__item--info">
                         <span class="status-list__dot"></span>
                         <span class="status-list__key">Published Quizzes</span>
-                        <span class="status-list__val" id="count-published"><?php  number_format($live_quizzes) ?></span>
+                        <span class="status-list__val" id="count-published"><?= number_format($live_quizzes) ?></span>
                     </li>
                     <li class="status-list__item status-list__item--muted">
                         <span class="status-list__dot"></span>
                         <span class="status-list__key">Draft Quizzes</span>
-                        <span class="status-list__val" id="count-drafts"><?php  number_format($draft_quizzes) ?></span>
+                        <span class="status-list__val" id="count-drafts"><?= number_format($draft_quizzes) ?></span>
                     </li>
                 </ul>
                 <a href="adminManageUser.php" class="status-card__cta" id="btn-goto-users">Manage Users &nbsp;&#10148;</a>
@@ -191,7 +190,7 @@ include_once __DIR__ . '/../../controller/adminDashboardController.php';
                         </tr>
                     </thead>
                     <tbody id="tbody-recent-users">
-                        <?php  $recent_users_rows ?>
+                        <?= $recent_users_rows ?>
                     </tbody>
                 </table>
                 <a href="adminManageUser.php" class="recent-card__more" id="btn-all-users">View all users &#10148;</a>

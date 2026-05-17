@@ -85,9 +85,13 @@ document.addEventListener("DOMContentLoaded", function() {
                     banner.style.display = "block";
                 }
 
-                if (submitBtn != null) {
-                    submitBtn.click();
-                }
+                alert("Time's up!");
+
+                setTimeout(function() {
+                    if (submitBtn != null) {
+                        submitBtn.click();
+                    }
+                }, 500);
             }
         }, 1000);
     }

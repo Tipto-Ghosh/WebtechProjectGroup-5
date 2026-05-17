@@ -209,6 +209,20 @@ function clear_answers($attemptId)
     return $result;
 }
 
+function calculate_score($attemptId)
+{
+    $connection = get_database_connection();
+    $sql = "SELECT COALESCE(SUM(q.marks), 0) AS total_score
+            FROM answers a
+            JOIN options o ON a.selected_option_id = o.id
+            JOIN questions q ON a.question_id = q.id
+            WHERE a.attempt_id = '".intval($attemptId)."'
+              AND o.is_correct = 1";
+    $result = $connection->query($sql);
+    $row = $result->fetch_assoc();
+    return intval($row["total_score"]);
+}
+
 function complete_attempt($attemptId, $score, $end) {
     $conn = get_database_connection();
     $sql = "UPDATE attempts

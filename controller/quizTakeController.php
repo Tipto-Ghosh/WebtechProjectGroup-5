@@ -80,7 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $answers = $data["answers"];
     }
 
-    $score = 0;
     $db->clear_answers($attemptId);
 
     foreach ($answers as $questionId => $optionId) {
@@ -91,15 +90,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $option = $db->get_option_with_marks($optionId, $questionId);
 
             if ($option) {
-                if ($option["is_correct"] == 1) {
-                    $score = $score + intval($option["marks"]);
-                }
-
                 $db->set_answers($attemptId, $questionId, $optionId);
             }
         }
     }
 
+    $score = $db->calculate_score($attemptId);
     $db->complete_attempt($attemptId, $score, $db->NOW());
 
     $_SESSION["user_id"] = $attempt["student_id"];

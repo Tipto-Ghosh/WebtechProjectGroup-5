@@ -109,7 +109,7 @@ function getAnalyticsAdminAttemptsByQuiz(int $quiz_id)
 {
     $connection = get_database_connection();
 
-    $sql = "SELECT a.id AS attempt_id, a.student_id, u.name AS student_name, u.email AS student_email, a.score, q.total_marks, TIMESTAMPDIFF(MINUTE, a.started_at, a.completed_at) AS duration, a.started_at, a.completed_at FROM attempts a JOIN users u ON u.id = a.student_id JOIN quizzes q ON q.id = a.quiz_id WHERE a.quiz_id = ? AND a.completed_at IS NOT NULL AND a.score IS NOT NULL ORDER BY a.completed_at DESC";
+    $sql = "SELECT a.id AS attempt_id, a.student_id, u.name AS student_name, u.email AS student_email, a.score, q.total_marks, CASE WHEN TIMESTAMPDIFF(SECOND, a.started_at, a.completed_at) IS NULL THEN NULL ELSE GREATEST(1, CEIL(GREATEST(0, TIMESTAMPDIFF(SECOND, a.started_at, a.completed_at)) / 60)) END AS duration, a.started_at, a.completed_at FROM attempts a JOIN users u ON u.id = a.student_id JOIN quizzes q ON q.id = a.quiz_id WHERE a.quiz_id = ? AND a.completed_at IS NOT NULL AND a.score IS NOT NULL ORDER BY a.completed_at DESC";
 
     $statement = $connection->prepare($sql);
     if (!$statement) {

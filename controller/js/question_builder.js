@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			parts.push(encodeURIComponent(key) + "=" + encodeURIComponent(data[key] === null ? "" : data[key]));
 		});
 		return parts.join("&");
-	}
+	}//generic function to send ajax requests using xhttp(send)
 
 	function request(method, data, callback) {
 		var xhttp = new XMLHttpRequest();
@@ -216,16 +216,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
 
-	if (questionForm) {
+	if (questionForm) { //After clicking add question button, this will send the data to the controller to create a new question for the current quiz. It will also check if the quiz is saved before allowing to add questions.
 		questionForm.addEventListener("submit", function (event) {
-			event.preventDefault();
+			event.preventDefault(); //stops reloading the page on form submit
 
 			if (!quizId || quizId === "0") {
 				alert("Save the quiz first before adding questions.");
 				return;
 			}
 
-			var selected = document.querySelector('input[name="correct_option"]:checked');
+			var selected = document.querySelector('input[name="correct_option"]:checked'); //find the selected radio
 			var payload = {
 				action: "create_question",
 				quiz_id: quizId,
@@ -278,12 +278,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	if (questionsList) {
 		questionsList.addEventListener("click", function (event) {
-			var button = event.target.closest("button[data-action]");
+			var button = event.target.closest("button[data-action]"); //find the action button for editing the quiz.
 			if (!button) {
 				return;
 			}
 
-			var card = button.closest(".question_card");
+			var card = button.closest(".question_card"); //finds the question card from which the action event listener was called.
 			if (!card) {
 				return;
 			}
@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 
 			if (action === "save") {
-				var textField = card.querySelector(".edit_question_text");
+				var textField = card.querySelector(".edit_question_text"); //finds the specific question card that was edited.
 				var marksField = card.querySelector(".edit_question_marks");
 				var correctField = card.querySelector(".edit_correct_option");
 				var optionFields = card.querySelectorAll(".option_input");

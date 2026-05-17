@@ -1,8 +1,10 @@
-<?php require_once __DIR__ . "/../../controller/ResultController.php"; ?>
+<?php 
+require_once __DIR__ . "/../../controller/ResultController.php"; 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    
     <title>Quiz Result</title>
     <link rel="stylesheet" href="style/result.css">
 </head>
@@ -10,7 +12,11 @@
 
 <nav>
     <a href="leaderboard.php">Leaderboard</a>
-    <a href="my_results.php">My Results</a>
+    <?php if (($user_role ?? '') === 'instructor'): ?>
+        <a href="analytics.php">Analytics</a>
+    <?php else: ?>
+        <a href="my_results.php">My Results</a>
+    <?php endif; ?>
 </nav>
 
 <div class="container">
@@ -28,7 +34,7 @@
 
     <div class="score-box">
         Score: <?php echo htmlspecialchars($attempt["score_display"]); ?>
-        &nbsp;(<?php echo htmlspecialchars($attempt["percent_display"]); ?>)
+               (<?php echo htmlspecialchars($attempt["percent_display"]); ?>)
     </div>
 
     <div class="banner <?php echo htmlspecialchars($attempt["status_class"]); ?>">
@@ -37,15 +43,12 @@
 
     <div class="section-header">
         <h3>Question Breakdown</h3>
-        <form class="close-form" action="<?php echo htmlspecialchars($close_button['href']); ?>" method="get">
-            <button class="close-button" type="submit"><?php echo htmlspecialchars($close_button['text']); ?></button>
-        </form>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>#</th>
+                <th>Serial</th>
                 <th>Question</th>
                 <th>Your Answer</th>
                 <th>Correct Answer</th>

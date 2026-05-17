@@ -1,8 +1,10 @@
-<?php require_once __DIR__ . "/../../controller/MyResultsController.php"; ?>
+<?php 
+require_once __DIR__ . "/../../controller/MyResultsController.php";
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    
     <title>My Results</title>
     <link rel="stylesheet" href="style/my_results.css">
 </head>

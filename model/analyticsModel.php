@@ -28,3 +28,4 @@ function getQuizAttemptsForInstructor(int $quiz_id, int $instructor_id)
 
     return $attempts;
 }
+?>

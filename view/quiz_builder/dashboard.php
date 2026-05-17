@@ -107,11 +107,11 @@ function getStatusBadgeClass($status){
                 <div class="toolbar">
                     <label>
                         <span class="sr_only">Search quizzes</span>
-                        <input class="search" type="search" placeholder="Search quizzes...">
+                        <input class="search" type="search" id="quizSearch" placeholder="Search quizzes...">
                     </label>
                     <div class="filter_group">
                         <span class="table-meta">Filter:</span>
-                        <span class="tag all">All</span>
+                        <span class="tag all active">All</span>
                         <span class="tag draft">Draft</span>
                         <span class="tag published">Published</span>
                     </div>
@@ -134,7 +134,7 @@ function getStatusBadgeClass($status){
                     </div>
                 <?php else: ?>
                     <?php foreach ($quizzes as $quiz): ?>
-                        <article class="table_row">
+                        <article class="table_row"data-title="<?= strtolower(htmlspecialchars($quiz['title'])) ?>"data-status="<?= htmlspecialchars($quiz['status']) ?>">
                             <div>
                                 <div class="quiz_title"><?= htmlspecialchars($quiz['title']) ?></div>
                                 <div class="quiz_meta"><?= htmlspecialchars(getQuizMetaText($quiz)) ?></div>
@@ -150,6 +150,8 @@ function getStatusBadgeClass($status){
                             <div><?= htmlspecialchars(formatDateLabel($quiz['created_at'] ?? null)) ?></div>
                             <div class="actions">
                                 <a href="quiz_form.php?quiz_id=<?= (int)$quiz['id'] ?>" class="btn_secondary">Edit</a>
+                                <?php $isPublished = (($quiz['status'] ?? 'draft') === 'published'); ?>
+                                <button class="btn btn_toggle" type="button" data-quiz-id="<?= (int)$quiz['id'] ?>" data-quiz-status="<?= $isPublished ? 'published' : 'draft' ?>" onclick="toggleQuiz(this)"><?= $isPublished ? 'Unpublish' : 'Publish' ?></button>
                                 <button class="btn btn-delete" type="button" data-quiz-id="<?= (int)$quiz['id'] ?>" onclick="deleteQuiz(this)">Delete</button>
                             </div>
                         </article>
@@ -160,5 +162,6 @@ function getStatusBadgeClass($status){
     </div>
 </div>
 <script src="../../controller/js/quiz_builder.js"></script>
+<script src="../../controller/js/instructorDashboardSearchAjax.js"></script>
 </body>
 </html>

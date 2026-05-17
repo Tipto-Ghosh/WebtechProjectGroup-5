@@ -1,4 +1,6 @@
-<?php require_once __DIR__ . "/../../controller/AnalyticsController.php"; ?>
+<?php 
+require_once __DIR__ . "/../../controller/AnalyticsController.php"; 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +13,7 @@
 <nav>
    
     <a href="leaderboard.php">Leaderboard</a>
-    <a href="../student/dashboard.php">Dashboard</a>
+    <a href="../quiz_builder/dashboard.php">Dashboard</a>
 </nav>
 
 <div class="container">

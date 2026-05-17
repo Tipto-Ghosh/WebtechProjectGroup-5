@@ -201,7 +201,36 @@ unset($_SESSION['errors'], $_SESSION['old_input']);
       </div>
     </main>
 
-  </div><!-- /page-wrapper -->
+  </div>
+
+  <script>
+    // Sync role radio buttons to the hidden input
+    document.querySelectorAll('input[name="role"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            document.getElementById('hidden-role').value = this.value;
+        });
+    });
+    // Set initial value on page load
+    var checked = document.querySelector('input[name="role"]:checked');
+    if (checked) document.getElementById('hidden-role').value = checked.value;
+    
+    (function() {
+      const toggleBtn = document.getElementById('togglePwd');
+      const pwdInput  = document.getElementById('password');
+      if (!toggleBtn || !pwdInput) return;
+
+      const eyeOpen   = toggleBtn.querySelector('.eye-open');
+      const eyeClosed = toggleBtn.querySelector('.eye-closed');
+
+      toggleBtn.addEventListener('click', () => {
+        const show = pwdInput.type === 'password';
+        pwdInput.type = show ? 'text' : 'password';
+        eyeOpen.classList.toggle('hidden', show);
+        eyeClosed.classList.toggle('hidden', !show);
+        toggleBtn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      });
+    })();
+  </script>
 
 </body>
 </html>

@@ -1,8 +1,10 @@
-<?php require_once __DIR__ . "/../../controller/LeaderboardController.php"; ?>
+<?php 
+require_once __DIR__ . "/../../controller/LeaderboardController.php";
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    
     <title>Leaderboard</title>
     <link rel="stylesheet" href="style/leaderboard.css">
 </head>

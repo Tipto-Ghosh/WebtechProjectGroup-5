@@ -1,4 +1,4 @@
-// ajax.js — Leaderboard auto-refresh every 30 seconds Called from View/leaderboard.php
+// ajax.js — Leaderboard auto-refresh 30 sec
 
 let timeLeft = 30;
 const countdownEl = document.getElementById("refresh-countdown");
@@ -35,7 +35,7 @@ function fetchLeaderboard() {
         }
     };
 
-    xhttp.open("GET", "../Controller/LeaderboardAjax.php", true);
+    xhttp.open("GET", "../controller/LeaderboardAjax.php", true);
     xhttp.send();
 }
 

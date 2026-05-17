@@ -411,3 +411,51 @@ function deleteQuiz(button) {
 	xhttp.open("POST", "../../controller/QuizBuilderController.php", true);
 	xhttp.send(formData);
 }
+
+function toggleQuiz(button) {
+	var quizId = button.getAttribute('data-quiz-id');
+
+	if (!quizId) {
+		alert('Quiz ID not found');
+		return;
+	}
+
+	var formData = new FormData();
+	formData.append('action', 'toggle_quiz');
+	formData.append('quiz_id', quizId);
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function () {
+		if (this.readyState === 4) {
+			var response = {};
+			try {
+				response = JSON.parse(this.responseText || '{}');
+			} catch (e) {
+				response = { success: false, message: this.responseText || 'Invalid response' };
+			}
+
+			if (this.status === 200 && response.success) {
+				var quiz = response.quiz || {};
+				var row = button.closest('.table_row');
+				var badge = row ? row.querySelector('.badge') : null;
+
+				var newStatus = (quiz.status || (button.getAttribute('data-quiz-status') === 'published' ? 'draft' : 'published'));
+
+				if (badge) {
+					badge.textContent = newStatus === 'published' ? 'Published' : 'Draft';
+					badge.className = newStatus === 'published' ? 'badge badge-published' : 'badge badge-draft';
+				}
+
+				// update button label and data attribute
+				button.textContent = newStatus === 'published' ? 'Unpublish' : 'Publish';
+				button.setAttribute('data-quiz-status', newStatus);
+
+			} else {
+				alert('Error: ' + (response.message || 'Failed to toggle quiz status'));
+			}
+		}
+	};
+
+	xhttp.open('POST', '../../controller/QuizBuilderController.php', true);
+	xhttp.send(formData);
+}

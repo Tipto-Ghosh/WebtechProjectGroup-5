@@ -5,8 +5,7 @@ function getLatestStudentAttemptId(int $student_id)
 {
     $connection = get_database_connection();
 
-    $sql = "SELECT id FROM attempts WHERE student_id = ? AND completed_at IS NOT NULL AND score IS NOT NULL ORDER BY completed_at DESC LIMIT 1
-    ";
+    $sql = "SELECT id FROM attempts WHERE student_id = ? AND completed_at IS NOT NULL AND score IS NOT NULL ORDER BY completed_at DESC LIMIT 1 ";
 
     $statement = $connection->prepare($sql);
     $statement->bind_param("i", $student_id);

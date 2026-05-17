@@ -72,3 +72,4 @@ if ($attempt_id > 0) {
 if (empty($attempt) && $result_error === "") {
     $result_error = "Attempt not found. Please open a saved attempt from My Results or Analytics.";
 }
+?>

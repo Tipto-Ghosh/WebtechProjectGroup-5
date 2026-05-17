@@ -5,72 +5,110 @@ if (session_status() === PHP_SESSION_NONE) {
 
 include __DIR__ . "/../model/quizTakeModel.php";
 
-$start="";
-$end= "";
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $attemptId = intval($_GET['attempt']);
+$db = new quizTakeModel();
 
-    $db = new quizTakeModel();
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    header("Content-Type: application/json");
 
-    if ($db->is_attempt_completed($attemptId)) {  
-        $this->LOG_ALERT('Already attempted this quiz, Go back!');
-        header("Location: /WebtechProjectGroup-5/view/Results_Leaderboard/result.php");
+    $attemptId = 0;
+    if (isset($_GET["attempt"])) {
+        $attemptId = intval($_GET["attempt"]);
+    }
+
+    $attempt = $db->get_attempt($attemptId);
+
+    if (!$attempt) {
+        http_response_code(404);
+        echo json_encode(["error" => "Attempt not found"]);
+        exit;
+    }
+
+    $_SESSION["user_id"] = $attempt["student_id"];
+    $_SESSION["user_role"] = "student";
+
+    if ($db->has_completed_attempt_for_same_student_quiz($attemptId)) {
+        http_response_code(403);
+        echo json_encode(["error" => "Already attempted"]);
         exit;
     }
 
     $quiz = $db->get_quiz_info($attemptId);
-    $quizId = (int) $quiz['quizId'];
-    $questions = $db->get_all_questions($quizId);
+    $questions = $db->get_all_questions($quiz["quizId"]);
 
-    $quizData = [
-        "quizTitle"  => $quiz['title'],
-        "instructor" => $quiz['instructor'],
-        "totalMarks" => $quiz['totalMarks'],
-        "questions"  => $questions
-    ];
+    $db->start_attempt($attemptId);
 
-        
-    $_SESSION['user_id'] = (int) $db->get_student_id($attemptId);
-    $_SESSION['role'] = "student";
+    $data = [];
+    $data["quizTitle"] = $quiz["title"];
+    $data["instructor"] = $quiz["instructor"];
+    $data["totalMarks"] = $quiz["totalMarks"];
+    $data["timeLimitMinutes"] = $quiz["timeLimitMinutes"];
+    $data["questions"] = $questions;
 
-    $start = $db->NOW();
-
-    header('Content-Type: application/json');
-    echo json_encode($quizData);
+    echo json_encode($data);
+    exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents("php://input"), true);
-    $attemptId = intval($data['attempt_id']);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    header("Content-Type: application/json");
 
+    $raw = file_get_contents("php://input");
+    $data = json_decode($raw, true);
 
-    $conn = new quizTakeModel();
-
-    if ($conn->is_attempt_completed($attemptId)) {  
-        $this->LOG_ALERT('Already attempted this quiz, Go back!');
-        header("Location: /WebtechProjectGroup-5/view/Results_Leaderboard/result.php?attempt=$attemptId");
+    if (!$data) {
+        http_response_code(400);
+        echo json_encode(["error" => "Bad data"]);
         exit;
     }
-    $answers   = $data['answers'];
 
-    $totalScore = 0;
-    foreach ($answers as $questionId => $optionId) {
-        $marks = 0;
-        if ($optionId !== null) {
-            $optRow = $conn->get_option_with_marks($optionId);
-            if ($optRow && $optRow['is_correct']) {
-                $marks = intval($optRow['marks']);
-                $totalScore += $marks;
-            }
-        }
-        $conn->set_answers($attemptId, $questionId, $optionId);
+    $attemptId = intval($data["attempt_id"]);
+    $attempt = $db->get_attempt($attemptId);
+
+    if (!$attempt) {
+        http_response_code(404);
+        echo json_encode(["error" => "Attempt not found"]);
+        exit;
     }
 
-    $end = $conn->NOW();
-    
-    $conn->update_attempts($attemptId, $totalScore, $start, $end); 
+    if ($db->has_completed_attempt_for_same_student_quiz($attemptId)) {
+        http_response_code(403);
+        echo json_encode(["error" => "Attempt already completed"]);
+        exit;
+    }
 
-    header("Location: ../view/Results_Leaderboard/result.php");
+    $answers = [];
+    if (isset($data["answers"])) {
+        $answers = $data["answers"];
+    }
+
+    $score = 0;
+    $db->clear_answers($attemptId);
+
+    foreach ($answers as $questionId => $optionId) {
+        $questionId = intval($questionId);
+        $optionId = intval($optionId);
+
+        if ($questionId > 0 && $optionId > 0) {
+            $option = $db->get_option_with_marks($optionId, $questionId);
+
+            if ($option) {
+                if ($option["is_correct"] == 1) {
+                    $score = $score + intval($option["marks"]);
+                }
+
+                $db->set_answers($attemptId, $questionId, $optionId);
+            }
+        }
+    }
+
+    $db->complete_attempt($attemptId, $score, $db->NOW());
+
+    $_SESSION["user_id"] = $attempt["student_id"];
+    $_SESSION["user_role"] = "student";
+
+    echo json_encode([
+        "success" => true,
+        "redirect" => "/WebtechProjectGroup-5/view/Results_Leaderboard/result.php?attempt_id=" . $attemptId
+    ]);
     exit;
 }
 ?>

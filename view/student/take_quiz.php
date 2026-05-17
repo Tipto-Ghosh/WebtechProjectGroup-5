@@ -5,6 +5,8 @@
 <html lang="en">
 <head>
   <title>Take Quiz</title>
+  
+  <link rel="stylesheet" href="../style/quizTake.css">
 </head>
 <body>
     

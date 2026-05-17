@@ -23,7 +23,7 @@ foreach ($results as $index => $result) {
 
     $results[$index]["row_number"] = $index + 1;
     $results[$index]["score_display"] = $score . " / " . $total;
-    $results[$index]["duration_display"] = $result["duration"] !== null ? $result["duration"] . " min" : "-";
+    $results[$index]["duration_display"] = $result["duration"] !== null ? $result["duration"] . " min":;
     $results[$index]["completed_at_display"] = !empty($result["completed_at"]) ? date("d M Y", strtotime($result["completed_at"])) : "-";
     $results[$index]["status_label"] = $passed ? "PASS" : "FAIL";
     $results[$index]["status_class"] = $passed ? "pass" : "fail";

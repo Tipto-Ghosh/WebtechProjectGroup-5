@@ -401,3 +401,140 @@ INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
 (5, 6, 22),  -- Q6: res.json() ✓
 (5, 7, 25),  -- Q7: window.onload ✗ (wrong)
 (5, 8, 30);  -- Q8: Content-Type ✓ 
+
+
+
+
+
+-- ============================================================
+--  SECTION 8.7 — ADDITIONAL STUDENTS (10+ active students)
+-- ============================================================
+
+-- Additional students (IDs 8-17)
+INSERT INTO users (name, email, password_hash, role, is_active) VALUES
+('Grace Miah', 'grace@student.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'student', 1),
+('Hasan Ali', 'hasan@student.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'student', 1),
+('Ivy Chowdhury', 'ivy@student.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'student', 1),
+('Jamal Uddin', 'jamal@student.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'student', 1),
+('Khan Shabnam', 'khan@student.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'student', 1),
+('Lamia Rahman', 'lamia@student.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'student', 1),
+('Mizanur Rahman', 'mizan@student.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'student', 1),
+('Nadia Akter', 'nadia@student.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'student', 1),
+('Omar Faruk', 'omar@student.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'student', 1),
+('Papia Sultana', 'papia@student.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'student', 1);
+
+-- ============================================================
+--  SECTION 8.8 — ADDITIONAL ATTEMPTS (for leaderboard variety)
+-- ============================================================
+
+-- Attempt 6: Grace takes Quiz 1 (Score: 10/10)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(1, 8, 10, DATE_SUB(NOW(), INTERVAL 4 DAY), DATE_ADD(DATE_SUB(NOW(), INTERVAL 4 DAY), INTERVAL 12 MINUTE));
+
+-- Attempt 7: Hasan takes Quiz 1 (Score: 8/10)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(1, 9, 8, DATE_SUB(NOW(), INTERVAL 2 DAY), DATE_ADD(DATE_SUB(NOW(), INTERVAL 2 DAY), INTERVAL 15 MINUTE));
+
+-- Attempt 8: Ivy takes Quiz 1 (Score: 6/10)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(1, 10, 6, DATE_SUB(NOW(), INTERVAL 3 DAY), DATE_ADD(DATE_SUB(NOW(), INTERVAL 3 DAY), INTERVAL 18 MINUTE));
+
+-- Attempt 9: Jamal takes Quiz 1 (Score: 10/10)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(1, 11, 10, DATE_SUB(NOW(), INTERVAL 1 DAY), DATE_ADD(DATE_SUB(NOW(), INTERVAL 1 DAY), INTERVAL 10 MINUTE));
+
+-- Attempt 10: Khan takes Quiz 1 (Score: 4/10 - low score)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(1, 12, 4, DATE_SUB(NOW(), INTERVAL 5 DAY), DATE_ADD(DATE_SUB(NOW(), INTERVAL 5 DAY), INTERVAL 20 MINUTE));
+
+-- Attempt 11: Lamia takes Quiz 1 (Score: 8/10)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(1, 13, 8, DATE_SUB(NOW(), INTERVAL 6 HOUR), DATE_ADD(DATE_SUB(NOW(), INTERVAL 6 HOUR), INTERVAL 14 MINUTE));
+
+-- Attempt 12: Mizan takes Quiz 1 (Score: 6/10)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(1, 14, 6, DATE_SUB(NOW(), INTERVAL 12 HOUR), DATE_ADD(DATE_SUB(NOW(), INTERVAL 12 HOUR), INTERVAL 16 MINUTE));
+
+-- Attempt 13: Nadia takes Quiz 1 (Score: 10/10)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(1, 15, 10, DATE_SUB(NOW(), INTERVAL 2 DAY), DATE_ADD(DATE_SUB(NOW(), INTERVAL 2 DAY), INTERVAL 11 MINUTE));
+
+-- Attempt 14: Omar takes Quiz 1 (Score: 8/10)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(1, 16, 8, DATE_SUB(NOW(), INTERVAL 3 DAY), DATE_ADD(DATE_SUB(NOW(), INTERVAL 3 DAY), INTERVAL 13 MINUTE));
+
+-- Attempt 15: Papia takes Quiz 1 (Score: 6/10)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(1, 17, 6, DATE_SUB(NOW(), INTERVAL 1 DAY), DATE_ADD(DATE_SUB(NOW(), INTERVAL 1 DAY), INTERVAL 17 MINUTE));
+
+-- Attempt 16: Grace takes Quiz 3 (Score: 15/15)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(3, 8, 15, DATE_SUB(NOW(), INTERVAL 3 DAY), DATE_ADD(DATE_SUB(NOW(), INTERVAL 3 DAY), INTERVAL 12 MINUTE));
+
+-- Attempt 17: Hasan takes Quiz 3 (Score: 10/15)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(3, 9, 10, DATE_SUB(NOW(), INTERVAL 4 DAY), DATE_ADD(DATE_SUB(NOW(), INTERVAL 4 DAY), INTERVAL 20 MINUTE));
+
+-- Attempt 18: Ivy takes Quiz 3 (Score: 5/15)
+INSERT INTO attempts (quiz_id, student_id, score, started_at, completed_at) VALUES
+(3, 10, 5, DATE_SUB(NOW(), INTERVAL 2 DAY), DATE_ADD(DATE_SUB(NOW(), INTERVAL 2 DAY), INTERVAL 24 MINUTE));
+
+-- ============================================================
+--  SECTION 8.9 — ANSWERS FOR ADDITIONAL ATTEMPTS (Quiz 1)
+-- ============================================================
+
+-- Attempt 6 Answers (Grace - Quiz 1 - All correct)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(6, 1, 2), (6, 2, 7), (6, 3, 10), (6, 4, 16), (6, 5, 19);
+
+-- Attempt 7 Answers (Hasan - Quiz 1 - 4 correct, 1 wrong)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(7, 1, 2), (7, 2, 7), (7, 3, 9), (7, 4, 16), (7, 5, 19);
+
+-- Attempt 8 Answers (Ivy - Quiz 1 - 3 correct, 2 wrong)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(8, 1, 1), (8, 2, 7), (8, 3, 10), (8, 4, 14), (8, 5, 19);
+
+-- Attempt 9 Answers (Jamal - Quiz 1 - All correct)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(9, 1, 2), (9, 2, 7), (9, 3, 10), (9, 4, 16), (9, 5, 19);
+
+-- Attempt 10 Answers (Khan - Quiz 1 - 2 correct, 3 wrong)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(10, 1, 1), (10, 2, 6), (10, 3, 9), (10, 4, 14), (10, 5, 18);
+
+-- Attempt 11 Answers (Lamia - Quiz 1 - 4 correct, 1 wrong)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(11, 1, 2), (11, 2, 7), (11, 3, 10), (11, 4, 14), (11, 5, 19);
+
+-- Attempt 12 Answers (Mizan - Quiz 1 - 3 correct, 2 wrong)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(12, 1, 2), (12, 2, 7), (12, 3, 9), (12, 4, 14), (12, 5, 19);
+
+-- Attempt 13 Answers (Nadia - Quiz 1 - All correct)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(13, 1, 2), (13, 2, 7), (13, 3, 10), (13, 4, 16), (13, 5, 19);
+
+-- Attempt 14 Answers (Omar - Quiz 1 - 4 correct, 1 wrong)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(14, 1, 2), (14, 2, 7), (14, 3, 9), (14, 4, 16), (14, 5, 19);
+
+-- Attempt 15 Answers (Papia - Quiz 1 - 3 correct, 2 wrong)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(15, 1, 1), (15, 2, 7), (15, 3, 10), (15, 4, 14), (15, 5, 19);
+
+-- ============================================================
+--  SECTION 8.10 — ANSWERS FOR ADDITIONAL ATTEMPTS (Quiz 3)
+-- ============================================================
+
+-- Attempt 16 Answers (Grace - Quiz 3 - All correct)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(16, 6, 22), (16, 7, 26), (16, 8, 30);
+
+-- Attempt 17 Answers (Hasan - Quiz 3 - 2 correct, 1 wrong)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(17, 6, 22), (17, 7, 25), (17, 8, 30);
+
+-- Attempt 18 Answers (Ivy - Quiz 3 - 1 correct, 2 wrong)
+INSERT INTO answers (attempt_id, question_id, selected_option_id) VALUES
+(18, 6, 21), (18, 7, 25), (18, 8, 29);

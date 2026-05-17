@@ -11,11 +11,12 @@ function get_quiz_info($attemptId) {
     $quizIdRow = $quizIdRes->fetch_assoc();
     $quizId = $quizIdRow['quiz_id'];
 
-    $titleRes = $connection->query("SELECT title, instructor_id, total_marks FROM quizzes WHERE id = '".$quizId."'");
+    $titleRes = $connection->query("SELECT title, instructor_id, total_marks, time_limit_minutes FROM quizzes WHERE id = '".$quizId."'");
     $titleRow = $titleRes->fetch_assoc();
     $title = $titleRow['title'];
     $instructorId = $titleRow['instructor_id'];
     $marks = $titleRow['total_marks'];
+    $timeLimit = $titleRow['time_limit_minutes'];
 
     $instrRes = $connection->query("SELECT name FROM users WHERE id = '".$instructorId."'");
     $instrRow = $instrRes->fetch_assoc();
@@ -25,7 +26,8 @@ function get_quiz_info($attemptId) {
         "quizId"     => $quizId,
         "title"      => $title,
         "instructor" => $instructorName,
-        "totalMarks" => $marks
+        "totalMarks" => $marks,
+        "timeLimitMinutes" => $timeLimit
     ];
 }
 
@@ -58,8 +60,7 @@ function get_question_with_options($questionId) {
 
         $question["options"][] = [
             "option_id"   => $row['option_id'],
-            "option_text" => $row['option_text'],
-            "is_correct"  => $row['is_correct']
+            "option_text" => $row['option_text']
         ];
     }
 
@@ -87,16 +88,8 @@ function get_all_questions($quizId) {
 }
 
 function get_student_id($attemptId) {
-    $conn = get_database_connection();
-    $sql = "SELECT * FROM attempts WHERE student_id = '".$attemptId."'";
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
-
-    if (!$row) {
-        return null;
-    }
-
-    return $row['student_id'];
+    $attempt = $this->get_attempt($attemptId);
+    return $attempt ? (int)$attempt['student_id'] : null;
 }
 
 function get_quiz($quizId) {
@@ -137,12 +130,12 @@ function get_options_by_question($questionId) {
     return $options;
 }
 
-function get_option_with_marks($optionId) {
+function get_option_with_marks($optionId, $questionId) {
     $connection = get_database_connection();
-    $sql = "SELECT o.is_correct, q.marks 
-            FROM options o 
-            JOIN questions q ON o.question_id = q.id 
-            WHERE o.id = '".$optionId."'";
+    $sql = "SELECT o.is_correct, q.marks
+            FROM options o
+            JOIN questions q ON o.question_id = q.id
+            WHERE o.id = '".intval($optionId)."' AND q.id = '".intval($questionId)."'";
     $result = $connection->query($sql);
     return $result->fetch_assoc();
 }
@@ -159,6 +152,25 @@ function is_attempt_completed($attemptId) {
     return ($attempt && $attempt['completed_at'] !== null);
 }
 
+function has_completed_attempt_for_same_student_quiz($attemptId) {
+    $connection = get_database_connection();
+    $sql = "SELECT completed.id
+            FROM attempts current_attempt
+            JOIN attempts completed
+              ON completed.student_id = current_attempt.student_id
+             AND completed.quiz_id = current_attempt.quiz_id
+            WHERE current_attempt.id = '".intval($attemptId)."'
+              AND completed.completed_at IS NOT NULL
+              AND completed.score IS NOT NULL
+            LIMIT 1";
+    $result = $connection->query($sql);
+    $row = $result->fetch_assoc();
+    if ($row) {
+        return true;
+    }
+    return false;
+}
+
 function update_attempts($attemptId, $score, $start, $end) {
     $connection = get_database_connection();
     $sql = "UPDATE attempts
@@ -173,9 +185,38 @@ function update_attempts($attemptId, $score, $start, $end) {
 function set_answers($attemptId, $questionId, $optionId)
 {
     $connection = get_database_connection();
-    $sql = "INSERT INTO answers (attempt_id, question_id, option_id) 
-            VALUES ('".$attemptId."', '".$questionId."', '".$optionId."')";
+    $sql = "INSERT INTO answers (attempt_id, question_id, selected_option_id)
+            VALUES ('".intval($attemptId)."', '".intval($questionId)."', '".intval($optionId)."')";
     $result = $connection->query($sql);
+    return $result;
+}
+
+function start_attempt($attemptId) {
+    $connection = get_database_connection();
+    $sql = "UPDATE attempts
+            SET started_at = NOW()
+            WHERE id = '".intval($attemptId)."'
+              AND completed_at IS NULL";
+    $result = $connection->query($sql);
+    return $result;
+}
+
+function clear_answers($attemptId)
+{
+    $connection = get_database_connection();
+    $sql = "DELETE FROM answers WHERE attempt_id = '".intval($attemptId)."'";
+    $result = $connection->query($sql);
+    return $result;
+}
+
+function complete_attempt($attemptId, $score, $end) {
+    $conn = get_database_connection();
+    $sql = "UPDATE attempts
+            SET started_at = COALESCE(started_at, NOW()),
+                score = '".intval($score)."',
+                completed_at = '".$end."'
+            WHERE id = '".intval($attemptId)."'";
+    $result = $conn->query($sql);
     return $result;
 }
 

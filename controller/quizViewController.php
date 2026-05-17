@@ -8,8 +8,7 @@ header('Content-Type: application/json');
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-//$userId = $_SESSION['user_id'] ?? null;
-    $userId =1;
+    $userId = $_SESSION['user_id'] ?? null;
     if ($userId === null) {
         echo json_encode(["error" => "User not logged in"]);
         exit;

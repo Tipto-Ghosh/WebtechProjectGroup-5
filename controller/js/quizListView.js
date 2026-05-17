@@ -1,5 +1,12 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Fetch quizzes
+    let back = document.getElementById("back");
+    if (back) {
+        back.type = "button";
+        back.onclick = function() {
+            window.location.href = "dashboard.php";
+        };
+    }
+
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {

@@ -236,7 +236,12 @@ function complete_attempt($attemptId, $score, $end) {
 
 function NOW()
 {
-    return date("Y-m-d H:i:s");
+    $connection = get_database_connection();
+    $result = $connection->query("SELECT NOW() AS server_now");
+    $row = $result->fetch_assoc();
+    $connection->close();
+
+    return $row["server_now"];
 }
 
 }

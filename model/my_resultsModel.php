@@ -5,7 +5,7 @@ function getStudentResults(int $student_id)
 {
     $connection = get_database_connection();
 
-    $sql = "SELECT a.id, q.title, a.score, q.total_marks, FLOOR(TIMESTAMPDIFF(SECOND, a.started_at, a.completed_at) / 60) AS duration, a.completed_at FROM attempts a JOIN quizzes q ON q.id = a.quiz_id WHERE a.student_id = ? AND a.completed_at IS NOT NULL AND a.score IS NOT NULL ORDER BY a.completed_at DESC ";
+    $sql = "SELECT a.id, q.title, a.score, q.total_marks, CASE WHEN TIMESTAMPDIFF(SECOND, a.started_at, a.completed_at) IS NULL THEN NULL ELSE GREATEST(1, CEIL(GREATEST(0, TIMESTAMPDIFF(SECOND, a.started_at, a.completed_at)) / 60)) END AS duration, a.completed_at FROM attempts a JOIN quizzes q ON q.id = a.quiz_id WHERE a.student_id = ? AND a.completed_at IS NOT NULL AND a.score IS NOT NULL ORDER BY a.completed_at DESC ";
 
     $statement= $connection->prepare($sql);
     $statement->bind_param("i", $student_id);

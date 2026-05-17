@@ -112,38 +112,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents("php://input"), true);
-    $attemptId = intval($data['attempt_id']);
-
-
-    $conn = new quizTakeModel();
-
-    if ($conn->is_attempt_completed($attemptId)) {  
-        $this->LOG_ALERT('Already attempted this quiz, Go back!');
-        header("Location: /WebtechProjectGroup-5/view/Results_Leaderboard/result.php?attempt=$attemptId");
-        exit;
-    }
-    $answers   = $data['answers'];
-
-    $totalScore = 0;
-    foreach ($answers as $questionId => $optionId) {
-        $marks = 0;
-        if ($optionId !== null) {
-            $optRow = $conn->get_option_with_marks($optionId);
-            if ($optRow && $optRow['is_correct']) {
-                $marks = intval($optRow['marks']);
-                $totalScore += $marks;
-            }
-        }
-        $conn->set_answers($attemptId, $questionId, $optionId);
-    }
-
-    $end = $conn->NOW();
-    
-    $conn->update_attempts($attemptId, $totalScore, $start, $end); 
-
-    header("Location: ../view/Results_Leaderboard/result.php");
-    exit;
-}
 ?>

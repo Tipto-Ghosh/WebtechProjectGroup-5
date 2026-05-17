@@ -1,0 +1,103 @@
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  padding: 20px;
+}
+
+#quiz-form {
+  max-width: 750px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 25px;
+  border: 1px solid #ddd;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+#instructorname,
+#marks,
+#timer-wrapper {
+  margin-bottom: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+#timer {
+  font-weight: bold;
+  color: #c0392b;
+}
+
+#times-up-banner {
+  display: none;
+  background: #e74c3c;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  margin: 15px 0;
+}
+
+.question {
+  margin: 20px 0;
+}
+
+.question h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.question label {
+  display: block;
+  margin: 5px 0;
+  padding: 5px;
+  border: 1px solid transparent;
+}
+
+.question label:hover {
+  background: #f7f9fc;
+  border-color: #ccc;
+}
+
+.question input[type="radio"] {
+  margin-right: 8px;
+}
+
+.buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+}
+
+#back,
+#submit {
+  padding: 10px 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid #aaa;
+  background: #eee;
+  color: #333;
+}
+
+#submit {
+  background: #3498db;
+  color: white;
+  border-color: #2980b9;
+  margin-left: auto; 
+}
+
+#submit:disabled {
+  background: #bdc3c7;
+  border-color: #aaa;
+  cursor: not-allowed;
+}
